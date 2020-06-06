@@ -5,6 +5,7 @@
             <h3 class="logo">Kaynak Yönetim Sistemi</h3>
             <h5 class="welcome">Hoşgeldin</h5>
             <signup></signup>
+            <signin></signin>
         </div>
     </container>
 </div>
@@ -13,9 +14,10 @@
 <script>
 import container from '../components/container'
 import signup from '../components/signup.membership'
+import signin from '../components/signin.membership'
 export default {
     name: "Membership",
-    components: { container, signup }
+    components: { container, signup, signin }
 }
 </script>
 
