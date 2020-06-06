@@ -4,8 +4,8 @@
         <div class="content">
             <h3 class="logo">Kaynak Yönetim Sistemi</h3>
             <h5 class="welcome">Hoşgeldin</h5>
-            <signup></signup>
-            <signin></signin>
+            <signup v-if="currentPage==='signup'" v-on:goToSignin="openSignin"></signup>
+            <signin v-if="currentPage==='signin'" v-on:goToSignup="openSignup"></signin>
         </div>
     </container>
 </div>
@@ -17,7 +17,20 @@ import signup from '../components/signup.membership'
 import signin from '../components/signin.membership'
 export default {
     name: "Membership",
-    components: { container, signup, signin }
+    components: { container, signup, signin },
+    data: function () {
+        return {
+            currentPage: 'signup'
+        }
+    },
+    methods: {
+        openSignin: function () {
+            this.currentPage = 'signin'
+        },
+        openSignup: function () {
+            this.currentPage = 'signup'
+        }
+    }
 }
 </script>
 

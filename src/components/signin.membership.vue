@@ -35,7 +35,7 @@ export default {
     },
     methods: {
         signin: function () {
-            console.log("click")
+            console.log("clicked giriş yap")
         },
         signup: function () {
             this.$emit('goToSignup')
