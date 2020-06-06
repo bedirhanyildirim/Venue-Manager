@@ -6,7 +6,7 @@
             </div>
             <div class="content">
                 <div class="nav">
-                    <router-link to="/">Üye Ol / Giriş Yap</router-link>
+                    <router-link to="/membership">Üye Ol / Giriş Yap</router-link>
                 </div>
             </div>
         </container>
