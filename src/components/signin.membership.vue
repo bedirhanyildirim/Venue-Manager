@@ -22,8 +22,14 @@
 </template>
 
 <script>
+import firebase from 'firebase/app'
+import 'firebase/auth'
+import store from '../store'
+import router from '../router'
 export default {
     name: "signin.membership",
+    store,
+    router,
     data: function () {
         return {
             email: '',
@@ -35,7 +41,17 @@ export default {
     },
     methods: {
         signin: function () {
-            console.log("clicked giriş yap")
+            firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+                .catch(err => {
+                    console.log(err)
+                })
+                .then(res => {
+                    if (res) {
+                        console.log("Başarıyla giriş yapıldı.")
+                        this.$store.dispatch('setUser', res.user)
+                        router.push('/')
+                    }
+                })
         },
         signup: function () {
             this.$emit('goToSignup')
