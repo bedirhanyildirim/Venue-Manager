@@ -34,16 +34,10 @@ export default {
 }
 </script>
 
-<style lang="scss">
-#header {
-    display: none!important;
-}
-#footer {
-    display: none!important;
-}
+<style lang="scss" scoped>
 #membership {
     display: flex;
-    height: 100vh;
+    height: calc(100vh - 96px);
     align-items: center;
     justify-content: center;
 }
