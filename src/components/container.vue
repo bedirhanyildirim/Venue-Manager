@@ -27,6 +27,10 @@ export default {
             type: String,
             required: false,
             default: 'transparent'
+        },
+        flexDirection: {
+            type: String,
+            required: false
         }
     },
     computed: {
@@ -34,6 +38,7 @@ export default {
             return {
                 display: this.display,
                 alignItems: this.alignItems,
+                flexDirection: this.flexDirection,
                 justifyContent: this.justifyContent,
                 backgroundColor: this.backgroundColor
             }
