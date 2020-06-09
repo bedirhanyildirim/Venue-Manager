@@ -19,7 +19,7 @@
                 <label for="workingDays" class="input-name">Çalışma Günleri:</label>
                 <select id="workingDays" v-model="workingDays" name="workingDays">
                     <option value="weekdays">Hafta İçi</option>
-                    <option value="weekdaysandsaturda">Hafta İçi + Cumartesi</option>
+                    <option value="weekdaysandsaturday">Hafta İçi + Cumartesi</option>
                     <option value="everyday">Hergün</option>
                 </select>
             </div>
@@ -58,8 +58,12 @@
 </template>
 
 <script>
+import router from '../router'
+import { mapGetters } from 'vuex'
+import { companiesCollection } from '../firebase/index'
 export default {
     name: "form.createCompany",
+    router,
     data: function () {
         return {
             name: '',
@@ -72,8 +76,26 @@ export default {
     },
     methods: {
         fill: function () {
-            console.log('done!')
+            companiesCollection.doc(this.getUserInfo.uid).set({
+                name: this.name,
+                address: this.address,
+                phone: this.phone,
+                workingDays: this.workingDays,
+                startingHour: this.startingHour,
+                endingHour: this.endingHour,
+                owner: this.getUserInfo
+            }).then(function (res) {
+                console.log('Başarılı ' + res)
+                router.push('/profile')
+            }).catch(function (error) {
+                console.log(error)
+            })
         }
+    },
+    computed: {
+        ...mapGetters([
+            'getUserInfo'
+        ])
     }
 }
 </script>

@@ -14,3 +14,4 @@ const app = initializeApp({
 
 export const db = app.firestore()
 export const usersCollection = db.collection('users')
+export const companiesCollection = db.collection('companies')
