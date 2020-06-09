@@ -4,30 +4,23 @@
         <p class="section"><span class="section-name">Profilim</span><span class="section-cizgi"></span></p>
         <div class="content">
             <AboutMe></AboutMe>
+            <AboutCompany></AboutCompany>
         </div>
     </Container>
 </div>
 </template>
 
 <script>
-import firebase from 'firebase/app'
-import 'firebase/auth'
 import store from '../store'
 import router from '../router'
-import { mapGetters } from 'vuex'
-import Container from "../components/container";
+import Container from "../components/container"
 import AboutMe from '../components/aboutme.profile'
+import AboutCompany from '../components/aboutcompany.profile'
 export default {
     name: "profile.pages",
-    components: { Container, AboutMe },
+    components: { Container, AboutMe, AboutCompany },
     store,
-    router,
-    computed: {
-        ...mapGetters([
-            'getUser',
-            'getUserInfo'
-        ])
-    }
+    router
 }
 </script>
 
@@ -62,6 +55,7 @@ export default {
         display: flex;
         margin-top: 20px;
         align-items: flex-start;
+        justify-content: space-between;
     }
     .content {
 

@@ -20,15 +20,6 @@ export default {
     name: "aboutme.profile",
     store,
     router,
-    data: function () {
-        return {
-            name: '',
-            surname: '',
-            email: '',
-            username: '',
-            phone: ''
-        }
-    },
     computed: {
         ...mapGetters([
             'getUserInfo'
