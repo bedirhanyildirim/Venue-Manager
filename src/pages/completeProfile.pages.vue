@@ -37,17 +37,19 @@ export default {
     },
     created () {
         // if exists
-        usersCollection.doc(this.getUser.uid).get().then(function(doc) {
-            if (doc.exists) {
-                console.log("Document data:", doc.data())
-                router.push("/")
-            } else {
-                // doc.data() will be undefined in this case
-                console.log("No such document!")
-            }
-        }).catch(function(error) {
-            console.log("Error getting document:", error)
-        })
+        usersCollection.doc(this.getUser.uid).get()
+            .then(doc => {
+                if (doc.exists) {
+                    console.log("Document data:", doc.data())
+                    this.$store.dispatch('setUserInfo', doc.data())
+                    router.push("/")
+                } else {
+                    // doc.data() will be undefined in this case
+                    console.log("No such document!")
+                }
+            }).catch(function(error) {
+                console.log("Error getting document:", error)
+            })
     }
 }
 </script>

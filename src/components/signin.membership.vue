@@ -49,7 +49,7 @@ export default {
                     if (res) {
                         console.log("Başarıyla giriş yapıldı.")
                         this.$store.dispatch('setUser', res.user)
-                        router.push('/')
+                        router.push('/complete-profile')
                     }
                 })
         },

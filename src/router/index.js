@@ -11,12 +11,18 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta: {
+      title: 'Anasayfa'
+    }
   },
   {
     path: '/membership',
     name: 'Membership',
-    component: Membership
+    component: Membership,
+    meta: {
+      title: 'Katıl'
+    }
   },
   {
     path: '/complete-profile',

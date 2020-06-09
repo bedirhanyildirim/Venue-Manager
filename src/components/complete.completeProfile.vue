@@ -1,6 +1,10 @@
 <template>
 <div id="complete">
     <div class="row">
+        <label for="username" class="input-name">Kullanıcı Adı:</label>
+        <input id="username" type="text" v-model="username" name="username" disabled/>
+    </div>
+    <div class="row">
         <label for="email" class="input-name">Email:</label>
         <input id="email" type="text" v-model="email" name="email" disabled/>
     </div>
@@ -38,7 +42,8 @@ export default {
             name: '',
             surname: '',
             mobile: '',
-            email: ''
+            email: '',
+            username: ''
         }
     },
     computed: {
@@ -49,10 +54,23 @@ export default {
     },
     created () {
         this.email = this.getUser.email
+        this.username = this.email.split('@')[0]
     },
     methods: {
         fill: function () {
-            console.log("doldurdun.")
+            usersCollection.doc(this.getUser.uid).set({
+                uid: this.getUser.uid,
+                email: this.getUser.email,
+                username: this.username,
+                name: this.name,
+                surname: this.surname,
+                mobile: this.mobile
+            }).then(function (res) {
+                console.log("Başarılı" + res)
+                router.push("/")
+            }).catch(function (error) {
+                console.log(error)
+            })
         }
     }
 }

@@ -7,6 +7,7 @@
             <div class="content">
                 <div class="nav">
                     <router-link v-if="!loggedIn" to="/membership">Üye Ol / Giriş Yap</router-link>
+                    <span v-if="getUserInfo">Hoşgeldin, {{ getUserInfo.name }}</span>
                     <a v-if="loggedIn" href="javascript:;" @click="logout">Çıkış Yap</a>
                 </div>
             </div>
@@ -29,6 +30,7 @@ export default {
     computed: {
         ...mapGetters([
             'getUser',
+            'getUserInfo',
             'loggedIn'
         ])
     },
@@ -38,7 +40,7 @@ export default {
                 console.log(err)
             }).then(_ => {
                 this.$store.dispatch('logOut')
-                router.push('/')
+                router.push('/membership');
             })
         }
     }
