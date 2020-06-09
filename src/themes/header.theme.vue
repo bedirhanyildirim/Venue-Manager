@@ -8,6 +8,7 @@
                 <div class="nav">
                     <router-link v-if="!loggedIn" to="/membership">Üye Ol / Giriş Yap</router-link>
                     <span v-if="getUserInfo">Hoşgeldin, {{ getUserInfo.name }}</span>
+                    <router-link v-if="loggedIn" to="/profile">Profilim</router-link>
                     <a v-if="loggedIn" href="javascript:;" @click="logout">Çıkış Yap</a>
                 </div>
             </div>
@@ -52,6 +53,7 @@ export default {
     display: flex;
     padding: 5px 0;
     align-items: center;
+    white-space: nowrap;
     justify-content: center;
     background-color: #ffffff;
     border-bottom: 1px solid #e5e5e5;
