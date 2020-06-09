@@ -7,29 +7,48 @@
             <router-link to="/create-company" class="create-company-button">Şirket Oluştur</router-link>
         </div>
         <div v-if="isThereCompany" class="company">
-            şirket var
+            <img src="../assets/images/company-img.png" alt="company logo">
+            <div class="infos">
+                <h3>{{ company.name }}</h3>
+                <h4>{{ company.address }}</h4>
+            </div>
         </div>
     </div>
 </div>
 </template>
 
 <script>
-import store from '../store'
-import router from '../router'
 import { mapGetters } from 'vuex'
+import { companiesCollection } from '../firebase/index'
 export default {
     name: "aboutcompany.profile",
-    store,
-    router,
     data: function () {
         return {
-            isThereCompany: false
+            isThereCompany: false,
+            company: {}
         }
     },
     computed: {
         ...mapGetters([
             'getUserInfo'
         ])
+    },
+    created() {
+        // if exists
+        companiesCollection.doc(this.getUserInfo.uid).get()
+            .then(doc => {
+                if (doc.exists) {
+                    console.log("Document data:", doc.data())
+                    this.company = doc.data()
+                    this.isThereCompany = true
+                } else {
+                    // doc.data() will be undefined in this case
+                    console.log("No such document!")
+                    this.isThereCompany = false
+                }
+            }).catch(function(error) {
+            console.log("Error getting document:", error)
+        })
     }
 }
 </script>
@@ -57,7 +76,7 @@ export default {
             text-align: left;
             font-weight: normal;
         }
-        .no-company {
+        .no-company, .company {
             margin: 20px 0;
         }
         .no-company {
@@ -75,7 +94,35 @@ export default {
             }
         }
         .company {
-
+            width: 100%;
+            display: flex;
+            text-align: left;
+            align-items: end;
+            flex-direction: row;
+            justify-content: flex-start;
+        }
+        .company {
+            img {
+                width: 120px;
+                height: 120px;
+                margin-right: 20px;
+            }
+            .infos {
+                margin-top: 15px;
+            }
+            .infos {
+                h3 {
+                    color: #000000;
+                    font-size: 18px;
+                    font-weight: normal;
+                    margin-bottom: 10px;
+                }
+                h4 {
+                    color: #505050;
+                    font-size: 14px;
+                    font-weight: normal;
+                }
+            }
         }
     }
 }
