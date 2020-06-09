@@ -4,6 +4,7 @@ import Store from '../store'
 import Home from '../pages/home.pages.vue'
 import Membership from '../pages/membership.pages'
 import CompleteProfile from '../pages/completeProfile.pages'
+import Profile from '../pages/profile.pages'
 
 Vue.use(VueRouter)
 
@@ -30,6 +31,15 @@ const routes = [
     component: CompleteProfile,
     meta: {
       title: 'Profilini Tamamla',
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
+    meta: {
+      title: 'Profilim',
       requiresAuth: true
     }
   }
