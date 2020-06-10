@@ -6,6 +6,7 @@ import Membership from '../pages/membership.pages'
 import CompleteProfile from '../pages/completeProfile.pages'
 import Profile from '../pages/profile.pages'
 import CreateCompany from '../pages/createCompany.pages'
+import CreateSource from '../pages/createSource.pages'
 
 Vue.use(VueRouter)
 
@@ -50,6 +51,15 @@ const routes = [
     component: CreateCompany,
     meta: {
       title: 'Şirket Oluştur',
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/create-source',
+    name: 'CreateSource',
+    component: CreateSource,
+    meta: {
+      title: 'Kaynak Oluştur',
       requiresAuth: true
     }
   }

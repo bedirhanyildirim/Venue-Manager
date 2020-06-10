@@ -1,6 +1,6 @@
 <template>
 <div id="sources">
-    <h4>Kaynaklar <a href="javascript:;">(yeni ekle)</a></h4>
+    <h4>Kaynaklar <router-link to="/create-source">(yeni ekle)</router-link></h4>
     <div class="source">
         <div class="imgandtitle">
             <img src="../assets/images/source-img.jpg" alt="">

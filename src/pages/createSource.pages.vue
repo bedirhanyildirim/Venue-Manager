@@ -1,10 +1,9 @@
 <template>
-<div id="createCompany">
+<div id="createSources">
     <Container display="flex" justify-content="left" flex-direction="column">
-        <p class="section"><span class="section-name">Şirket Oluştur</span><span class="section-cizgi"></span></p>
+        <p class="section"><span class="section-name">Kaynak Ekle</span><span class="section-cizgi"></span></p>
         <div class="content">
             <AboutMe></AboutMe>
-            <CompanyForm></CompanyForm>
         </div>
     </Container>
 </div>
@@ -13,22 +12,21 @@
 <script>
 import Container from "../components/container"
 import AboutMe from '../components/aboutme.profile'
-import CompanyForm from '../components/form.createCompany'
 export default {
-    name: "createCompany.pages",
-    components: { Container, AboutMe, CompanyForm }
+    name: "createSource.pages",
+    components: { Container, AboutMe }
 }
 </script>
 
 <style lang="scss" scoped>
-#createCompany {
+#createSources {
     display: flex;
     padding: 20px 0;
     align-items: center;
     justify-content: center;
     background-color: #f7f7f7;
 }
-#createCompany {
+#createSources {
     .section {
         width: 100%;
         display: flex;
