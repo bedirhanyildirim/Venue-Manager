@@ -13,6 +13,7 @@
                 <h4>{{ company.address }}</h4>
             </div>
         </div>
+        <Sources v-if="isThereCompany"></Sources>
     </div>
 </div>
 </template>
@@ -20,8 +21,10 @@
 <script>
 import { mapGetters } from 'vuex'
 import { companiesCollection } from '../firebase/index'
+import Sources from '../components/sources.profile'
 export default {
     name: "aboutcompany.profile",
+    components: { Sources },
     data: function () {
         return {
             isThereCompany: false,
