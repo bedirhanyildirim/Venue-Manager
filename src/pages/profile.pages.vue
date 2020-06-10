@@ -11,16 +11,12 @@
 </template>
 
 <script>
-import store from '../store'
-import router from '../router'
 import Container from "../components/container"
 import AboutMe from '../components/aboutme.profile'
 import AboutCompany from '../components/aboutcompany.profile'
 export default {
     name: "profile.pages",
-    components: { Container, AboutMe, AboutCompany },
-    store,
-    router
+    components: { Container, AboutMe, AboutCompany }
 }
 </script>
 

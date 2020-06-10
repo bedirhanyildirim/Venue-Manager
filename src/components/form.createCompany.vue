@@ -85,7 +85,6 @@ export default {
                 endingHour: this.endingHour,
                 owner: this.getUserInfo
             }).then(function (res) {
-                console.log('Başarılı ' + res)
                 router.push('/profile')
             }).catch(function (error) {
                 console.log(error)

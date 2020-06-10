@@ -41,7 +41,6 @@ export default {
         companiesCollection.doc(this.getUserInfo.uid).get()
             .then(doc => {
                 if (doc.exists) {
-                    console.log("Document data:", doc.data())
                     this.company = doc.data()
                     this.isThereCompany = true
                 } else {

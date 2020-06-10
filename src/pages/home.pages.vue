@@ -1,9 +1,9 @@
 <template>
-  <div id="home">
+<div id="home">
     <container display="flex" justify-content="left">
-      <h1>Welcome!</h1>
+        <h1>Welcome!</h1>
     </container>
-  </div>
+</div>
 </template>
 
 <script>

@@ -50,7 +50,6 @@ export default {
         companiesCollection.doc(this.getUserInfo.uid).get()
             .then(doc => {
                 if (doc.exists) {
-                    console.log("Company data:", doc.data())
                     this.company = doc.data()
                 }
             }).catch(function(error) {
@@ -66,7 +65,6 @@ export default {
                 sharedUsage: this.sharedUsage,
                 company: this.company
             }).then(function (res) {
-                console.log('Başarılı ' + res)
                 router.push('/profile')
             }).catch(function (error) {
                 console.log(error)
