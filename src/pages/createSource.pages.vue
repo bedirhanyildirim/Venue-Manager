@@ -4,6 +4,7 @@
         <p class="section"><span class="section-name">Kaynak Ekle</span><span class="section-cizgi"></span></p>
         <div class="content">
             <AboutMe></AboutMe>
+            <CreateSource></CreateSource>
         </div>
     </Container>
 </div>
@@ -12,9 +13,10 @@
 <script>
 import Container from "../components/container"
 import AboutMe from '../components/aboutme.profile'
+import CreateSource from '../components/form.createSource'
 export default {
     name: "createSource.pages",
-    components: { Container, AboutMe }
+    components: { Container, AboutMe, CreateSource }
 }
 </script>
 
