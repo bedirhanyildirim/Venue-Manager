@@ -30,20 +30,53 @@
 </template>
 
 <script>
+import router from '../router'
+import { mapGetters } from 'vuex'
+import { companiesCollection, sourcesCollection } from '../firebase/index'
 export default {
     name: "form.createSource",
+    router,
     data: function () {
         return {
             name: '',
             description: '',
             capacity: '',
-            sharedUsage: false
+            sharedUsage: false,
+            company: {}
         }
+    },
+    created() {
+        // if exists
+        companiesCollection.doc(this.getUserInfo.uid).get()
+            .then(doc => {
+                if (doc.exists) {
+                    console.log("Company data:", doc.data())
+                    this.company = doc.data()
+                }
+            }).catch(function(error) {
+            console.log("Error getting document:", error)
+        })
     },
     methods: {
         fill: function () {
-            console.log('tıkladın')
+            sourcesCollection.add({
+                name: this.name,
+                description: this.description,
+                capacity: this.capacity,
+                sharedUsage: this.sharedUsage,
+                company: this.company
+            }).then(function (res) {
+                console.log('Başarılı ' + res)
+                router.push('/profile')
+            }).catch(function (error) {
+                console.log(error)
+            })
         }
+    },
+    computed: {
+        ...mapGetters([
+            'getUserInfo'
+        ])
     }
 }
 </script>

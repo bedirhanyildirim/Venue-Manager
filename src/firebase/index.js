@@ -15,3 +15,4 @@ const app = initializeApp({
 export const db = app.firestore()
 export const usersCollection = db.collection('users')
 export const companiesCollection = db.collection('companies')
+export const sourcesCollection = db.collection('sources')

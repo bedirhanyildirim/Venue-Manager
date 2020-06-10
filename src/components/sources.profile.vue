@@ -1,32 +1,55 @@
 <template>
 <div id="sources">
     <h4>Kaynaklar <router-link to="/create-source">(yeni ekle)</router-link></h4>
-    <div class="source">
-        <div class="imgandtitle">
-            <img src="../assets/images/source-img.jpg" alt="">
-            <h2>4 Kişilik Toplantı Odası</h2>
-        </div>
-        <div class="capacity">
-            <img src="../assets/icons/capacity.png" alt="">
-            <h4>4</h4>
-        </div>
+    <div v-if="sources.length == 0" class="error">
+        <h3>Kaynak bulunamadı.</h3>
     </div>
-    <div class="source">
+    <div v-if="sources.length > 0" v-for="sour in sources" class="source">
         <div class="imgandtitle">
             <img src="../assets/images/source-img.jpg" alt="">
-            <h2>4 Kişilik Toplantı Odası</h2>
+            <h2>{{ sour.data.name }}</h2>
         </div>
         <div class="capacity">
             <img src="../assets/icons/capacity.png" alt="">
-            <h4>4</h4>
+            <h4>{{ sour.data.capacity }}</h4>
         </div>
     </div>
 </div>
 </template>
 
 <script>
+import { sourcesCollection } from '../firebase/index'
 export default {
-    name: "sources.profile"
+    name: "sources.profile",
+    props: {
+        company: {
+            type: Object,
+            required: false,
+            default: {}
+        }
+    },
+    data: function () {
+        return {
+            sources: []
+        }
+    },
+    created() {
+        sourcesCollection.where("company.name", "==", this.company.name).get()
+            .then(snapshot => {
+                if (snapshot.empty) {
+                    console.log('No matching documents.')
+                    return
+                }
+
+                snapshot.forEach(doc => {
+                    this.sources.push({id: doc.id, data: doc.data()})
+                })
+            })
+            .catch(err => {
+                console.log('Error getting documents', err)
+            })
+    }
+
 }
 </script>
 
@@ -57,6 +80,14 @@ export default {
         background-color: #fafafa;
         border: 1px solid #dadbdd;
         justify-content: space-between;
+    }
+    .error {
+        h3{
+            padding: 20px;
+            color: #000000;
+            font-size: 16px;
+            font-weight: normal;
+        }
     }
     .source {
         .imgandtitle {

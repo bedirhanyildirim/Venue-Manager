@@ -13,7 +13,7 @@
                 <h4>{{ company.address }}</h4>
             </div>
         </div>
-        <Sources v-if="isThereCompany"></Sources>
+        <Sources v-if="isThereCompany" :company="this.company"></Sources>
     </div>
 </div>
 </template>
@@ -50,8 +50,8 @@ export default {
                     this.isThereCompany = false
                 }
             }).catch(function(error) {
-            console.log("Error getting document:", error)
-        })
+                console.log("Error getting document:", error)
+            })
     }
 }
 </script>
