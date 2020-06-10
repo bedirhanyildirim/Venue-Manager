@@ -36,7 +36,7 @@ export default {
             'getUserInfo'
         ])
     },
-    created() {
+    mounted() {
         // if exists
         companiesCollection.doc(this.getUserInfo.uid).get()
             .then(doc => {

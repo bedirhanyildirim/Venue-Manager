@@ -69,13 +69,11 @@ export default {
         let yyyy = today.getFullYear()
 
         today = yyyy + '-' + mm + '-' + dd
-        console.log(today)
         this.date = today
     },
     methods: {
         find: function () {
             console.log('buldun')
-            console.log(this.date)
         },
         setDate: function (newDate) {
             let today = newDate;
@@ -84,7 +82,6 @@ export default {
             let yyyy = today.getFullYear()
 
             today = yyyy + '-' + mm + '-' + dd
-            console.log(today)
             this.date = today
         }
     }
@@ -93,7 +90,7 @@ export default {
 
 <style lang="scss" scoped>
 #datepicker {
-    width: 100%;
+    width: calc(100% - 40px);
     padding: 20px;
     display: flex;
     align-items: center;

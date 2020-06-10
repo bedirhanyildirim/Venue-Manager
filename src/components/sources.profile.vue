@@ -33,7 +33,7 @@ export default {
             sources: []
         }
     },
-    created() {
+    mounted() {
         sourcesCollection.where("company.name", "==", this.company.name).get()
             .then(snapshot => {
                 if (snapshot.empty) {
