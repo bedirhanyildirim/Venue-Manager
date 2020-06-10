@@ -11,6 +11,14 @@
                 <label for="address" class="input-name" style="margin-top: 10px;">Adres:</label>
                 <textarea id="address" type="text" v-model="address" name="address" rows="4 "></textarea>
             </div>
+            <div class="row" style="align-items: start;">
+                <label for="region" class="input-name" style="margin-top: 10px;">İlçe:</label>
+                <input id="region" type="text" v-model="region" name="region"/>
+            </div>
+            <div class="row" style="align-items: start;">
+                <label for="city" class="input-name" style="margin-top: 10px;">İl:</label>
+                <input id="city" type="text" v-model="city" name="city"/>
+            </div>
             <div class="row">
                 <label for="phone" class="input-name">Telefon No:</label>
                 <input id="phone" type="text" v-model="phone" name="phone"/>
@@ -68,6 +76,8 @@ export default {
         return {
             name: '',
             address: '',
+            city: '',
+            region: '',
             phone: '',
             workingDays: 'weekdays',
             startingHour: '08',
@@ -79,6 +89,8 @@ export default {
             companiesCollection.doc(this.getUserInfo.uid).set({
                 name: this.name,
                 address: this.address,
+                city: this.city,
+                region: this.region,
                 phone: this.phone,
                 workingDays: this.workingDays,
                 startingHour: this.startingHour,
