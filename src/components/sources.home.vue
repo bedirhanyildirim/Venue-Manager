@@ -3,8 +3,8 @@
     <div v-if="sources.length == 0" class="error">
         <h3>Kaynak bulunamadı.</h3>
     </div>
-    <div v-if="sources.length > 0" id="sources">
-        <div v-for="sour in sources" class="source">
+    <div v-if="sources.length > 0" v-for="sour in sources" id="sources">
+        <div class="source">
             <div class="imgandtitle">
                 <img src="../assets/images/source-img.jpg" alt="">
                 <h2>{{ sour.data.name }}</h2>

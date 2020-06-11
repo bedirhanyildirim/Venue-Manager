@@ -65,8 +65,16 @@ export default {
                 name: this.name,
                 surname: this.surname,
                 mobile: this.mobile
-            }).then(function (res) {
-                console.log("Başarılı" + res)
+            }).then(res => {
+                console.log("Başarılı: " + res)
+                this.$store.dispatch('setUserInfo', {
+                    uid: this.getUser.uid,
+                    email: this.getUser.email,
+                    username: this.username,
+                    name: this.name,
+                    surname: this.surname,
+                    mobile: this.mobile
+                })
                 router.push("/")
             }).catch(function (error) {
                 console.log(error)

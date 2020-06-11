@@ -47,7 +47,7 @@
         </select>
     </div>
     <div class="button">
-        <button @click="find">Kaydet</button>
+        <button @click="find">Ara</button>
     </div>
 </div>
 </template>
