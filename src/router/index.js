@@ -7,6 +7,7 @@ import CompleteProfile from '../pages/completeProfile.pages'
 import Profile from '../pages/profile.pages'
 import CreateCompany from '../pages/createCompany.pages'
 import CreateSource from '../pages/createSource.pages'
+import SourceDetail from '../pages/sourceDetail.pages'
 
 Vue.use(VueRouter)
 
@@ -61,6 +62,15 @@ const routes = [
     meta: {
       title: 'Kaynak Oluştur',
       requiresAuth: true
+    }
+  },
+  {
+    path: '/source/:id',
+    name: 'SourceDetail',
+    component: SourceDetail,
+    meta: {
+      title: 'Kaynak Hakkında',
+      requiresAuth: false
     }
   }
 ]

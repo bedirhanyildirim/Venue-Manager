@@ -4,7 +4,7 @@
     <div v-if="sources.length == 0" class="error">
         <h3>Kaynak bulunamadı.</h3>
     </div>
-    <div v-if="sources.length > 0" v-for="sour in sources" class="source">
+    <div v-if="sources.length > 0" v-for="sour in sources" class="source" @click="goTo(sour.id)">
         <div class="imgandtitle">
             <img src="../assets/images/source-img.jpg" alt="">
             <h2>{{ sour.data.name }}</h2>
@@ -18,9 +18,11 @@
 </template>
 
 <script>
+    import router from '../router'
 import { sourcesCollection } from '../firebase/index'
 export default {
     name: "sources.profile",
+    router,
     props: {
         company: {
             type: Object,
@@ -48,8 +50,12 @@ export default {
             .catch(err => {
                 console.log('Error getting documents', err)
             })
+    },
+    methods: {
+        goTo: function (id) {
+            router.push('/source/' + id)
+        }
     }
-
 }
 </script>
 
@@ -80,6 +86,9 @@ export default {
         background-color: #fafafa;
         border: 1px solid #dadbdd;
         justify-content: space-between;
+    }
+    .source:hover {
+        cursor: pointer;
     }
     .error {
         h3{
