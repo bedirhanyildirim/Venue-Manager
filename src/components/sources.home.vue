@@ -31,7 +31,7 @@ export default {
         }
     },
     mounted() {
-        sourcesCollection.limit(10).get()
+        sourcesCollection.where("sharedUsage", "==", true).limit(10).get()
             .then(snapshot => {
                 if (snapshot.empty) {
                     console.log('No matching documents.')

@@ -4,7 +4,7 @@
     <div v-if="activities.length == 0" class="error">
         <h3>Rezervasyon bulunamadı.</h3>
     </div>
-    <div v-if="activities.length > 0" v-for="act in activities" class="source" @click="goTo(act.data.source.id, act.id)">
+    <div v-if="activities.length > 0" v-for="act in activities" class="source" @click="goTo(act.id)">
         <div class="imgandtitle">
             <img src="../assets/images/source-img.jpg" alt="">
             <h2>{{ act.data.source.name }}</h2>
@@ -56,8 +56,8 @@ export default {
             })
     },
     methods: {
-        goTo: function (sourceId, activityId) {
-            router.push('/source/' + sourceId + '/res/' + activityId)
+        goTo: function (activityId) {
+            router.push('/reservation/' + activityId)
         }
     }
 }

@@ -3,7 +3,7 @@
     <div v-if="activities.length == 0" class="error">
         <h3>Rezervasyon bulunamadı.</h3>
     </div>
-    <div v-if="activities.length > 0" v-for="act in activities" id="sources">
+    <div v-if="activities.length > 0" v-for="act in activities" id="sources" @click="goTo(act.id)">
         <div class="source">
             <div class="imgandtitle">
                 <img src="../assets/images/source-img.jpg" alt="">
@@ -23,13 +23,20 @@
 </template>
 
 <script>
+import router from '../router'
 export default {
     name: "reservations.myResevations",
+    router,
     props: {
         activities: {
             required: true,
             type: Array,
             default: []
+        }
+    },
+    methods: {
+        goTo: function (activityId) {
+            router.push('/reservation/' + activityId)
         }
     }
 }
