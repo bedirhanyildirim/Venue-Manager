@@ -75,7 +75,7 @@
 <script>
 import router from '../router'
 import Container from "../components/container"
-import { sourcesCollection } from '../firebase/index'
+import { sourcesCollection, activitiesCollection } from '../firebase/index'
 import { mapGetters } from 'vuex'
 export default {
     name: "sourceDetail.pages",
@@ -102,6 +102,7 @@ export default {
             .then(doc => {
                 if (doc.exists) {
                     this.source = doc.data()
+                    this.source.id = this.sourceId
                     if (this.source.company.owner.uid == this.getUserInfo.uid) {
                         this.amItheOwner = true
                         document.getElementById("rezyap").disabled = true;
@@ -109,10 +110,12 @@ export default {
                 } else {
                     // doc.data() will be undefined in this case
                     console.log("No such document!")
+                    router.push('/')
                 }
             }).catch(function(error) {
-            console.log("Error getting document:", error)
-        })
+                console.log("Error getting document:", error)
+                router.push('/')
+            })
     },
     computed: {
         ...mapGetters([
@@ -132,6 +135,28 @@ export default {
     methods: {
         fill: function () {
             console.log('clicked')
+            activitiesCollection.add({
+                date: this.date,
+                isValid: 'waiting',
+                source: this.source,
+                resMaker: this.getUserInfo,
+                endingHour: this.endingHour,
+                startingHour: this.startingHour
+            }).then(function (res) {
+                console.log('başarılı')
+                router.push('/')
+            }).catch(function (error) {
+                console.log(error)
+            })
+        },
+        setDate: function (newDate) {
+            let today = newDate;
+            let dd = String(today.getDate()).padStart(2, '0')
+            let mm = String(today.getMonth() + 1).padStart(2, '0') //January is 0!
+            let yyyy = today.getFullYear()
+
+            today = yyyy + '-' + mm + '-' + dd
+            this.date = today
         }
     }
 }

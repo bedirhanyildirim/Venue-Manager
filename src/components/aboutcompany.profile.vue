@@ -14,6 +14,7 @@
             </div>
         </div>
         <Sources v-if="isThereCompany" :company="this.company"></Sources>
+        <Activities v-if="isThereCompany" :company="this.company"></Activities>
     </div>
 </div>
 </template>
@@ -22,9 +23,10 @@
 import { mapGetters } from 'vuex'
 import { companiesCollection } from '../firebase/index'
 import Sources from '../components/sources.profile'
+import Activities from '../components/activities.profile'
 export default {
     name: "aboutcompany.profile",
-    components: { Sources },
+    components: { Sources, Activities },
     data: function () {
         return {
             isThereCompany: false,

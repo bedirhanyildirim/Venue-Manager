@@ -18,7 +18,7 @@
 </template>
 
 <script>
-    import router from '../router'
+import router from '../router'
 import { sourcesCollection } from '../firebase/index'
 export default {
     name: "sources.profile",
