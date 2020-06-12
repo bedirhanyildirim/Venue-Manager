@@ -1,5 +1,5 @@
 <template>
-<div id="sourceform">
+<div id="sourceform" style="margin-bottom: 50px">
     <div class="company-info">
         <h4>Kaynak Ekle</h4>
         <div class="company-form">
@@ -14,6 +14,68 @@
             <div class="row">
                 <label for="capacity" class="input-name">Kişi Sayısı:</label>
                 <input id="capacity" type="text" v-model="capacity" name="phone"/>
+            </div>
+            <label style="width: 100%;
+                            text-align: left;
+                            display: block;
+                            margin: 40px 0 20px;
+                            color: #707070;
+                            font-size: 16px;
+                            white-space: nowrap;
+                            font-weight: normal;">Program:</label>
+            <div class="row">
+                <FullCalendar :events="events" :options="options" style="height: 600px;"/>
+            </div>
+            <div class="row">
+                <label for="date" class="input-name">Tarih:</label>
+                <input type="date" id="date" name="date" :value="date" disabled>
+            </div>
+            <div class="row">
+                <label for="startingHour" class="input-name">Aktivite Saatleri:</label>
+                <div class="rangehours">
+                    <select id="startingHour" class="hour" v-model="startingHour" name="startingHour">
+                        <option value="06">06:00</option>
+                        <option value="07">07:00</option>
+                        <option value="08">08:00</option>
+                        <option value="09">09:00</option>
+                        <option value="10">10:00</option>
+                        <option value="11">11:00</option>
+                        <option value="12">12:00</option>
+                        <option value="13">13:00</option>
+                        <option value="14">14:00</option>
+                        <option value="15">15:00</option>
+                        <option value="16">16:00</option>
+                        <option value="17">17:00</option>
+                        <option value="18">18:00</option>
+                        <option value="19">19:00</option>
+                        <option value="20">20:00</option>
+                        <option value="21">21:00</option>
+                        <option value="22">22:00</option>
+                    </select>
+                    <span></span>
+                    <select id="endingHour" class="hour" v-model="endingHour" name="startingHour">
+                        <option value="06">06:00</option>
+                        <option value="07">07:00</option>
+                        <option value="08">08:00</option>
+                        <option value="09">09:00</option>
+                        <option value="10">10:00</option>
+                        <option value="11">11:00</option>
+                        <option value="12">12:00</option>
+                        <option value="13">13:00</option>
+                        <option value="14">14:00</option>
+                        <option value="15">15:00</option>
+                        <option value="16">16:00</option>
+                        <option value="17">17:00</option>
+                        <option value="18">18:00</option>
+                        <option value="19">19:00</option>
+                        <option value="20">20:00</option>
+                        <option value="21">21:00</option>
+                        <option value="22">22:00</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row" style="justify-content: flex-end; margin-right: 70px">
+                <a href="javascript:;" @click="ekle">Ekle</a>
             </div>
             <div class="row" style="justify-content: space-between; margin-bottom: 0;">
                 <div class="sharedUsage">
@@ -32,18 +94,54 @@
 <script>
 import router from '../router'
 import { mapGetters } from 'vuex'
-import { companiesCollection, sourcesCollection } from '../firebase/index'
+import { companiesCollection, sourcesCollection, activitiesCollection } from '../firebase/index'
+import FullCalendar from 'primevue/fullcalendar'
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 export default {
     name: "form.createSource",
     router,
+    components: { FullCalendar },
     data: function () {
         return {
             name: '',
             description: '',
             capacity: '',
             sharedUsage: false,
-            company: {}
+            company: {},
+            date: '',
+            startingHour: '',
+            endingHour: '',
+            options: {
+                plugins:[dayGridPlugin, interactionPlugin],
+                // amaç, veri modeli, 5 - 6 slyat, temel işlevler, başlık, danışman ismi,
+                defaultDate: this.date,
+                header: {
+                    left: 'prev,next',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                editable: false,
+                dateClick: (e) =>  {
+                    //handle date click
+                    console.log(e.dateStr)
+                    this.date = e.dateStr
+                }
+            },
+            events: [],
+            sourceId: ''
         }
+    },
+    mounted() {
+        let today = new Date();
+        let dd = String(today.getDate()).padStart(2, '0')
+        let mm = String(today.getMonth() + 1).padStart(2, '0') //January is 0!
+        let yyyy = today.getFullYear()
+
+        this.sourceId = today.getTime().toString()
+
+        today = yyyy + '-' + mm + '-' + dd
+        this.date = today
     },
     created() {
         // if exists
@@ -58,16 +156,48 @@ export default {
     },
     methods: {
         fill: function () {
-            sourcesCollection.add({
+            let events = this.events
+            let userInfo = this.getUserInfo
+            let sourceObject = {
                 name: this.name,
                 description: this.description,
                 capacity: this.capacity,
                 sharedUsage: this.sharedUsage,
                 company: this.company
-            }).then(function (res) {
-                router.push('/profile')
-            }).catch(function (error) {
-                console.log(error)
+            }
+            let startingHour = this.startingHour
+            let endingHour = this.endingHour
+            sourcesCollection.doc(this.sourceId).set(sourceObject)
+                .then(function (res) {
+                    events.forEach(ev => {
+                        console.log(ev)
+                        activitiesCollection.add({
+                            source: sourceObject,
+                            resMaker: userInfo,
+                            canceled: false,
+                            date: ev.start,
+                            isValid: 'accepted',
+                            startingHour: startingHour,
+                            endingHour: endingHour
+                        }).then(function (ress) {
+                            console.log(ress)
+                            router.push('/profile')
+                        }).catch(function (errorr) {
+                            console.log(errorr)
+                        })
+                    })
+                    //
+                    //router.push('/profile')
+                }).catch(function (error) {
+                    console.log(error)
+                })
+        },
+        ekle: function () {
+            this.events.push({
+                start: this.date,
+                end: this.date,
+                startingHour: this.startingHour,
+                endingHour: this.endingHour
             })
         }
     },
@@ -205,6 +335,28 @@ export default {
                         font-weight: normal;
                         white-space: nowrap;
                         display: inline-block;
+                    }
+                }
+                .rangehours {
+                    width: 380px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                }
+                .rangehours {
+                    span {
+                        width: 10px;
+                        border-bottom: 2px solid #707070;
+                    }
+                    .hour {
+                        width: 100%;
+                        cursor: pointer;
+                        font-size: 14px;
+                        max-width: 170px;
+                        padding: 10px 6px;
+                        border-radius: 5px;
+                        display: inline-block;
+                        border: 1px solid #e5e5e5;
                     }
                 }
             }

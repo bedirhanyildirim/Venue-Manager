@@ -59,7 +59,8 @@ export default {
         return {
             date: '',
             startingHour: '09',
-            endingHour: '17'
+            endingHour: '17',
+            sources: []
         }
     },
     mounted() {
@@ -76,7 +77,7 @@ export default {
             console.log('buldun')
         },
         setDate: function (newDate) {
-            let today = newDate;
+            let today = newDate
             let dd = String(today.getDate()).padStart(2, '0')
             let mm = String(today.getMonth() + 1).padStart(2, '0') //January is 0!
             let yyyy = today.getFullYear()

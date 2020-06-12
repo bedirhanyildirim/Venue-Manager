@@ -37,7 +37,9 @@ export default {
 
                 snapshot.forEach(doc => {
                     console.log(doc.data())
-                    this.activities.push({id: doc.id, data: doc.data()})
+                    if (doc.data().resMaker.uid != doc.data().source.company.owner.uid) {
+                        this.activities.push({id: doc.id, data: doc.data()})
+                    }
                 })
             })
             .catch(err => {
