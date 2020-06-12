@@ -8,6 +8,7 @@ import Profile from '../pages/profile.pages'
 import CreateCompany from '../pages/createCompany.pages'
 import CreateSource from '../pages/createSource.pages'
 import SourceDetail from '../pages/sourceDetail.pages'
+import MyReservations from '../pages/myReservations.pages'
 
 Vue.use(VueRouter)
 
@@ -71,6 +72,15 @@ const routes = [
     meta: {
       title: 'Kaynak Hakkında',
       requiresAuth: false
+    }
+  },
+  {
+    path: '/my-reservations',
+    name: 'MyReservations',
+    component: MyReservations,
+    meta: {
+      title: 'Reservasyonlarım',
+      requiresAuth: true
     }
   }
 ]

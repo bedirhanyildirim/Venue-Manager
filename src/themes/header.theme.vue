@@ -9,6 +9,7 @@
                     <router-link v-if="!loggedIn" to="/membership">Üye Ol / Giriş Yap</router-link>
                     <span v-if="getUserInfo">Hoşgeldin, {{ getUserInfo.name }}</span>
                     <router-link v-if="loggedIn" to="/profile">Profilim</router-link>
+                    <router-link v-if="loggedIn" to="/my-reservations">Reservasyonlarım</router-link>
                     <a v-if="loggedIn" href="javascript:;" @click="logout">Çıkış Yap</a>
                 </div>
             </div>
