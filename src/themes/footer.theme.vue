@@ -33,7 +33,7 @@ export default {
     font-weight: normal;
   }
   a {
-    color: #004680;
+    color: #272E8A;
     font-weight: bold;
   }
 }

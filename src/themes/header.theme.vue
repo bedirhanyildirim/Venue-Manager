@@ -14,6 +14,7 @@
         </div>-->
         <div class="nav">
           <h3 class="becomeHost"><router-link v-if="!loggedIn" to="/membership">Become a host</router-link></h3>
+          <h3 class="becomeHost"><router-link v-if="loggedIn" to="/membership">Manage your company</router-link></h3>
           <dropdown></dropdown>
         </div>
       </div>
@@ -149,6 +150,11 @@ export default {
     .nav a.router-link-exact-active {
       //color: #272E8A;
     }
+  }
+}
+@media screen and (max-width: 744px) {
+  .becomeHost {
+    display: none;
   }
 }
 </style>

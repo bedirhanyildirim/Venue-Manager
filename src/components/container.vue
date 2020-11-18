@@ -55,24 +55,29 @@ export default {
     align-items: center;
     justify-content: center;
 }
-@media screen and (min-width: 1128px) {
+@media screen and (min-width: 1440px) {
+  .container {
+    max-width: 1600px;
+  }
+}
+@media screen and (min-width: 1024px) {
   .container {
     padding: 0 80px!important;
   }
 }
-@media screen and (min-width: 950px) and (max-width: 1128px) {
+@media screen and (min-width: 768px) and (max-width: 1024px) {
   .container {
     padding: 0 40px!important;
   }
 }
-@media screen and (min-width: 744px) and (max-width: 950px) {
-  .container {
-    padding: 0 40px!important;
-  }
-}
-@media screen and (min-width: 375px) and (max-width: 744px) {
+@media screen and (min-width: 425px) and (max-width: 768px) {
   .container {
     padding: 0 24px!important;
+  }
+}
+@media screen and (max-width: 425px){
+  .container {
+    padding: 0 8px!important;
   }
 }
 </style>

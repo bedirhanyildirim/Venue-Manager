@@ -4,14 +4,15 @@
       <span>Log in</span>
       <img src="../assets/icons/user-icon.png" alt="">
     </div>
-    <div class="dropdown" v-if="showMenu">
-      <div class="content" @click="itemClicked">
+    <div class="dropdownMenu" v-if="showMenu">
+      <div class="modal"></div>
+      <div class="content" @click="itemClicked" v-on-clickaway="away">
         <router-link to="/membership"><span class="item" style="font-weight: bold">Sign up</span></router-link>
-        <span class="item">Log in</span>
+        <router-link to="/membership"><span class="item">Log in</span></router-link>
         <span class="divider"></span>
-        <span class="item">Host your office</span>
-        <span class="item">Host an experience</span>
-        <span class="item">Help</span>
+        <router-link to="/membership"><span class="item">Host your office</span></router-link>
+        <router-link to="/membership"><span class="item">Host an experience</span></router-link>
+        <router-link to="/"><span class="item">Help</span></router-link>
       </div>
     </div>
   </div>
@@ -29,13 +30,19 @@ export default {
   },
   methods: {
     toggleShow: function () {
-      this.showMenu = !this.showMenu;
+      this.showMenu = !this.showMenu
+      if (this.showMenu) {
+        document.body.style.position = 'fixed'
+      } else {
+        document.body.style.position = ''
+      }
     },
     itemClicked: function () {
       this.toggleShow();
     },
     away: function () {
       this.showMenu = false
+      document.body.style.position = ''
     }
   }
 }
@@ -76,7 +83,7 @@ export default {
       -webkit-box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.18);
     }
   }
-  .dropdown {
+  .dropdownMenu {
     right: 0;
     display: block;
     margin-top: 16px;
@@ -88,13 +95,17 @@ export default {
     -moz-box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.16);
     -webkit-box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.16);
   }
-  .dropdown {
+  .dropdownMenu {
+    .modal {
+      display: none;
+    }
     .content{
-      margin: 8px 0;
+      margin: 14px 0;
       display: flex;
-      text-align: left;
       font-size: 14px;
+      text-align: left;
       flex-direction: column;
+      background-color: #ffffff;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     }
     .content{
@@ -114,6 +125,81 @@ export default {
       .divider {
         border-bottom: 1px solid #dddddd;
         margin: 8px 0;
+      }
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .dropdown {
+    position: unset;
+  }
+  .dropdown {
+    .display {
+    }
+    .dropdownMenu {
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: 0;
+      position: absolute;
+      background-color: transparent;
+    }
+    .dropdownMenu {
+      .modal {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: 0;
+        z-index: 1;
+        display: block;
+        position: absolute;
+        background-color: rgba(0,0,0, .5);
+      }
+      .content {
+        top: 50%;
+        right: 0;
+        left: 50%;
+        bottom: 0;
+        z-index: 2;
+        padding: 14px 0;
+        position: absolute;
+        border-radius: 16px;
+        height: fit-content;
+        transform: translate(-50%, -50%);
+        box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.25);
+        -moz-box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.25);
+        -webkit-box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.25);
+      }
+      .content {
+        a {
+        }
+        a {
+          .item {
+            width: 100%;
+            height: 60px;
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 425px){
+  .dropdown {
+    .dropdownMenu {
+      .content {
+        width: fit-content;
+      }
+      .content {
+        a {
+          width: fit-content;
+        }
+        a {
+          .item {
+            width: 250px;
+          }
+        }
       }
     }
   }
