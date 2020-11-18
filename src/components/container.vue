@@ -49,11 +49,30 @@ export default {
 
 <style scoped>
 .container {
-    width: 980px;
+    width: 100%;
     display: flex;
-    padding: 0 10px;
     flex-wrap: nowrap;
     align-items: center;
     justify-content: center;
+}
+@media screen and (min-width: 1128px) {
+  .container {
+    padding: 0 80px!important;
+  }
+}
+@media screen and (min-width: 950px) and (max-width: 1128px) {
+  .container {
+    padding: 0 40px!important;
+  }
+}
+@media screen and (min-width: 744px) and (max-width: 950px) {
+  .container {
+    padding: 0 40px!important;
+  }
+}
+@media screen and (min-width: 375px) and (max-width: 744px) {
+  .container {
+    padding: 0 24px!important;
+  }
 }
 </style>

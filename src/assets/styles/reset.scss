@@ -12,9 +12,10 @@
 /* Bedirhan YILDIRIM reset.css */
 body {
   margin: 0 auto;
-  background-color: #f7f7f7;
+  background-color: #ffffff;
   transition: all 0.5s ease 0s;
   font: 15px/19px 'Roboto', Arial;
+  box-sizing: border-box;
 }
 select, input, textarea {
   outline: none;

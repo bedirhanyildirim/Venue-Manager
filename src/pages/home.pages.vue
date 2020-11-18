@@ -26,7 +26,6 @@ export default {
   padding: 20px 0;
   align-items: center;
   justify-content: center;
-  background-color: #f7f7f7;
 }
 #home {
   .section {
