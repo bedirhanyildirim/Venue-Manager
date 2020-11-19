@@ -208,4 +208,42 @@ export default {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+@media screen and (min-width: 425px) and (max-width: 768px) {
+  #signup {
+    .row {
+      .googleButton {
+      }
+      .input-name {
+      }
+      input {
+      }
+      .button {
+      }
+    }
+  }
+}
+@media screen and (max-width: 425px) {
+  #signup {
+    .row {
+      .googleButton {
+        width: 250px;
+        min-width: unset;
+        max-width: unset;
+      }
+      .input-name {
+      }
+      input {
+        width: 250px;
+        min-width: unset;
+        max-width: unset;
+        box-sizing: border-box;
+      }
+      .button {
+        width: 250px;
+        min-width: unset;
+        max-width: unset;
+      }
+    }
+  }
+}
 </style>

@@ -108,4 +108,21 @@ export default {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+@media screen and (max-width: 768px) {
+  .container {
+    .wrapper {
+      display: flex;
+      padding: 16px 0;
+      align-items: center;
+      justify-content: center;
+    }
+    .wrapper {
+      .forms {
+      }
+      .illustration {
+        display: none;
+      }
+    }
+  }
+}
 </style>
