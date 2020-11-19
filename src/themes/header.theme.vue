@@ -13,8 +13,8 @@
           <a v-if="loggedIn" href="javascript:;" @click="logout">Çıkış Yap</a>
         </div>-->
         <div class="nav">
-          <h3 class="becomeHost"><router-link v-if="!loggedIn" to="/membership">Become a host</router-link></h3>
-          <h3 class="becomeHost"><router-link v-if="loggedIn" to="/membership">Manage your company</router-link></h3>
+          <h3 v-if="!loggedIn" class="becomeHost"><router-link to="/membership/signup">Become a host</router-link></h3>
+          <h3 v-if="loggedIn" class="becomeHost"><router-link to="/membership">Manage your company</router-link></h3>
           <dropdown></dropdown>
         </div>
       </div>

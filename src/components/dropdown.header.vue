@@ -1,32 +1,49 @@
 <template>
   <div class="dropdown" v-on-clickaway="away">
     <div class="display" @click="toggleShow">
-      <span>Log in</span>
+      <span v-if="!loggedIn">Log in</span>
+      <span v-if="loggedIn">{{ getUserInfo.name }}</span>
       <img src="../assets/icons/user-icon.png" alt="">
     </div>
     <div class="dropdownMenu" v-if="showMenu">
       <div class="modal"></div>
       <div class="content" @click="itemClicked" v-on-clickaway="away">
-        <router-link to="/membership/signup"><span class="item" style="font-weight: bold">Sign up</span></router-link>
-        <router-link to="/membership/login"><span class="item">Log in</span></router-link>
+        <router-link v-if="!loggedIn" to="/membership/signup"><span class="item" style="font-weight: bold">Sign up</span></router-link>
+        <router-link v-if="!loggedIn" to="/membership/login"><span class="item">Log in</span></router-link>
+        <router-link v-if="loggedIn" to="/profile"><span class="item">Profile</span></router-link>
+        <router-link v-if="loggedIn" to="/my-reservations"><span class="item">My reservations</span></router-link>
+        <a v-if="loggedIn" href="javascript:;" @click="logout"><span class="item">Log out</span></a>
         <span class="divider"></span>
         <router-link to="/membership/signup"><span class="item">Host your office</span></router-link>
-        <router-link to="/membership/signup"><span class="item">Host an experience</span></router-link>
+        <router-link to="/membership/signup"><span class="item">Manage your company</span></router-link>
         <router-link to="/"><span class="item">Help</span></router-link>
       </div>
     </div>
   </div>
 </template>
-
 <script>
 import { mixin as clickaway } from 'vue-clickaway'
+import { mapGetters } from 'vuex'
+import router from "@/router"
+import store from "@/store"
+import firebase from "firebase/app"
+import 'firebase/auth'
 export default {
   name: "dropdown.header.vue",
+  store,
+  router,
   mixins: [ clickaway ],
   data: function () {
     return {
       showMenu: false
     }
+  },
+  computed: {
+    ...mapGetters([
+      'getUser',
+      'getUserInfo',
+      'loggedIn'
+    ])
   },
   methods: {
     toggleShow: function () {
@@ -43,11 +60,18 @@ export default {
     away: function () {
       this.showMenu = false
       document.body.style.position = ''
+    },
+    logout: function () {
+      firebase.auth().signOut().catch(function (err) {
+        console.log(err)
+      }).then(_ => {
+        this.$store.dispatch('logOut')
+        router.push('/membership/login');
+      })
     }
   }
 }
 </script>
-
 <style lang="scss" scoped>
 .dropdown {
   position: relative;
