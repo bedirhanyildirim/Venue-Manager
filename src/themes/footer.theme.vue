@@ -1,7 +1,7 @@
 <template>
   <div id="footer">
     <container display="flex" align-items="center" justify-content="center">
-      <h5>Developed by <a href="http://bedirhanyildirim.com" target="_blank">Bedirhan Yıldırım</a></h5>
+      <h5>Developed by <a href="http://bedirhanyildirim.com" target="_blank">Bedirhan YILDIRIM</a></h5>
     </container>
   </div>
 </template>
@@ -10,7 +10,7 @@
 import Container from "@/components/container";
 export default {
   name: 'footer.theme.vue',
-  components: {Container}
+  components: { Container }
 }
 </script>
 

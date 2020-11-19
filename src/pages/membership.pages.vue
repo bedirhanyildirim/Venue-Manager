@@ -15,6 +15,7 @@
   </container>
 </div>
 </template>
+
 <script>
 import router from "@/router";
 import container from '../components/container'
@@ -57,6 +58,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss" scoped>
 .container {
   .wrapper {

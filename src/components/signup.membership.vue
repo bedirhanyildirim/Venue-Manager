@@ -23,6 +23,7 @@
   </div>
 </div>
 </template>
+
 <script>
 import firebase from 'firebase/app'
 import 'firebase/auth'
@@ -61,6 +62,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss" scoped>
 .orDivider {
   padding: 0;

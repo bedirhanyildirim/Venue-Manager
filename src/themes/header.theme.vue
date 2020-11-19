@@ -5,13 +5,6 @@
         <router-link to="/"><img src="../assets/images/Venue.png" alt="Venue Manager"></router-link>
       </div>
       <div class="content">
-        <!--<div class="nav">
-          <router-link v-if="!loggedIn" to="/membership">Üye Ol / Giriş Yap</router-link>
-          <span v-if="getUserInfo">Hoşgeldin, {{ getUserInfo.name }}</span>
-          <router-link v-if="loggedIn" to="/profile">Profilim</router-link>
-          <router-link v-if="loggedIn" to="/my-reservations">Reservasyonlarım</router-link>
-          <a v-if="loggedIn" href="javascript:;" @click="logout">Çıkış Yap</a>
-        </div>-->
         <div class="nav">
           <h3 v-if="!loggedIn" class="becomeHost"><router-link to="/membership/signup">Become a host</router-link></h3>
           <h3 v-if="loggedIn" class="becomeHost"><router-link to="/membership">Manage your company</router-link></h3>
@@ -125,34 +118,13 @@ export default {
           color: #000000;
         }
         a.router-link-exact-active {
-          color: #272E8A;
+          color: #000000;
         }
       }
     }
-
-
-    .nav a {
-      //color: #303030;
-      //font-weight: bold;
-      //margin-left: 15px;
-    }
-
-    .nav a.router-link-exact-active {
-      //color: #272E8A;
-    }
-
-    .nav a {
-      //color: #303030;
-      //font-weight: bold;
-      //margin-left: 15px;
-    }
-
-    .nav a.router-link-exact-active {
-      //color: #272E8A;
-    }
   }
 }
-@media screen and (max-width: 744px) {
+@media screen and (max-width: 768px) {
   .becomeHost {
     display: none;
   }
