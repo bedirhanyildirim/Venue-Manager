@@ -3,8 +3,8 @@
     <container display="flex" justify-content="left" flex-direction="column">
         <p class="section"><span class="section-name">Kaynak Listesi</span><span class="section-cizgi"></span></p>
         <div class="content">
-            <DatePicker></DatePicker>
-            <Sources></Sources>
+            <!--DatePicker></--DatePicker-->
+            <!--Sources></Sources-->
         </div>
     </container>
 </div>

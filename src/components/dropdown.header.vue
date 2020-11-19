@@ -7,11 +7,11 @@
     <div class="dropdownMenu" v-if="showMenu">
       <div class="modal"></div>
       <div class="content" @click="itemClicked" v-on-clickaway="away">
-        <router-link to="/membership"><span class="item" style="font-weight: bold">Sign up</span></router-link>
-        <router-link to="/membership"><span class="item">Log in</span></router-link>
+        <router-link to="/membership/signup"><span class="item" style="font-weight: bold">Sign up</span></router-link>
+        <router-link to="/membership/login"><span class="item">Log in</span></router-link>
         <span class="divider"></span>
-        <router-link to="/membership"><span class="item">Host your office</span></router-link>
-        <router-link to="/membership"><span class="item">Host an experience</span></router-link>
+        <router-link to="/membership/signup"><span class="item">Host your office</span></router-link>
+        <router-link to="/membership/signup"><span class="item">Host an experience</span></router-link>
         <router-link to="/"><span class="item">Help</span></router-link>
       </div>
     </div>

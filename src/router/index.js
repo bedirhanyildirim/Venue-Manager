@@ -23,12 +23,14 @@ const routes = [
     }
   },
   {
-    path: '/membership',
+    path: '/membership/:id?',
     name: 'Membership',
     component: Membership,
     meta: {
-      title: 'Katıl'
-    }
+      title: 'Membership',
+      requiresAuth: false
+    },
+    props: (route) => ({ id: route.params.id || 'sigunup' })
   },
   {
     path: '/complete-profile',

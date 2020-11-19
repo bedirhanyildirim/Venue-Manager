@@ -1,5 +1,5 @@
 <template>
-<div id="signup">
+<div id="login">
   <div class="row">
     <div class="googleButton">
       Log in with Google
@@ -7,19 +7,19 @@
   </div>
   <hr class="orDivider"/>
   <div class="row">
-    <label for="signup-email" class="input-name">Email Address</label>
-    <input id="signup-email" type="text" v-model="email" name="email"/>
+    <label for="signin-email" class="input-name">Username or Email Address</label>
+    <input id="signin-email" type="text" v-model="email" name="email"/>
   </div>
   <div class="row">
     <label for="password" class="input-name">Password</label>
     <input id="password" type="password" v-model="password" name="password"/>
   </div>
   <div class="row" style="justify-content: center">
-      <button class="button" @click="signup">Sign up</button>
+      <button class="button" @click="login">Log in</button>
   </div>
-  <div class="login">
-    <span>Do you have an account?</span>
-    <router-link to="/membership/login">Log in</router-link>
+  <div class="signup">
+    <span>Don't you have an account?</span>
+    <router-link to="/membership/signup">Sign up</router-link>
   </div>
 </div>
 </template>
@@ -29,7 +29,7 @@ import 'firebase/auth'
 import store from '../store'
 import router from '../router'
 export default {
-  name: "singup.membership",
+  name: "login.membership",
   store,
   router,
   data: function () {
@@ -42,21 +42,21 @@ export default {
     document.querySelector('input[name=email]').focus()
   },
   methods: {
-    signup: function () {
-      firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+    login: function () {
+      firebase.auth().signInWithEmailAndPassword(this.email, this.password)
         .catch(err => {
           console.log(err)
         })
         .then(res => {
           if (res) {
-            console.log("Başarıyla üye olundu ve giriş yapıldı.")
+            console.log("Başarıyla giriş yapıldı.")
             this.$store.dispatch('setUser', res.user)
             router.push('/complete-profile')
           }
         })
     },
-    login: function () {
-      this.$emit('goToSignin')
+    signup: function () {
+      this.$emit('goToSignup')
     }
   }
 }
@@ -82,11 +82,11 @@ export default {
     font: normal 14px/14px "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
 }
-#signup {
+#login {
   animation: fadeIn 1s;
   -webkit-animation: fadeIn 1s;
 }
-#signup {
+#login {
   .row {
     display: flex;
     margin-bottom: 20px;
@@ -178,13 +178,13 @@ export default {
       width: 100%;
     }
   }
-  .login {
+  .signup {
     display: flex;
     margin-top: 30px;
     align-items: center;
     justify-content: left;
   }
-  .login {
+  .signup {
     span {
       color: #000000;
       font-size: 14px;
