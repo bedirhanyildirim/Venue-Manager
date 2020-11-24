@@ -1,11 +1,15 @@
 <template>
 <div id="profile">
     <Container display="flex" justify-content="left" flex-direction="column">
-        <p class="section"><span class="section-name">Profilim</span><span class="section-cizgi"></span></p>
-        <div class="content">
-            <AboutMe></AboutMe>
-            <AboutCompany></AboutCompany>
+      <h1 class="welcome">My profile</h1>
+      <div class="content">
+        <div class="left">
+          <AboutMe></AboutMe>
         </div>
+        <div class="right">
+          <AboutCompany></AboutCompany>
+        </div>
+      </div>
     </Container>
 </div>
 </template>
@@ -22,39 +26,54 @@ export default {
 
 <style lang="scss" scoped>
 #profile {
-    display: flex;
-    padding: 20px 0;
-    align-items: center;
-    justify-content: center;
-    background-color: #f7f7f7;
+  display: flex;
+  padding: 20px 0;
+  align-items: center;
+  justify-content: center;
 }
 #profile {
-    .section {
-        width: 100%;
-        display: flex;
-        text-align: left;
-        align-items: center;
+  .welcome {
+    width: 100%;
+    color: #000000;
+    font-size: 24px;
+    text-align: left;
+    font-weight: 700;
+    margin: 12px 0 24px;
+    font-family: Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+  }
+  .content {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  .content {
+    .left {
+      margin-right: 40px;
     }
-    .section {
-        .section-name {
-            color: #707070;
-            font-size: 14px;
-        }
-        .section-cizgi {
-            width: 100%;
-            margin-left: 25px;
-            border-bottom: 1px solid #dddddd;
-        }
-    }
-    .content {
-        width: 100%;
-        display: flex;
-        margin-top: 20px;
-        align-items: flex-start;
-        justify-content: space-between;
-    }
-    .content {
 
+    .right {
+      width: 100%;
     }
+  }
+}
+@media screen and (max-width: 768px) {
+  #profile {
+    .container {
+      .content {
+        flex-direction: column;
+      }
+      .content {
+        .left {
+          margin: 0;
+          width: 100%;
+        }
+        .right {
+          width: 100%;
+          margin-top: 20px;
+        }
+      }
+    }
+  }
 }
 </style>
