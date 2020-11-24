@@ -67,7 +67,7 @@ export default {
         if (doc.exists) {
           this.company = doc.data()
           // true
-          this.isThereCompany = false
+          this.isThereCompany = true
         } else {
           // doc.data() will be undefined in this case
           console.log("No such document!")

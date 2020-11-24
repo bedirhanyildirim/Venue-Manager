@@ -1,61 +1,81 @@
 <template>
 <div id="createCompany">
-    <Container display="flex" justify-content="left" flex-direction="column">
-        <p class="section"><span class="section-name">Şirket Oluştur</span><span class="section-cizgi"></span></p>
-        <div class="content">
-            <AboutMe></AboutMe>
-            <CompanyForm></CompanyForm>
-        </div>
-    </Container>
+  <container display="flex" justify-content="left" flex-direction="column">
+    <div class="wrapper">
+      <div class="form">
+        <h1 class="welcome">Create your company</h1>
+        <companyForm></companyForm>
+      </div>
+      <div class="illustration">
+        <img class="login-illustration" src="../assets/illustrations/login.jpg" alt="">
+      </div>
+    </div>
+  </container>
 </div>
 </template>
 
 <script>
-import Container from "../components/container"
-import AboutMe from '../components/aboutme.profile'
-import CompanyForm from '../components/form.createCompany'
+import container from "../components/container"
+import aboutMe from '../components/aboutme.profile'
+import companyForm from '../components/form.createCompany'
 export default {
-    name: "createCompany.pages",
-    components: { Container, AboutMe, CompanyForm }
+  name: "createCompany.pages",
+  components: { container, aboutMe, companyForm }
 }
 </script>
 
 <style lang="scss" scoped>
-#createCompany {
+.container {
+  .wrapper {
+    width: 100%;
     display: flex;
-    padding: 20px 0;
+    padding: 50px 0;
     align-items: center;
-    justify-content: center;
-    background-color: #f7f7f7;
-}
-#createCompany {
-    .section {
-        width: 100%;
-        display: flex;
+    justify-content: space-evenly;
+  }
+  .wrapper {
+    .form {
+      transition: opacity 1s ease-out;
+    }
+    .form {
+      .welcome {
+        color: #000000;
+        font-size: 24px;
         text-align: left;
-        align-items: center;
+        font-weight: 700;
+        margin-bottom: 30px;
+        font-family: Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+      }
     }
-    .section {
-        .section-name {
-            color: #707070;
-            font-size: 14px;
-            white-space: nowrap;
-        }
-        .section-cizgi {
-            width: 100%;
-            margin-left: 25px;
-            border-bottom: 1px solid #dddddd;
-        }
+    .illustration {
+      overflow: hidden;
+      max-width: 400px;
     }
-    .content {
+    .illustration {
+      .login-illustration {
         width: 100%;
-        display: flex;
-        margin-top: 20px;
-        align-items: flex-start;
-        justify-content: space-between;
+      }
+      .signup-illustration {
+        width: 100%;
+      }
     }
-    .content {
-
+  }
+}
+@media screen and (max-width: 768px) {
+  .container {
+    .wrapper {
+      display: flex;
+      padding: 24px 0;
+      align-items: center;
+      justify-content: center;
     }
+    .wrapper {
+      .forms {
+      }
+      .illustration {
+        display: none;
+      }
+    }
+  }
 }
 </style>
