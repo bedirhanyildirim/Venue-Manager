@@ -10,6 +10,7 @@ import CreateSource from '../pages/createSource.pages'
 import SourceDetail from '../pages/sourceDetail.pages'
 import ReservationDetail from '../pages/reservationDetail.pages'
 import MyReservations from '../pages/myReservations.pages'
+import ManageCompany from '../pages/manageCompany.pages'
 
 Vue.use(VueRouter)
 
@@ -92,6 +93,15 @@ const routes = [
     component: MyReservations,
     meta: {
       title: 'My reservations',
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/company',
+    name: 'Company',
+    component: ManageCompany,
+    meta: {
+      title: 'Manage company',
       requiresAuth: true
     }
   }
