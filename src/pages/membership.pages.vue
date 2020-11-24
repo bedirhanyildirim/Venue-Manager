@@ -48,12 +48,14 @@ export default {
       this.currentPage = 'signup'
     },
     resize: function () {
-      //let w = document.documentElement.clientWidth;
       let h = document.documentElement.clientHeight;
-
       let el = document.getElementsByClassName('wrapper')[0]
-      let newHeight = h - (document.getElementById('header').offsetHeight) - (document.getElementById('footer').offsetHeight)
-      el.style.height = newHeight + 'px'
+      if (h > (el.offsetHeight + (document.getElementById('header').offsetHeight) + (document.getElementById('footer').offsetHeight))) {
+        let newHeight = h - (document.getElementById('header').offsetHeight) - (document.getElementById('footer').offsetHeight)
+        el.style.height = newHeight + 'px'
+      } else {
+        el.style.height = ''
+      }
     }
   }
 }
@@ -114,7 +116,7 @@ export default {
   .container {
     .wrapper {
       display: flex;
-      padding: 16px 0;
+      padding: 24px 0;
       align-items: center;
       justify-content: center;
     }

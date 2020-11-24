@@ -1,8 +1,8 @@
 <template>
   <div class="dropdown" v-on-clickaway="away">
     <div class="display" @click="toggleShow">
-      <span v-if="!loggedIn">Log in</span>
-      <span v-if="loggedIn">{{ getUserInfo.name }}</span>
+      <span v-if="!loggedIn || !getUserInfo">Log in</span>
+      <span v-if="loggedIn && !!getUserInfo">{{getUserInfo.name}}</span>
       <img src="../assets/icons/user-icon.png" alt="">
     </div>
     <div class="dropdownMenu" v-if="showMenu">

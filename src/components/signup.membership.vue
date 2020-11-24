@@ -15,7 +15,7 @@
     <input id="password" type="password" v-model="password" name="password"/>
   </div>
   <div class="row" style="justify-content: center">
-      <button class="button" @click="signup">Sign up</button>
+    <button class="button" @click="signup">Sign up</button>
   </div>
   <div class="login">
     <span>Do you have an account?</span>
@@ -137,8 +137,8 @@ export default {
       display: inline-block;
       box-sizing: border-box;
       background-color: #f3f3f4;
-      border: 1px solid transparent;
       transition: all 200ms ease;
+      border: 1px solid transparent;
     }
     input:hover {
       background-color: #ffffff;
@@ -245,6 +245,9 @@ export default {
         min-width: unset;
         max-width: unset;
       }
+    }
+    .login {
+      justify-content: center;
     }
   }
 }
