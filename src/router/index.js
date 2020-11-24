@@ -19,7 +19,7 @@ const routes = [
     name: 'Home',
     component: Home,
     meta: {
-      title: 'Anasayfa'
+      title: 'Venue'
     }
   },
   {
@@ -37,7 +37,7 @@ const routes = [
     name: 'CompleteProfile',
     component: CompleteProfile,
     meta: {
-      title: 'Profilini Tamamla',
+      title: 'Complete your profile',
       requiresAuth: true
     }
   },
@@ -46,7 +46,7 @@ const routes = [
     name: 'Profile',
     component: Profile,
     meta: {
-      title: 'Profilim',
+      title: 'My profile',
       requiresAuth: true
     }
   },
@@ -55,7 +55,7 @@ const routes = [
     name: 'CreateCompany',
     component: CreateCompany,
     meta: {
-      title: 'Şirket Oluştur',
+      title: 'Create company',
       requiresAuth: true
     }
   },
@@ -64,7 +64,7 @@ const routes = [
     name: 'CreateSource',
     component: CreateSource,
     meta: {
-      title: 'Kaynak Oluştur',
+      title: 'Create source',
       requiresAuth: true
     }
   },
@@ -73,7 +73,7 @@ const routes = [
     name: 'SourceDetail',
     component: SourceDetail,
     meta: {
-      title: 'Kaynak Hakkında',
+      title: 'Source detail',
       requiresAuth: false
     }
   },
@@ -82,7 +82,7 @@ const routes = [
     name: 'ReservationDetail',
     component: ReservationDetail,
     meta: {
-      title: 'Rezervasyon Hakkında',
+      title: 'Reservation detail',
       requiresAuth: true
     }
   },
@@ -91,7 +91,7 @@ const routes = [
     name: 'MyReservations',
     component: MyReservations,
     meta: {
-      title: 'Reservasyonlarım',
+      title: 'My reservations',
       requiresAuth: true
     }
   }
