@@ -21,8 +21,12 @@
     <!--input id="mobile" type="tel" v-model="mobile" name="mobile"/-->
     <the-mask id="mobile" v-model="mobile" name="mobile" mask="0### ### ## ##" value="" type="tel" masked placeholder="05XX XXX XX XX"></the-mask>
   </div>
+  <div class="row">
+    <label for="province" class="input-name">Province</label>
+    <input id="province" type="text" v-model="province" name="province"/>
+  </div>
   <div class="row" style="justify-content: center; margin-bottom: 0;">
-      <button class="button" @click="fill">Save</button>
+    <button class="button" @click="fill">Save</button>
   </div>
 </div>
 </template>
@@ -44,7 +48,8 @@ export default {
       surname: '',
       mobile: '',
       email: '',
-      username: ''
+      username: '',
+      province: ''
     }
   },
   computed: {
@@ -66,7 +71,8 @@ export default {
         username: this.username,
         name: this.name,
         surname: this.surname,
-        mobile: this.mobile
+        mobile: this.mobile,
+        province: this.province
       }).then(res => {
         console.log("Başarılı: " + res)
         this.$store.dispatch('setUserInfo', {
@@ -75,7 +81,8 @@ export default {
           username: this.username,
           name: this.name,
           surname: this.surname,
-          mobile: this.mobile
+          mobile: this.mobile,
+          province: this.province
         })
         router.push("/")
       }).catch(function (error) {
@@ -182,7 +189,7 @@ export default {
   }
 }
 @media screen and (min-width: 425px) and (max-width: 768px) {
-  #signup {
+  #complete {
     .row {
       .googleButton {
       }
