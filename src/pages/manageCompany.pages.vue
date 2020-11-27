@@ -4,10 +4,10 @@
     <h1 class="welcome">My company</h1>
     <div class="content">
       <div class="left">
-        left
+        <aboutCompany></aboutCompany>
       </div>
       <div class="right">
-        right
+        <sourcesCompany></sourcesCompany>
       </div>
     </div>
   </container>
@@ -15,10 +15,12 @@
 </template>
 
 <script>
-import Container from "@/components/container";
+import aboutCompany from "@/components/aboutCompany.manageCompany";
+import sourcesCompany from "@/components/sources.manageCompany";
+import container from "@/components/container";
 export default {
   name: "manageCompany.pages",
-  components: { Container }
+  components: { container, aboutCompany, sourcesCompany }
 }
 </script>
 
@@ -28,6 +30,7 @@ export default {
   padding: 20px 0;
   align-items: center;
   justify-content: center;
+  height: calc(100% - 80px - 35px);
 }
 #company {
   .welcome {
@@ -47,6 +50,7 @@ export default {
   }
   .content {
     .left {
+      min-width: 300px;
       margin-right: 40px;
     }
 

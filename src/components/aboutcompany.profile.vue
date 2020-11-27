@@ -44,7 +44,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { companiesCollection } from '../firebase/index'
-import Sources from '../components/sources.profile'
+import Sources from './sources.manageCompany'
 import Activities from '../components/activities.profile'
 export default {
   name: "aboutcompany.profile",

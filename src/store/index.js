@@ -6,7 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     _user: JSON.parse(localStorage.getItem('__user')) || '',
-    _user_info : JSON.parse(localStorage.getItem('__user_info')) || ''
+    _user_info : JSON.parse(localStorage.getItem('__user_info')) || '',
+    _company: JSON.parse(localStorage.getItem('__company_info')) || ''
   },
   getters: {
     getUser (state) {
@@ -17,6 +18,12 @@ export default new Vuex.Store({
     },
     loggedIn (state) {
       return (state._user !== null && state._user !== '')
+    },
+    getCompany (state) {
+      return state._company
+    },
+    hasCompany (state) {
+      return (state._company !== null && state._company !== '')
     }
   },
   mutations: {
@@ -45,6 +52,16 @@ export default new Vuex.Store({
       localStorage.removeItem('__user')
       state._user_info = null
       localStorage.removeItem('__user_info')
+      localStorage.removeItem('__company_info')
+    },
+    setCompany (state, infoCompany) {
+      if (infoCompany !== null && infoCompany !== '') {
+        localStorage.setItem('__company_info', JSON.stringify(infoCompany))
+      }
+      if (localStorage.getItem('__company_info') && localStorage.getItem('__company_info') !== '') {
+        const stringInfoCompany = localStorage.getItem('__company_info') || ''
+        state._user_info = JSON.parse(stringInfoCompany)
+      }
     }
   },
   actions: {
@@ -56,6 +73,9 @@ export default new Vuex.Store({
     },
     logOut ({ commit }) {
       commit('logOut')
+    },
+    setCompany ({ commit }, companyData) {
+      commit('setCompany', companyData)
     }
   },
   modules: {
