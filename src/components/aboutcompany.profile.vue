@@ -111,6 +111,7 @@ export default {
         font-size: 16px;
         text-align: left;
         font-weight: 500;
+        line-height: initial;
         display: inline-block;
       }
       svg {
@@ -196,14 +197,14 @@ export default {
     h3 {
       color: #000000;
       font-size: 20px;
+      line-height: 28px;
       text-align: center;
       font-weight: normal;
-      line-height: 24px;
     }
     .create-company-button {
       color: #000000;
       font-size: 14px;
-      margin-top: 24px;
+      margin-top: 16px;
       font-weight: 500;
       border-radius: 32px;
       padding: 11px 60px;

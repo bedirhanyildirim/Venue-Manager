@@ -1,26 +1,26 @@
 <template>
 <div id="profile">
-    <Container display="flex" justify-content="left" flex-direction="column">
-      <h1 class="welcome">My profile</h1>
-      <div class="content">
-        <div class="left">
-          <AboutMe></AboutMe>
-        </div>
-        <div class="right">
-          <AboutCompany></AboutCompany>
-        </div>
+  <container display="flex" justify-content="left" flex-direction="column">
+    <h1 class="welcome">My profile</h1>
+    <div class="content">
+      <div class="left">
+        <AboutMe></AboutMe>
       </div>
-    </Container>
+      <div class="right">
+        <AboutCompany></AboutCompany>
+      </div>
+    </div>
+  </container>
 </div>
 </template>
 
 <script>
-import Container from "../components/container"
+import container from "../components/container"
 import AboutMe from '../components/aboutme.profile'
 import AboutCompany from '../components/aboutcompany.profile'
 export default {
     name: "profile.pages",
-    components: { Container, AboutMe, AboutCompany }
+    components: { container, AboutMe, AboutCompany }
 }
 </script>
 
