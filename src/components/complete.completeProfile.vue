@@ -65,6 +65,8 @@ export default {
   },
   methods: {
     fill: function () {
+      const date = new Date()
+      const today = date.getDate() + "-" + (date.getMonth()+1) + "-" + date.getFullYear()
       usersCollection.doc(this.getUser.uid).set({
         uid: this.getUser.uid,
         email: this.getUser.email,
@@ -72,6 +74,7 @@ export default {
         name: this.name,
         surname: this.surname,
         mobile: this.mobile,
+        date: today,
         province: this.province
       }).then(res => {
         console.log("Başarılı: " + res)
@@ -82,6 +85,7 @@ export default {
           name: this.name,
           surname: this.surname,
           mobile: this.mobile,
+          date: today,
           province: this.province
         })
         router.push("/")
