@@ -133,7 +133,7 @@ export default {
       width: 100%;
       display: flex;
       text-align: left;
-      align-items: end;
+      align-items: flex-end;
       flex-direction: row;
       justify-content: flex-start;
     }

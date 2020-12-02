@@ -243,7 +243,7 @@ export default {
         width: 100%;
         display: flex;
         margin-top: 25px;
-        align-items: start;
+        align-items: flex-start;
         flex-direction: row;
         justify-content: space-between;
     }

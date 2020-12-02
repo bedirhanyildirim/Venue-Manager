@@ -5,15 +5,15 @@
       <label for="name" class="input-name">Company name</label>
       <input id="name" type="text" v-model="name" name="name"/>
     </div>
-    <div class="row" style="align-items: start;">
+    <div class="row">
       <label for="address" class="input-name" style="margin-top: 10px;">Address</label>
       <textarea id="address" type="text" v-model="address" name="address" rows="4 "></textarea>
     </div>
-    <div class="row" style="align-items: start;">
+    <div class="row">
       <label for="region" class="input-name" style="margin-top: 10px;">City</label>
       <input id="region" type="text" v-model="region" name="region"/>
     </div>
-    <div class="row" style="align-items: start;">
+    <div class="row">
       <label for="city" class="input-name" style="margin-top: 10px;">Province</label>
       <input id="city" type="text" v-model="city" name="city"/>
     </div>

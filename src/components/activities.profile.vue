@@ -71,7 +71,7 @@ export default {
     display: flex;
     text-align: left;
     margin-top: 25px;
-    align-items: end;
+    align-items: flex-end;
     flex-direction: column;
     justify-content: flex-start;
 }
