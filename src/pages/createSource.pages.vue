@@ -1,61 +1,81 @@
 <template>
 <div id="createSources">
-    <Container display="flex" justify-content="left" flex-direction="column">
-        <p class="section"><span class="section-name">Kaynak Ekle</span><span class="section-cizgi"></span></p>
-        <div class="content">
-            <AboutMe></AboutMe>
-            <CreateSource></CreateSource>
-        </div>
-    </Container>
+  <container display="flex" justify-content="left" flex-direction="column">
+    <h1 class="welcome">Create source</h1>
+    <div class="content">
+      <div class="left">
+        <aboutCompany></aboutCompany>
+      </div>
+      <div class="right">
+        <createSource></createSource>
+      </div>
+    </div>
+  </container>
 </div>
 </template>
 
 <script>
-import Container from "../components/container"
-import AboutMe from '../components/aboutme.profile'
-import CreateSource from '../components/form.createSource'
+import container from '../components/container'
+import createSource from '../components/form.createSource'
+import aboutCompany from '@/components/aboutCompany.manageCompany'
 export default {
-    name: "createSource.pages",
-    components: { Container, AboutMe, CreateSource }
+  name: 'createSource.pages',
+  components: { container, createSource, aboutCompany }
 }
 </script>
 
 <style lang="scss" scoped>
 #createSources {
-    display: flex;
-    padding: 20px 0;
-    align-items: center;
-    justify-content: center;
-    background-color: #f7f7f7;
+  display: flex;
+  padding: 20px 0;
+  align-items: center;
+  justify-content: center;
+  height: calc(100% - 80px - 35px);
 }
 #createSources {
-    .section {
-        width: 100%;
-        display: flex;
-        text-align: left;
-        align-items: center;
+  .welcome {
+    width: 100%;
+    color: #000000;
+    font-size: 24px;
+    text-align: left;
+    font-weight: 700;
+    margin: 12px 0 24px;
+    font-family: Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+  }
+  .content {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  .content {
+    .left {
+      min-width: 300px;
+      margin-right: 40px;
     }
-    .section {
-        .section-name {
-            color: #707070;
-            font-size: 14px;
-            white-space: nowrap;
-        }
-        .section-cizgi {
-            width: 100%;
-            margin-left: 25px;
-            border-bottom: 1px solid #dddddd;
-        }
-    }
-    .content {
-        width: 100%;
-        display: flex;
-        margin-top: 20px;
-        align-items: flex-start;
-        justify-content: space-between;
-    }
-    .content {
 
+    .right {
+      width: 100%;
     }
+  }
+}
+@media screen and (max-width: 768px) {
+  #company {
+    .container {
+      .content {
+        flex-direction: column;
+      }
+      .content {
+        .left {
+          margin: 0;
+          width: 100%;
+        }
+        .right {
+          width: 100%;
+          margin-top: 20px;
+        }
+      }
+    }
+  }
 }
 </style>
