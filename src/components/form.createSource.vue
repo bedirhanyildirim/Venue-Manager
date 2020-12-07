@@ -461,4 +461,9 @@ export default {
     }
   }
 }
+@media screen and (max-width: 768px) {
+  .company-form {
+    max-width: unset !important;
+  }
+}
 </style>

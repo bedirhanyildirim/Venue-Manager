@@ -60,7 +60,7 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
-  #company {
+  #createSources {
     .container {
       .content {
         flex-direction: column;
