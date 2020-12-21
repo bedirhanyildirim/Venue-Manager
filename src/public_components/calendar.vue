@@ -19,7 +19,7 @@
     </div>
   </div>
   <div class="content">
-    <div class="name-of-days">
+    <div class="name-of-days" v-if="daysNameFull">
       <div class="name weekday">Monday</div>
       <div class="name weekday">Tuesday</div>
       <div class="name weekday">Wednesday</div>
@@ -28,14 +28,16 @@
       <div class="name weekend">Saturday</div>
       <div class="name weekend">Sunday</div>
     </div>
+    <div class="name-of-days" v-if="!daysNameFull">
+      <div class="name weekday">Mon</div>
+      <div class="name weekday">Tue</div>
+      <div class="name weekday">Wed</div>
+      <div class="name weekday">Thu</div>
+      <div class="name weekday">Fri</div>
+      <div class="name weekend">Sat</div>
+      <div class="name weekend">Sun</div>
+    </div>
     <div id="days" class="days" v-on:click="setSelectedDate">
-      <!--div class="row" v-for="item in this.getMonthAsArray">
-        <{{ item }}>
-        {{ drawCalendar(item) }}
-        <div class="day" v-for="n in parseInt(7)" :key="n">
-          {{ n }}
-        </div>
-      </div-->
     </div>
   </div>
 </div>
@@ -53,11 +55,18 @@ export default {
     events: {
       type: Array,
       required: false,
-      default: []
+      default: function () {return []}
+    },
+    daysNameFull: {
+      type: Boolean,
+      required: false,
+      default: true
     }
   },
   data: function () {
     return {
+      dayNames: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      dayNamesShort: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
       monthNames: ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
       ],
