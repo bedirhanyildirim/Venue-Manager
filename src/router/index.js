@@ -11,6 +11,7 @@ import SourceDetail from '../pages/sourceDetail.pages'
 import ReservationDetail from '../pages/reservationDetail.pages'
 import MyReservations from '../pages/myReservations.pages'
 import ManageCompany from '../pages/manageCompany.pages'
+import ManageSource from '../pages/manageSource.pages'
 
 Vue.use(VueRouter)
 
@@ -102,6 +103,15 @@ const routes = [
     component: ManageCompany,
     meta: {
       title: 'Manage company',
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/my-source/:id',
+    name: 'MySourceDetail',
+    component: ManageSource,
+    meta: {
+      title: 'Manage source',
       requiresAuth: true
     }
   }

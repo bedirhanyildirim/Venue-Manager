@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     goTo: function (id) {
-      router.push('/source/' + id)
+      router.push('/my-source/' + id)
     }
   }
 }
