@@ -19,8 +19,8 @@ import container from "../components/container"
 import AboutMe from '../components/aboutme.profile'
 import AboutCompany from '../components/aboutcompany.profile'
 export default {
-    name: "profile.pages",
-    components: { container, AboutMe, AboutCompany }
+  name: "profile.pages",
+  components: { container, AboutMe, AboutCompany }
 }
 </script>
 

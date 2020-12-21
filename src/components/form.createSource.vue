@@ -385,7 +385,6 @@ export default {
         align-items: center;
         justify-content: flex-start;
       }
-
       .sharedUsage {
         input {
           padding: 0;
