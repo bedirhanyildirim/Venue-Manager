@@ -67,8 +67,8 @@ export default {
             console.log('There is not a such a doc!')
           }
         }).catch(function(error) {
-      console.log('Error getting document:', error)
-    })
+          console.log('Error getting document:', error)
+        })
   },
   computed: {
     ...mapGetters([

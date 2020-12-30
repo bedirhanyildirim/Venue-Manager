@@ -7,7 +7,7 @@
     </div>
     <div class="row">
       <label class="input-name" for="description" style="margin-top: 10px;">Description</label>
-      <textarea id="description" v-model="description" name="address" rows="4 " type="text"></textarea>
+      <textarea id="description" v-model="description" name="description" rows="4 " type="text"></textarea>
     </div>
     <div class="row">
       <label class="input-name" for="capacity">Capacity</label>
@@ -75,7 +75,7 @@
       <a href="javascript:;" @click="ekle">Add</a>
     </div>
     <div class="row">
-      <div class="sharedUsage" for="sharedUsage">
+      <div class="sharedUsage">
         <input id="sharedUsage" v-model="sharedUsage" type="checkbox">
         <svg @click="toggle" v-if="sharedUsage" baseProfile="tiny" height="24px" id="Layer_1" version="1.2" viewBox="0 0 24 24" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M16.972,6.251c-0.967-0.538-2.185-0.188-2.72,0.777l-3.713,6.682l-2.125-2.125c-0.781-0.781-2.047-0.781-2.828,0  c-0.781,0.781-0.781,2.047,0,2.828l4,4C9.964,18.792,10.474,19,11,19c0.092,0,0.185-0.006,0.277-0.02  c0.621-0.087,1.166-0.46,1.471-1.009l5-9C18.285,8.005,17.937,6.788,16.972,6.251z"/></svg>
         <label for="sharedUsage">Share with community.</label>
@@ -107,20 +107,6 @@ export default {
       date: '',
       startingHour: '',
       endingHour: '',
-      options: {
-        defaultDate: this.date,
-        header: {
-          left: 'prev,next',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        },
-        editable: false,
-        dateClick: (e) => {
-          //handle date click
-          console.log(e.dateStr)
-          this.date = e.dateStr
-        }
-      },
       events: [],
       sourceId: ''
     }
