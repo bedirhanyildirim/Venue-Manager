@@ -10,7 +10,7 @@
         <sourceSchedule></sourceSchedule>
       </div>
       <div class="right">
-        <sourceReservation></sourceReservation>
+        <sourceReservation :source-object="this.sourceObject"></sourceReservation>
       </div>
     </div>
   </container>

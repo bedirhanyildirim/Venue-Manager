@@ -6,7 +6,7 @@
   <div v-else class="content">
     <div class="row" style="flex-direction: row; justify-content: space-between; align-items: center">
       <h3 class="title">Activities</h3>
-      <svg @click="newEvent" class="new" baseProfile="tiny" height="24px" id="Layer_1" version="1.2" viewBox="0 0 24 24" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M18,10h-4V6c0-1.104-0.896-2-2-2s-2,0.896-2,2l0.071,4H6c-1.104,0-2,0.896-2,2s0.896,2,2,2l4.071-0.071L10,18  c0,1.104,0.896,2,2,2s2-0.896,2-2v-4.071L18,14c1.104,0,2-0.896,2-2S19.104,10,18,10z"/></svg>
+      <svg @click="createEventToggle" class="new" baseProfile="tiny" height="24px" id="Layer_1" version="1.2" viewBox="0 0 24 24" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M18,10h-4V6c0-1.104-0.896-2-2-2s-2,0.896-2,2l0.071,4H6c-1.104,0-2,0.896-2,2s0.896,2,2,2l4.071-0.071L10,18  c0,1.104,0.896,2,2,2s2-0.896,2-2v-4.071L18,14c1.104,0,2-0.896,2-2S19.104,10,18,10z"/></svg>
     </div>
     <div v-if="this.activities.length == 0" class="row">
       <div class="no-content">
@@ -15,25 +15,34 @@
     </div>
   </div>
 </div>
+  <modal-create-activity v-if="newEventModal" :source-object="this.sourceObject" @away="createEventToggle"></modal-create-activity>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import { activitiesCollection } from '@/firebase'
-
+import modalCreateActivity from './modal.createActivity.sourceReservation'
 export default {
   name: 'sourceReservation.manageSource.vue',
+  components: { modalCreateActivity },
   data: function () {
     return {
       sourceId: '',
       activities: [],
-      searched: false
+      searched: false,
+      newEventModal: false
+    }
+  },
+  props: {
+    sourceObject: {
+      type: Object,
+      required: true
     }
   },
   beforeMount() {
     this.sourceId = this.$route.params.id
     activitiesCollection.where('source.id', '==', this.sourceId)
-      .where('source.company.owner.id', '==', this.getUserInfo.uid).get()
+      .where('source.company.owner.uid', '==', this.getUserInfo.uid).get()
       .then(snapshot => {
         this.searched = true
         if (snapshot.empty) {
@@ -52,14 +61,22 @@ export default {
       })
   },
   computed: {
+    data(){
+      this.sourceObject
+    },
     ...mapGetters([
       'getUserInfo',
       'getCompany'
     ])
   },
   methods: {
-    newEvent: function () {
-      console.log('new event!')
+    createEventToggle: function () {
+      this.newEventModal = !this.newEventModal
+      if (this.newEventModal) {
+        document.body.style.overflow = 'hidden'
+      } else {
+        document.body.style.overflow = ''
+      }
     }
   }
 }
