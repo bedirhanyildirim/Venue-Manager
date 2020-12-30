@@ -13,9 +13,21 @@
         No activity.
       </div>
     </div>
+    <div v-else class="row">
+      <ul class="activities-table">
+        <li class="activity-element" v-for="activity in activities">
+          <div class="activity-title">
+            {{ activity.data.title }}
+          </div>
+          <div class="activity-date">
+            {{ activity.data.date }}
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
-</div>
   <modal-create-activity v-if="newEventModal" :source-object="this.sourceObject" @away="createEventToggle"></modal-create-activity>
+</div>
 </template>
 
 <script>
@@ -144,6 +156,42 @@ export default {
         font-size: 14px;
         text-align: left;
         font-style: italic;
+      }
+      .activities-table {
+        width: 100%;
+        overflow: hidden;
+        border-radius: 8px;
+      }
+      .activities-table {
+        .activity-element {
+          display: flex;
+          cursor: pointer;
+          padding: 8px 12px;
+          align-items: center;
+          justify-content: space-between;
+          border-bottom: 1px solid #f7f7f7;
+          transition: all 200ms ease-in;
+        }
+        .activity-element:last-child {
+          border-bottom: none;
+        }
+        .activity-element:nth-child(even) {
+          background-color: #fafafa;
+        }
+        .activity-element:hover {
+          background-color: #efefef;
+          .activity-title {
+            color: #000000;
+          }
+        }
+        .activity-element {
+          .activity-title {
+
+          }
+          .activity-date {
+
+          }
+        }
       }
     }
     .row:first-child {
