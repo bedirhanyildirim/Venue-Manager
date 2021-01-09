@@ -55,7 +55,7 @@ export default {
     events: {
       type: Array,
       required: false,
-      default: function () {return []}
+      default: function () { return [] }
     },
     daysNameFull: {
       type: Boolean,
@@ -194,24 +194,73 @@ export default {
 
         // create each days in a row
         for (let i = 0; i < 7; i++) {
-          daysRow.insertAdjacentHTML('beforeend', '<div class="day ' + (this.isWeekend(startingDate) ? 'weekend' : '')  + ''+  (this.isToday(startingDate) ? 'today' : '') +'"><div class="box" ref="' + startingDate.getDate() + '.' + startingDate.getMonth() + '.' + startingDate.getFullYear() + '"><span class="number">' + startingDate.getDate() + '</span></div></div>')
+          daysRow.insertAdjacentHTML('beforeend', '<div class="day ' + (this.isWeekend(startingDate) ? 'weekend' : '')  + ' '+  (this.isToday(startingDate) ? 'today' : '') +'"><div class="box" ref="' + startingDate.getDate() + '.' + startingDate.getMonth() + '.' + startingDate.getFullYear() + '"><span class="number">' + startingDate.getDate() + '</span></div></div>')
           startingDate.setDate(startingDate.getDate()+1)
         }
       }
+      this.drawEvents()
     },
     setSelectedDate: function (e) {
-      let selectedBox = null
-      if (e.target.classList.contains('box')) {
-        selectedBox = e.target
-      } else {
-        selectedBox = e.target.parentNode
+      let selectedBox = e.target
+      while (!selectedBox.classList.contains('box')) {
+        selectedBox = selectedBox.parentNode
       }
+      
       if (selectedBox != null) {
         let y = selectedBox.getAttribute('ref').split('.')[2]
         let m = selectedBox.getAttribute('ref').split('.')[1]
         let d = selectedBox.getAttribute('ref').split('.')[0]
         this.selectedDate = new Date(y, m, d)
         this.$emit('selectedDate', this.selectedDate)
+      }
+    },
+    drawEvents: function () {
+      if (this.events.length > 0) {
+        const days = document.getElementById('days')
+        const boxes = days.getElementsByClassName('box')
+
+        //console.log('before convert: ' + this.events[3].data.date)
+        let y = this.events[3].data.date.split('-')[0]
+        let m = Number(this.events[3].data.date.split('-')[1]) - 1
+        let d = this.events[3].data.date.split('-')[2]
+        let date = new Date(y, m, d)
+
+        for (let e of this.events) {
+          //console.log(e.data.date)
+        }
+
+        for (let b of boxes) {
+          let countOfEvents = 0
+          let eventsOfDate = []
+          //console.log(b.getAttribute('ref'))
+          for (let e of this.events) {
+            // Convert to format
+            let y = e.data.date.split('-')[0]
+            let m = Number(e.data.date.split('-')[1]) - 1
+            let d = e.data.date.split('-')[2]
+            let date = new Date(y, m, d)
+            let formatedDate = date.getDate() + '.' + date.getMonth() + '.' + date.getFullYear()
+
+            if (b.getAttribute('ref') === formatedDate) {
+              countOfEvents += 1
+              eventsOfDate.push(e)
+            }
+          }
+          if (countOfEvents > 0) {
+            b.insertAdjacentHTML('beforeend', '<div class="events"></div>')
+            let eventsDiv = b.getElementsByClassName('events')[0]
+            for (let ev of eventsOfDate) {
+              let htmlString = '<div class="event"><div class="status"></div><div class="time">' + ev.data.startingHour + ':00</div><div class="title">' + ev.data.title + '</div></div>'
+              eventsDiv.insertAdjacentHTML('beforeend', htmlString)
+            }
+            //b.insertAdjacentHTML('beforeend', '<span class="count-of-events">' + countOfEvents + '</span>')
+          }
+          console.log(countOfEvents)
+        }
+
+        //console.log('After convert: ' + date.getDate() + '.' + date.getMonth() + '.' + date.getFullYear())
+        //console.log(boxes[1].getAttribute('ref'))
+        //console.log((boxes[1].getAttribute('ref')) == (date.getDate() + '.' + date.getMonth() + '.' + date.getFullYear()))
       }
     }
   }
@@ -358,6 +407,8 @@ export default {
     .days {
       .row {
         display: grid;
+        border-left: 1px solid #f7f7f7;
+        border-right: 1px solid #f7f7f7;
         grid-template-columns: repeat(7, 1fr);
       }
       .row {
@@ -372,35 +423,73 @@ export default {
             left: 0;
             right: 0;
             bottom: 0;
-            display: flex;
+            padding: 4px;
             color: #000000;
             font-size: 14px;
             cursor: pointer;
             font-weight: 500;
             position: absolute;
             text-align: center;
-            align-items: center;
-            justify-content: center;
             transition: all 200ms ease;
             border-right: 1px solid #f7f7f7;
             border-bottom: 1px solid #f7f7f7;
           }
           .box {
             .number {
-              top: 4px;
-              right: 8px;
-              position: absolute;
+              width: 100%;
+              color: #707070;
+              display: block;
+            }
+            .events {
+              width: 100%;
+              display: flex;
+              margin-top: 4px;
+              text-align: left;
+              white-space: nowrap;
+              flex-direction: column;
+            }
+            .events {
+              .event {
+                width: 100%;
+                display: flex;
+                overflow: hidden;
+                align-items: center;
+                flex-direction: row;
+              }
+              .event {
+                .status {
+                  padding: 4px;
+                  display: block;
+                  margin-left: 4px;
+                  border-radius: 100%;
+                  background: #2e39c4;
+                }
+                .time {
+                  margin: 0 4px;
+                  color: #505050;
+                  font-size: 12px;
+                }
+                .title {
+                  color: #303030;
+                  font-size: 12px;
+                  font-weight: 500;
+                }
+              }
+              .event:hover {
+                border-radius: 4px;
+                background-color: #f7f7f7;
+              }
             }
           }
         }
         .day.today {
-          .box {
+          .box .number {
             color: #2e39c4;
             font-weight: 900;
           }
         }
         .day.today:hover {
-          .box {
+          .box .number {
             color: #272e8a;
           }
         }
@@ -411,23 +500,19 @@ export default {
         }
         .day:hover {
           .box {
-            color: #2e39c4;
-            border-color: #f7f7f7;
-            background-color: #f7f7f7;
+            .number{
+              color: #303030;
+            }
           }
         }
         .weekend {
-          background-color: #fafafa;
         }
         .weekend {
           .number {
-            color: #272e8a;
-            font-weight: 700;
           }
         }
         .day.weekend:hover {
           .box {
-            background-color: #dddddd;
           }
         }
       }
