@@ -8,7 +8,10 @@
       <h3 class="title">Schedule</h3>
     </div>
     <div class="row">
-      <calendar :days-name-full="false" @selectedDate="onClickCalendar"></calendar>
+      <calendar :days-name-full="false" @selectedDate="onClickCalendar" :events="activities"></calendar>
+    </div>
+    <div class="row">
+      {{ this.date.toString() }} - {{ this.selectedDayActivities.length }}
     </div>
   </div>
 </div>
@@ -25,14 +28,21 @@ export default {
     return {
       sourceId: '',
       activities: [],
-      date: new Date(),
-      searched: false
+      date: '',
+      searched: false,
+      selectedDayActivities: []
     }
   },
   beforeMount() {
+    let date = new Date()
+    let dd = String(date.getDate()).padStart(2, '0')
+    let mm = String(date.getMonth() + 1).padStart(2, '0') //January is 0!
+    let yyyy = date.getFullYear()
+    this.date = yyyy + '-' + mm + '-' + dd
+
     this.sourceId = this.$route.params.id
-    activitiesCollection.where('source.company.owner.id', '==', this.getUserInfo.uid)
-      .where('canceled', "==", false).get()
+    activitiesCollection.where('source.id', '==', this.sourceId)
+      .where('source.company.owner.uid', '==', this.getUserInfo.uid).get()
       .then(snapshot => {
         this.searched = true
         if (snapshot.empty) {
@@ -56,6 +66,11 @@ export default {
       'getCompany'
     ])
   },
+  watch: {
+    date: function (val) {
+      this.getActivitiesForDate(val)
+    }
+  },
   methods: {
     onClickCalendar: function (value) {
       let dd = String(value.getDate()).padStart(2, '0')
@@ -63,7 +78,29 @@ export default {
       let yyyy = value.getFullYear()
 
       this.date = yyyy + '-' + mm + '-' + dd
-      console.log(this.date)
+      //console.log(this.date)
+    },
+    getActivitiesForDate(date) {
+      this.selectedDayActivities = []
+      activitiesCollection.where('source.id', '==', this.sourceId)
+        .where('date', '==', date)
+        .where('source.company.owner.uid', '==', this.getUserInfo.uid).get()
+        .then(snapshot => {
+          this.searched = true
+          if (snapshot.empty) {
+            //console.log('There is no activity')
+            return
+          }
+          snapshot.forEach(doc => {
+            this.selectedDayActivities.push({
+              id: doc.id,
+              data: doc.data()
+            })
+          })
+        })
+        .catch(err => {
+          console.log('Some error occurred: ' + err)
+        })
     }
   }
 }

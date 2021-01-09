@@ -5,12 +5,10 @@
     <div class="content">
       <div class="left">
         <aboutSource :source-object="this.sourceObject"></aboutSource>
+        <sourceReservation :source-object="this.sourceObject" style="margin-top: 16px"></sourceReservation>
       </div>
       <div class="middle">
         <sourceSchedule></sourceSchedule>
-      </div>
-      <div class="right">
-        <sourceReservation :source-object="this.sourceObject"></sourceReservation>
       </div>
     </div>
   </container>
@@ -88,14 +86,12 @@ export default {
     justify-content: space-between;
   }
   .content {
-    .left, .middle, .right {
+    .left, .middle {
       width: 100%;
     }
     .left {
       margin-right: 16px;
-    }
-    .right {
-      margin-left: 16px;
+      max-width: 400px;
     }
   }
 }
