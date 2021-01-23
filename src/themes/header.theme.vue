@@ -96,7 +96,7 @@ export default {
     }
 
     .nav {
-      .becomeHost {
+      .becomeHost a {
         color: #000000;
         cursor: pointer;
         font-size: 14px;
@@ -108,7 +108,7 @@ export default {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       }
 
-      .becomeHost {
+      .becomeHost a {
         &:hover {
           color: #000000;
           background-color: #f7f7f7;
@@ -116,10 +116,7 @@ export default {
         &:focus {
           color: #000000;
         }
-        a {
-          color: #000000;
-        }
-        a.router-link-exact-active {
+        &.router-link-exact-active {
           color: #000000;
         }
       }

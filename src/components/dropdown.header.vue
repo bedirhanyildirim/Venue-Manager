@@ -50,9 +50,9 @@ export default {
     toggleShow: function () {
       this.showMenu = !this.showMenu
       if (this.showMenu) {
-        document.body.style.position = 'fixed'
+        // document.body.style.position = 'fixed'
       } else {
-        document.body.style.position = ''
+        // document.body.style.position = ''
       }
     },
     itemClicked: function () {
@@ -111,6 +111,7 @@ export default {
   }
   .dropdownMenu {
     right: 0;
+    z-index: 1;
     display: block;
     margin-top: 16px;
     position: absolute;
