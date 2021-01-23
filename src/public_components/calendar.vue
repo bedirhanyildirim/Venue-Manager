@@ -107,7 +107,6 @@ export default {
     },
     isTodayWeekend () {
       let tempDate = new Date(this.getYear, this.getMonth, this.getToday)
-      //return tempDate.getDay() % 7 == 6 || tempDate.getDay() % 7 == 0
       return this.shownDate.getDay() % 7 == 6 || this.shownDate.getDay() % 7 == 0
     },
     getSelectedDate () {
@@ -134,7 +133,6 @@ export default {
       return new Date(year, month+1, 0).getDate()
     },
     isWeekend : function (date) {
-      //let tempDate = new Date(this.getYear, this.getMonth, day)
       return date.getDay() % 7 == 6 || date.getDay() % 7 == 0
     },
     getFullWeeksStartAndEndInMonth: function (month, year) {
@@ -205,7 +203,7 @@ export default {
       while (!selectedBox.classList.contains('box')) {
         selectedBox = selectedBox.parentNode
       }
-      
+
       if (selectedBox != null) {
         let y = selectedBox.getAttribute('ref').split('.')[2]
         let m = selectedBox.getAttribute('ref').split('.')[1]
@@ -219,20 +217,14 @@ export default {
         const days = document.getElementById('days')
         const boxes = days.getElementsByClassName('box')
 
-        //console.log('before convert: ' + this.events[3].data.date)
         let y = this.events[3].data.date.split('-')[0]
         let m = Number(this.events[3].data.date.split('-')[1]) - 1
         let d = this.events[3].data.date.split('-')[2]
         let date = new Date(y, m, d)
 
-        for (let e of this.events) {
-          //console.log(e.data.date)
-        }
-
         for (let b of boxes) {
           let countOfEvents = 0
           let eventsOfDate = []
-          //console.log(b.getAttribute('ref'))
           for (let e of this.events) {
             // Convert to format
             let y = e.data.date.split('-')[0]
@@ -253,14 +245,8 @@ export default {
               let htmlString = '<div class="event"><div class="status"></div><div class="time">' + ev.data.startingHour + ':00</div><div class="title">' + ev.data.title + '</div></div>'
               eventsDiv.insertAdjacentHTML('beforeend', htmlString)
             }
-            //b.insertAdjacentHTML('beforeend', '<span class="count-of-events">' + countOfEvents + '</span>')
           }
-          console.log(countOfEvents)
         }
-
-        //console.log('After convert: ' + date.getDate() + '.' + date.getMonth() + '.' + date.getFullYear())
-        //console.log(boxes[1].getAttribute('ref'))
-        //console.log((boxes[1].getAttribute('ref')) == (date.getDate() + '.' + date.getMonth() + '.' + date.getFullYear()))
       }
     }
   }
