@@ -43,11 +43,12 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { companiesCollection } from '../firebase/index'
 import Sources from './sources.manageCompany'
+import { companiesCollection } from '../firebase/index'
 import Activities from '../components/activities.profile'
+
 export default {
-  name: "aboutcompany.profile",
+  name: 'aboutcompany.profile',
   components: { Sources, Activities },
   data: function () {
     return {
@@ -66,15 +67,13 @@ export default {
       .then(doc => {
         if (doc.exists) {
           this.company = doc.data()
-          // true
           this.isThereCompany = true
         } else {
-          // doc.data() will be undefined in this case
-          console.log("No such document!")
           this.isThereCompany = false
         }
       }).catch(function(error) {
-        console.log("Error getting document:", error)
+        console.log(error)
+        console.log(error.code)
       })
   }
 }
@@ -208,12 +207,12 @@ export default {
       font-weight: 500;
       border-radius: 32px;
       padding: 11px 60px;
-      background-color: #ffffff;
+      background-color: #f7f7f7;
       transition: background-color 200ms ease;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     }
     .create-company-button:hover {
-      background-color: #f7f7f7;
+      background-color: #efefef;
     }
   }
 }
