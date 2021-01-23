@@ -19,8 +19,10 @@
 <script>
 import router from '@/router'
 import container from '../components/container'
-import signup from '../components/signup.membership'
 import login from '../components/login.membership'
+import signup from '../components/signup.membership'
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'Membership',
   router,
@@ -41,6 +43,16 @@ export default {
     },
     openSignup: function () {
       this.currentPage = 'signup'
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'loggedIn'
+    ])
+  },
+  created () {
+    if (this.loggedIn) {
+      router.push('/')
     }
   }
 }
