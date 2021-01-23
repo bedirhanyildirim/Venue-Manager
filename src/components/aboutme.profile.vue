@@ -1,7 +1,7 @@
 <template>
 <div id="aboutme">
   <div class="profile-photo">
-    <img src="../assets/images/pp-img.jpg"/>
+    <img :src="this.getProfilePhoto"/>
   </div>
   <div class="infos">
     <div class="row name-surname">
@@ -39,7 +39,12 @@ export default {
   computed: {
     ...mapGetters([
       'getUserInfo'
-    ])
+    ]),
+    getProfilePhoto () {
+      if (this.getUserInfo.profilePhoto) {
+        return this.getUserInfo.profilePhoto
+      } else {
+        return defaultPp
       }
     }
   }

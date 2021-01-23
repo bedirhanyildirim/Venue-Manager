@@ -15,11 +15,12 @@
 </template>
 
 <script>
-import container from "../components/container"
+import container from '../components/container'
 import AboutMe from '../components/aboutme.profile'
 import AboutCompany from '../components/aboutcompany.profile'
+
 export default {
-  name: "profile.pages",
+  name: 'profile.pages',
   components: { container, AboutMe, AboutCompany }
 }
 </script>
@@ -27,7 +28,6 @@ export default {
 <style lang="scss" scoped>
 #profile {
   display: flex;
-  padding: 20px 0;
   align-items: center;
   justify-content: center;
 }
@@ -38,7 +38,7 @@ export default {
     font-size: 24px;
     text-align: left;
     font-weight: 700;
-    margin: 12px 0 24px;
+    margin: 32px 0 24px;
     font-family: Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
   }
   .content {

@@ -3,7 +3,7 @@
     <div class="display" @click="toggleShow">
       <span v-if="!loggedIn || !getUserInfo">Log in</span>
       <span v-if="loggedIn && !!getUserInfo">{{getUserInfo.name}}</span>
-      <img src="../assets/icons/user-icon.png" alt="">
+      <img :src="getProfilePhoto" alt="">
     </div>
     <div class="dropdownMenu" v-if="showMenu">
       <div class="modal"></div>
@@ -21,22 +21,23 @@
     </div>
   </div>
 </template>
-
 <script>
-import { mixin as clickaway } from 'vue-clickaway'
-import { mapGetters } from 'vuex'
-import router from "@/router"
-import store from "@/store"
-import firebase from "firebase/app"
 import 'firebase/auth'
+import store from '@/store'
+import router from '@/router'
+import { mapGetters } from 'vuex'
+import firebase from 'firebase/app'
+import { mixin as clickaway } from 'vue-clickaway'
+import defaultIcon from '../assets/icons/user-icon.png'
+
 export default {
-  name: "dropdown.header.vue",
+  name: 'dropdown.header.vue',
   store,
   router,
   mixins: [ clickaway ],
   data: function () {
     return {
-      showMenu: false
+      showMenu: false,
     }
   },
   computed: {
@@ -44,16 +45,18 @@ export default {
       'getUser',
       'getUserInfo',
       'loggedIn'
-    ])
+    ]),
+    getProfilePhoto() {
+      if (this.getUserInfo.profilePhoto) {
+        return this.getUserInfo.profilePhoto
+      } else {
+        return defaultIcon
+      }
+    }
   },
   methods: {
     toggleShow: function () {
       this.showMenu = !this.showMenu
-      if (this.showMenu) {
-        // document.body.style.position = 'fixed'
-      } else {
-        // document.body.style.position = ''
-      }
     },
     itemClicked: function () {
       this.toggleShow();
@@ -100,6 +103,7 @@ export default {
     img {
       width: 28px;
       margin: 6px;
+      border-radius: 50%;
     }
 
     &:hover {
