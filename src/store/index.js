@@ -60,7 +60,7 @@ export default new Vuex.Store({
       }
       if (localStorage.getItem('__company_info') && localStorage.getItem('__company_info') !== '') {
         const stringInfoCompany = localStorage.getItem('__company_info') || ''
-        state._user_info = JSON.parse(stringInfoCompany)
+        state._company = JSON.parse(stringInfoCompany)
       }
     }
   },

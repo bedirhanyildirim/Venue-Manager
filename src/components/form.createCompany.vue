@@ -6,20 +6,33 @@
       <input id="name" type="text" v-model="name" name="name"/>
     </div>
     <div class="row">
+      <label for="city" class="input-name" style="margin-top: 10px;">City</label>
+      <select id="city" class="city" name="city" v-model="city" >
+        <option v-for="item in this.cityList" :value="item">{{ item }}</option>
+      </select>
+    </div>
+    <div class="row">
+      <label for="province" class="input-name" style="margin-top: 10px;">Province</label>
+      <select id="province" class="province" name="province" v-model="province">
+        <option v-for="item in Object.keys(this.provinces)" :value="item">{{ item }}</option>
+      </select>
+    </div>
+    <div class="row">
+      <label for="neighborhood" class="input-name" style="margin-top: 10px;">Neighborhood</label>
+      <select id="neighborhood" class="neighborhood" name="neighborhood" v-model="neighborhood">
+        <option v-for="(value, name) in this.neighborhoods" :value="name">{{ name }}</option>
+      </select>
+    </div>
+    <div class="row">
+      <label for="postalcode" class="input-name">Postal code</label>
+      <input id="postalcode" type="text" v-model="postalcode" name="postalcode" disabled/>
+    </div>
+    <div class="row">
       <label for="address" class="input-name" style="margin-top: 10px;">Address</label>
       <textarea id="address" type="text" v-model="address" name="address" rows="4 "></textarea>
     </div>
     <div class="row">
-      <label for="region" class="input-name" style="margin-top: 10px;">City</label>
-      <input id="region" type="text" v-model="region" name="region"/>
-    </div>
-    <div class="row">
-      <label for="city" class="input-name" style="margin-top: 10px;">Province</label>
-      <input id="city" type="text" v-model="city" name="city"/>
-    </div>
-    <div class="row">
       <label for="phone" class="input-name">Phone number</label>
-      <!--input id="phone" type="text" v-model="phone" name="phone"/-->
       <the-mask id="phone" v-model="phone" name="phone" mask="0### ### ## ##" value="" type="tel" masked placeholder="0XXX XXX XX XX"></the-mask>
     </div>
     <div class="row">
@@ -85,51 +98,119 @@
   </div>
 </div>
 </template>
-
 <script>
+import store from '../store'
 import router from '../router'
+import Cities from '@/services'
 import { mapGetters } from 'vuex'
-import { companiesCollection } from '../firebase/index'
 import { TheMask } from 'vue-the-mask'
+import { companiesCollection } from '../firebase/index'
+
 export default {
-  name: "form.createCompany",
+  name: 'form.createCompany',
+  store,
   router,
   components: { TheMask },
   data: function () {
     return {
       name: '',
-      address: '',
       city: '',
-      region: '',
       phone: '',
-      workingDays: 'weekdays',
+      address: '',
+      province: '',
+      postalcode: '',
+      neighborhood: '',
+      endingHour: '17',
       startingHour: '08',
-      endingHour: '17'
+      workingDays: 'weekdays',
+      cityList: Cities.cities,
+      provinces: [],
+      neighborhoods: []
     }
   },
   methods: {
     fill: function () {
-      companiesCollection.doc(this.getUserInfo.uid).set({
+      let company = {
         name: this.name,
-        address: this.address,
         city: this.city,
-        region: this.region,
         phone: this.phone,
-        workingDays: this.workingDays,
-        startingHour: this.startingHour,
+        address: this.address,
+        province: this.province,
+        postalcode: this.postalcode,
         endingHour: this.endingHour,
+        workingDays: this.workingDays,
+        neighborhood: this.neighborhood,
+        startingHour: this.startingHour,
         owner: this.getUserInfo
-      }).then(function (res) {
+      }
+      let backup = this
+      companiesCollection.doc(this.getUserInfo.uid).set(company)
+      .then(function (res) {
+        backup.$store.dispatch('setCompany', company)
         router.push('/profile')
       }).catch(function (error) {
         console.log(error)
+        console.log(error.code)
       })
     }
   },
   computed: {
     ...mapGetters([
       'getUserInfo'
-    ])
+    ]),
+    getProvinces () {
+      if ( this.city !== '' ) {
+        switch (this.city) {
+          case "Istanbul":
+            this.provinces = Cities.Istanbul
+            break
+          case "Ankara":
+            this.provinces = Cities.Ankara
+            break
+          case "Adana":
+            this.provinces = Cities.Adana
+            break
+          case "Bursa":
+            this.provinces = Cities.Bursa
+            break
+          case "Gaziantep":
+            this.provinces = Cities.Gaziantep
+            break
+          case "Izmir":
+            this.provinces = Cities.Izmir
+            break
+          case "Konya":
+            this.provinces = Cities.Konya
+            break
+          default:
+            this.provinces = ''
+        }
+      }
+    },
+    getNeighborhood () {
+      if (this.province !== '') {
+        this.neighborhoods = this.provinces[this.province]
+      }
+    },
+    setPostalcode () {
+      if (this.neighborhood !== '') {
+        this.postalcode = this.neighborhoods[this.neighborhood].postcode
+      }
+    }
+  },
+  mounted() {
+    document.getElementById('city').addEventListener('change', (e) => {
+      this.neighborhood = ''
+      this.postalcode = ''
+      this.getProvinces
+    })
+    document.getElementById('province').addEventListener('change', (e) => {
+      this.postalcode= ''
+      this.getNeighborhood
+    })
+    document.getElementById('neighborhood').addEventListener('change', (e) => {
+      this.setPostalcode
+    })
   }
 }
 </script>
@@ -343,17 +424,36 @@ export default {
 }
 @media screen and (max-width: 425px) {
   #companyform {
-    .row {
-      input {
-        width: 250px;
-        min-width: unset;
-        max-width: unset;
-        box-sizing: border-box;
+    .company-form {
+      .row {
+        width: 100%;
       }
-      .button {
-        width: 250px;
-        min-width: unset;
-        max-width: unset;
+      .row {
+        input {
+          width: 100%;
+          min-width: unset;
+          max-width: unset;
+        }
+        textarea {
+          width: 100%;
+          min-width: unset;
+          max-width: unset;
+        }
+        .button {
+          width: 100%;
+          min-width: unset;
+          max-width: unset;
+        }
+        select {
+          width: 100%;
+          min-width: unset;
+          max-width: unset;
+        }
+        #startingHour, #endingHour {
+          width: 100%;
+          min-width: unset;
+          max-width: unset;
+        }
       }
     }
   }

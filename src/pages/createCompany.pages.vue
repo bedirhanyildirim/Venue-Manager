@@ -13,14 +13,26 @@
   </container>
 </div>
 </template>
-
 <script>
-import container from "../components/container"
+import router from '@/router';
+import { mapGetters } from 'vuex';
+import container from '../components/container'
 import aboutMe from '../components/aboutme.profile'
 import companyForm from '../components/form.createCompany'
+
 export default {
-  name: "createCompany.pages",
-  components: { container, aboutMe, companyForm }
+  name: 'createCompany.pages',
+  components: { container, aboutMe, companyForm },
+  computed: {
+    ...mapGetters([
+      'getCompany'
+    ])
+  },
+  created() {
+    if (this.getCompany) {
+      router.push('/')
+    }
+  }
 }
 </script>
 
@@ -36,6 +48,7 @@ export default {
   .wrapper {
     .form {
       transition: opacity 1s ease-out;
+      max-width: 400px;
     }
     .form {
       .welcome {
@@ -71,6 +84,7 @@ export default {
     }
     .wrapper {
       .forms {
+        width: 100%;
       }
       .illustration {
         display: none;
