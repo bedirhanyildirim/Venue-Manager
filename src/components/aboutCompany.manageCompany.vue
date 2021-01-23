@@ -37,7 +37,10 @@ export default {
   },
   methods: {
     capitalizeFirstLetter: function (string) {
-      return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+      if (string !== undefined && string !== null && string !== '') {
+        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+      }
+      return ''
     }
   }
 }

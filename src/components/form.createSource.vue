@@ -153,7 +153,7 @@ export default {
         outline: none;
         color: #000000;
         font-size: 14px;
-        min-width: 400px;
+        max-width: 400px;
         appearance: none;
         font-weight: 400;
         line-height: 24px;
@@ -181,7 +181,7 @@ export default {
         outline: none;
         color: #000000;
         font-size: 14px;
-        min-width: 400px;
+        max-width: 400px;
         appearance: none;
         font-weight: 400;
         line-height: 24px;
@@ -210,7 +210,7 @@ export default {
         outline: none;
         color: #000000;
         font-size: 14px;
-        min-width: 400px;
+        max-width: 400px;
         appearance: none;
         font-weight: 400;
         padding: 10px 16px;
