@@ -24,6 +24,13 @@ export default new Vuex.Store({
     },
     hasCompany (state) {
       return (state._company !== null && state._company !== '')
+    },
+    hasProfilePhoto (state) {
+      if (state._user_info !== null && state._user_info !== '') {
+        return (state._user_info.profilePhoto !== null && state._user_info.profilePhoto !== '' && state._user_info.profilePhoto !== undefined)
+      } else {
+        return false
+      }
     }
   },
   mutations: {

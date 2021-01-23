@@ -44,10 +44,11 @@ export default {
     ...mapGetters([
       'getUser',
       'getUserInfo',
-      'loggedIn'
+      'loggedIn',
+      'hasProfilePhoto'
     ]),
     getProfilePhoto() {
-      if (this.getUserInfo.profilePhoto) {
+      if (this.loggedIn && this.hasProfilePhoto) {
         return this.getUserInfo.profilePhoto
       } else {
         return defaultIcon
