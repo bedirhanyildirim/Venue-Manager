@@ -102,9 +102,9 @@ export default {
   overflow: hidden;
   border-radius: 8px;
   align-items: center;
+  margin-bottom: 20px;
   flex-direction: column;
   justify-content: center;
-
   box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.18);
   -moz-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.18);
   -webkit-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.18);
@@ -202,6 +202,11 @@ export default {
     .row:last-child {
       margin-bottom: 0;
     }
+  }
+}
+@media screen and (max-width: 768px) {
+  #sourceReservation {
+    margin-bottom: 0;
   }
 }
 </style>

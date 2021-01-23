@@ -217,16 +217,10 @@ export default {
         const days = document.getElementById('days')
         const boxes = days.getElementsByClassName('box')
 
-        let y = this.events[3].data.date.split('-')[0]
-        let m = Number(this.events[3].data.date.split('-')[1]) - 1
-        let d = this.events[3].data.date.split('-')[2]
-        let date = new Date(y, m, d)
-
         for (let b of boxes) {
           let countOfEvents = 0
           let eventsOfDate = []
           for (let e of this.events) {
-            // Convert to format
             let y = e.data.date.split('-')[0]
             let m = Number(e.data.date.split('-')[1]) - 1
             let d = e.data.date.split('-')[2]
@@ -241,6 +235,8 @@ export default {
           if (countOfEvents > 0) {
             b.insertAdjacentHTML('beforeend', '<div class="events"></div>')
             let eventsDiv = b.getElementsByClassName('events')[0]
+            let countOfEventsElement = '<div class="countOfEvents"><div class="count">' + countOfEvents + '</div></div>'
+            eventsDiv.insertAdjacentHTML('beforeend', countOfEventsElement)
             for (let ev of eventsOfDate) {
               let htmlString = '<div class="event"><div class="status"></div><div class="time">' + ev.data.startingHour + ':00</div><div class="title">' + ev.data.title + '</div></div>'
               eventsDiv.insertAdjacentHTML('beforeend', htmlString)
@@ -413,6 +409,7 @@ export default {
             color: #000000;
             font-size: 14px;
             cursor: pointer;
+            overflow: hidden;
             font-weight: 500;
             position: absolute;
             text-align: center;
@@ -435,6 +432,9 @@ export default {
               flex-direction: column;
             }
             .events {
+              .countOfEvents {
+                display: none;
+              }
               .event {
                 width: 100%;
                 display: flex;
@@ -491,16 +491,6 @@ export default {
             }
           }
         }
-        .weekend {
-        }
-        .weekend {
-          .number {
-          }
-        }
-        .day.weekend:hover {
-          .box {
-          }
-        }
       }
       .row:last-child {
         .day {
@@ -518,20 +508,6 @@ export default {
       width: 100%;
     }
     .content {
-      .name-of-days {
-      }
-      .name-of-days {
-        .name {
-        }
-        .name {
-          &.weekday {
-          }
-          &.weekend {
-          }
-          &:hover {
-          }
-        }
-      }
       .days {
         background-color: #ffffff;
       }
@@ -561,11 +537,58 @@ export default {
               align-items: center;
               justify-content: center;
             }
+            .box {
+              .events {
+                margin-top: 16px
+              }
+            }
           }
-          .weekend {
-          }
-          .weekend {
-            .number {
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  #calendar {
+    .content {
+      .days {
+        .row {
+          .day {
+            .box {
+              .events {
+                margin-top: 0;
+                height: 100%;
+              }
+              .events {
+                .countOfEvents {
+                  width: 100%;
+                  height: 100%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                }
+                .countOfEvents {
+                  .count {
+                    color: #000000;
+                    display: flex;
+                    font-size: 16px;
+                    font-weight: bold;
+                    align-items: center;
+                  }
+                  .count:before {
+                    content: '';
+                    width: 8px;
+                    height: 8px;
+                    display: block;
+                    margin-right: 4px;
+                    border-radius: 50%;
+                    background-color: #272E8A;
+                  }
+                }
+                .event {
+                  display: none;
+                }
+              }
             }
           }
         }

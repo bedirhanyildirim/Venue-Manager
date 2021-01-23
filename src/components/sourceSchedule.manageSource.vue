@@ -47,7 +47,6 @@ export default {
       .then(snapshot => {
         this.searched = true
         if (snapshot.empty) {
-          //console.log('There is no activity')
           return
         }
         snapshot.forEach(doc => {
@@ -58,7 +57,8 @@ export default {
         })
       })
       .catch(err => {
-        console.log('Some error occurred: ' + err)
+        console.log(err)
+        console.log(err.code)
       })
   },
   computed: {
@@ -79,7 +79,6 @@ export default {
       let yyyy = value.getFullYear()
 
       this.date = yyyy + '-' + mm + '-' + dd
-      //console.log(this.date)
     },
     getActivitiesForDate(date) {
       this.selectedDayActivities = []
@@ -89,7 +88,6 @@ export default {
         .then(snapshot => {
           this.searched = true
           if (snapshot.empty) {
-            //console.log('There is no activity')
             return
           }
           snapshot.forEach(doc => {
@@ -100,7 +98,8 @@ export default {
           })
         })
         .catch(err => {
-          console.log('Some error occurred: ' + err)
+          console.log(err)
+          console.log(err.code)
         })
     }
   }
@@ -115,9 +114,9 @@ export default {
   overflow: hidden;
   border-radius: 8px;
   align-items: center;
+  margin-bottom: 20px;
   flex-direction: column;
   justify-content: center;
-
   box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.18);
   -moz-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.18);
   -webkit-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.18);
@@ -163,6 +162,11 @@ export default {
     .row:last-child {
       margin-bottom: 0;
     }
+  }
+}
+@media screen and (max-width: 768px) {
+  #sourceSchedule {
+    margin-bottom: 0;
   }
 }
 </style>

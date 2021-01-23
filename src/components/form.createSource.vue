@@ -269,8 +269,10 @@ export default {
       .sharedUsage {
         width: 100%;
         display: flex;
+        text-align: left;
         position: relative;
         align-items: center;
+        white-space: normal;
         justify-content: flex-start;
       }
       .sharedUsage {

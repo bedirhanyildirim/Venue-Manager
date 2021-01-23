@@ -7,7 +7,7 @@
         <aboutSource :source-object="this.sourceObject"></aboutSource>
         <sourceReservation :source-object="this.sourceObject" style="margin-top: 16px"></sourceReservation>
       </div>
-      <div class="middle">
+      <div class="right">
         <sourceSchedule></sourceSchedule>
       </div>
     </div>
@@ -17,14 +17,14 @@
 
 <script>
 import router from '../router'
-import container from "@/components/container"
+import { mapGetters } from 'vuex'
+import container from '@/components/container'
+import { sourcesCollection } from '../firebase/index'
 import aboutSource from '@/components/aboutSource.manageSoruce'
 import sourceSchedule from '@/components/sourceSchedule.manageSource'
 import sourceReservation from '@/components/sourceReservation.manageSource'
-import { sourcesCollection } from '../firebase/index'
-import { mapGetters } from "vuex"
 export default {
-  name: "manageSource.pages",
+  name: 'manageSource.pages',
   router,
   data: function () {
     return {
@@ -46,17 +46,15 @@ export default {
         if (doc.exists) {
           this.sourceObject = doc.data()
           this.sourceObject.id = this.sourceId
-          //console.log(this.sourceObject)
           if (this.sourceObject.company.owner.uid == this.getUserInfo.uid) {
             this.amItheOwner = true
           } else {
             router.push('/')
           }
-        } else {
-          console.log('There is not a such a doc!')
         }
       }).catch(function(error) {
-        console.log('Error getting document:', error)
+        console.log(error)
+        console.log(error.code)
       })
   }
 }
@@ -65,7 +63,6 @@ export default {
 <style lang="scss" scoped>
 #manageSource {
   display: flex;
-  padding: 20px 0;
   align-items: center;
   justify-content: center;
 }
@@ -76,7 +73,7 @@ export default {
     font-size: 24px;
     text-align: left;
     font-weight: 700;
-    margin: 12px 0 24px;
+    margin: 32px 0 24px;
     font-family: Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
   }
   .content {
@@ -86,7 +83,7 @@ export default {
     justify-content: space-between;
   }
   .content {
-    .left, .middle {
+    .left, .right {
       width: 100%;
     }
     .left {
@@ -102,12 +99,41 @@ export default {
         flex-direction: column;
       }
       .content {
-        .left, .right, .middle {
+        .left {
           margin: 0;
           width: 100%;
+          display: flex;
+          max-width: unset;
+          min-width: unset;
+          flex-direction: row;
+          align-items: baseline;
         }
-        .right, .middle {
+        .left {
+          #aboutSource {
+            margin-right: 20px;
+          }
+        }
+        .right {
+          width: 100%;
+          min-width: unset;
+          max-width: unset;
           margin-top: 20px;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  #manageSource {
+    .container {
+      .content {
+        .left {
+          flex-direction: column;
+        }
+        .left {
+          #aboutSource {
+            margin-right: 0;
+          }
         }
       }
     }

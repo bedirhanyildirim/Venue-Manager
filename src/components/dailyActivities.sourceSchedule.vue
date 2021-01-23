@@ -57,7 +57,6 @@ export default {
       let d = this.date.split('-')[2]
       let m = this.date.split('-')[1]-1
       let y = this.date.split('-')[0]
-      //console.log(new Date(y, m, d))
       return new Date(y, m, d)
     },
     workingHoursArray: function () {
@@ -75,12 +74,8 @@ export default {
         rowTemplate += '[hour-' + i + '] 1fr '
       }
       return {
-        //"grid-template-rows": `repeat(${this.workingHoursArray.length}, 1fr)`
         "grid-template-rows": rowTemplate
       }
-    },
-    setActivityStyle: function (e) {
-      console.log('bok değil')
     }
   }
 }
@@ -145,6 +140,7 @@ export default {
       }
       .activity {
         height: 100%;
+        padding: 4px;
         display: flex;
         color: #ffffff;
         margin: 4px 16px;

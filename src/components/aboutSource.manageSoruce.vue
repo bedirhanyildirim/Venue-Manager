@@ -24,14 +24,14 @@
       </div>
     </div>
     <div class="row">
-      <div class="button">
-        <button>Save</button>
-      </div>
-    </div>
-    <div class="row">
       <label class="input-name" for="photos">Photos</label>
       <input id="photos" name="photos" type="file" multiple/>
       <label for="photos">Choose photos</label>
+    </div>
+    <div class="row">
+      <div class="button">
+        <button>Save</button>
+      </div>
     </div>
   </div>
 </div>
