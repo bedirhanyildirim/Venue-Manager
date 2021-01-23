@@ -22,8 +22,9 @@ export default {
 
 <style lang="scss" scoped>
 #home {
+  margin: 0;
+  padding: 0;
   display: flex;
-  padding: 20px 0;
   align-items: center;
   justify-content: center;
 }
@@ -31,6 +32,7 @@ export default {
   .section {
     width: 100%;
     display: flex;
+    margin-top: 20px;
     text-align: left;
     align-items: center;
   }

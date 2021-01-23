@@ -11,77 +11,16 @@
     </div>
     <div class="row">
       <label class="input-name" for="capacity">Capacity</label>
-      <input id="capacity" v-model="capacity" name="phone" type="text"/>
-    </div>
-    <div class="row">
-      <label class="input-name" style="margin-bottom: 16px">Schedule</label>
-      <!--FullCalendar :events="events" :options="options"/-->
-      <calendar :date="new Date()" :events="events" @selectedDate="onClickCalendar"></calendar>
-    </div>
-    <div class="row">
-      <label class="input-name" for="date">Date</label>
-      <input id="date" :value="date" disabled name="date" type="date">
-    </div>
-    <div class="row">
-      <label for="startingHour" class="input-name">Working hours</label>
-      <div class="rangehours">
-        <div class="row">
-          <label for="startingHour" class="sub-input-name">From</label>
-          <select id="startingHour" class="hour" v-model="startingHour" name="startingHour">
-            <option value="06">06:00</option>
-            <option value="07">07:00</option>
-            <option value="08">08:00</option>
-            <option value="09">09:00</option>
-            <option value="10">10:00</option>
-            <option value="11">11:00</option>
-            <option value="12">12:00</option>
-            <option value="13">13:00</option>
-            <option value="14">14:00</option>
-            <option value="15">15:00</option>
-            <option value="16">16:00</option>
-            <option value="17">17:00</option>
-            <option value="18">18:00</option>
-            <option value="19">19:00</option>
-            <option value="20">20:00</option>
-            <option value="21">21:00</option>
-            <option value="22">22:00</option>
-          </select>
-        </div>
-        <div class="row">
-          <label for="endingHour" class="sub-input-name">To</label>
-          <select id="endingHour" class="hour" v-model="endingHour" name="startingHour">
-            <option value="06">06:00</option>
-            <option value="07">07:00</option>
-            <option value="08">08:00</option>
-            <option value="09">09:00</option>
-            <option value="10">10:00</option>
-            <option value="11">11:00</option>
-            <option value="12">12:00</option>
-            <option value="13">13:00</option>
-            <option value="14">14:00</option>
-            <option value="15">15:00</option>
-            <option value="16">16:00</option>
-            <option value="17">17:00</option>
-            <option value="18">18:00</option>
-            <option value="19">19:00</option>
-            <option value="20">20:00</option>
-            <option value="21">21:00</option>
-            <option value="22">22:00</option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <a href="javascript:;" @click="ekle">Add</a>
+      <input id="capacity" v-model="capacity" name="phone" type="number"/>
     </div>
     <div class="row">
       <div class="sharedUsage">
         <input id="sharedUsage" v-model="sharedUsage" type="checkbox">
         <svg @click="toggle" v-if="sharedUsage" baseProfile="tiny" height="24px" id="Layer_1" version="1.2" viewBox="0 0 24 24" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M16.972,6.251c-0.967-0.538-2.185-0.188-2.72,0.777l-3.713,6.682l-2.125-2.125c-0.781-0.781-2.047-0.781-2.828,0  c-0.781,0.781-0.781,2.047,0,2.828l4,4C9.964,18.792,10.474,19,11,19c0.092,0,0.185-0.006,0.277-0.02  c0.621-0.087,1.166-0.46,1.471-1.009l5-9C18.285,8.005,17.937,6.788,16.972,6.251z"/></svg>
-        <label for="sharedUsage">Share with community.</label>
+        <label for="sharedUsage">Shared usage <i>(Display in the homepage)</i></label>
       </div>
       <div class="button">
-        <button @click="fill">Save</button>
+        <button @click="fill">Create</button>
       </div>
     </div>
   </div>
@@ -91,94 +30,60 @@
 <script>
 import router from '../router'
 import {mapGetters} from 'vuex'
-import {companiesCollection, sourcesCollection, activitiesCollection} from '../firebase/index'
-import calendar from '@/public_components/calendar'
+import { sourcesCollection, companiesCollection } from '../firebase/index'
 export default {
   name: 'form.createSource',
   router,
-  components: { calendar},
   data: function () {
     return {
       name: '',
-      description: '',
-      capacity: '',
-      sharedUsage: false,
-      company: {},
       date: '',
-      startingHour: '',
-      endingHour: '',
-      events: [],
-      sourceId: ''
+      company: {},
+      capacity: '',
+      sourceId: '',
+      description: '',
+      sharedUsage: false
     }
   },
   mounted() {
+    let date = new Date()
+    let y = date.getFullYear()
+    let m = date.getMonth()
+    let d = date.getDate()
+    this.date = (d+'.'+(m+1)+'.'+y)
   },
   created() {
-    // if exists
     companiesCollection.doc(this.getUserInfo.uid).get()
       .then(doc => {
         if (doc.exists) {
           this.company = doc.data()
+          this.company.id = doc.id
         }
       }).catch(function (error) {
-        console.log('Error getting document:', error)
+        console.log(error)
+        console.log(error.code)
       })
   },
   methods: {
     fill: function () {
-      let events = this.events
-      let userInfo = this.getUserInfo
       let sourceObject = {
         name: this.name,
-        description: this.description,
+        date: this.date,
+        company: this.company,
         capacity: this.capacity,
-        sharedUsage: this.sharedUsage,
-        company: this.company
+        description: this.description,
+        sharedUsage: this.sharedUsage
       }
-      let startingHour = this.startingHour
-      let endingHour = this.endingHour
-      sourcesCollection.doc(this.sourceId).set(sourceObject)
+      sourcesCollection.doc().set(sourceObject)
         .then(function (res) {
-          events.forEach(ev => {
-            console.log(ev)
-            activitiesCollection.add({
-              source: sourceObject,
-              resMaker: userInfo,
-              canceled: false,
-              date: ev.start,
-              isValid: 'accepted',
-              startingHour: startingHour,
-              endingHour: endingHour
-            }).then(function (ress) {
-              console.log(ress)
-              router.push('/profile')
-            }).catch(function (errorr) {
-              console.log(errorr)
-            })
-          })
-          //
-          //router.push('/profile')
+          router.push('/company')
         }).catch(function (error) {
           console.log(error)
+          console.log(error.code)
         })
-    },
-    ekle: function () {
-      this.events.push({
-        start: this.date,
-        end: this.date,
-        startingHour: this.startingHour,
-        endingHour: this.endingHour
-      })
     },
     toggle: function () {
       this.sharedUsage = !this.sharedUsage
-    },
-    onClickCalendar: function (value) {
-      let dd = String(value.getDate()).padStart(2, '0')
-      let mm = String(value.getMonth() + 1).padStart(2, '0') //January is 0!
-      let yyyy = value.getFullYear()
-
-      this.date = yyyy + '-' + mm + '-' + dd
     }
   },
   computed: {
@@ -444,8 +349,22 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
-  .company-form {
-    max-width: unset !important;
+  #sourceform {
+    .company-form {
+      max-width: unset !important;
+    }
+    .company-form {
+      .row {
+
+      }
+      .row {
+        input, textarea {
+          width: 100%;
+          max-width: unset;
+          min-width: unset;
+        }
+      }
+    }
   }
 }
 </style>
