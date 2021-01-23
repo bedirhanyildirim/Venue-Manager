@@ -1,6 +1,6 @@
 <template>
   <div id="footer">
-    <container display="flex" align-items="center" justify-content="center">
+    <container display="flex" align-items="center" justify-content="center" min-height="auto">
       <h5>Developed by <a href="http://bedirhanyildirim.com" target="_blank">Bedirhan YILDIRIM</a></h5>
     </container>
   </div>

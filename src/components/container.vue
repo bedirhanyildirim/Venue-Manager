@@ -6,54 +6,61 @@
 
 <script>
 export default {
-    name: 'container',
-    props: {
-        display: {
-            type: String,
-            required: true,
-            default: 'flex'
-        },
-        alignItems: {
-            type: String,
-            required: false,
-            default: 'center'
-        },
-        justifyContent: {
-            type: String,
-            required: false,
-            default: 'center'
-        },
-        backgroundColor: {
-            type: String,
-            required: false,
-            default: 'transparent'
-        },
-        flexDirection: {
-            type: String,
-            required: false
-        }
+  name: 'container',
+  props: {
+    display: {
+      type: String,
+      required: true,
+      default: 'flex'
     },
-    computed: {
-        style () {
-            return {
-                display: this.display,
-                alignItems: this.alignItems,
-                flexDirection: this.flexDirection,
-                justifyContent: this.justifyContent,
-                backgroundColor: this.backgroundColor
-            }
-        }
+    alignItems: {
+      type: String,
+      required: false,
+      default: 'center'
+    },
+    justifyContent: {
+      type: String,
+      required: false,
+      default: 'center'
+    },
+    backgroundColor: {
+      type: String,
+      required: false,
+      default: 'transparent'
+    },
+    flexDirection: {
+      type: String,
+      required: false,
+      default: 'row'
+    },
+    minHeight: {
+      type: String,
+      required: false,
+      default: 'calc(100vh - (115px))'
     }
+  },
+  computed: {
+    style () {
+      return {
+        display: this.display,
+        minHeight: this.minHeight,
+        alignItems: this.alignItems,
+        flexDirection: this.flexDirection,
+        justifyContent: this.justifyContent,
+        backgroundColor: this.backgroundColor
+      }
+    }
+  }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .container {
-    width: 100%;
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: center;
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
 }
 @media screen and (min-width: 1440px) {
   .container {

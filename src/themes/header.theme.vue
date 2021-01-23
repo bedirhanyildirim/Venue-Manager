@@ -1,6 +1,6 @@
 <template>
   <div id="header">
-    <container display="flex" align-items="center" justify-content="space-between">
+    <container display="flex" align-items="center" justify-content="space-between" min-height="auto">
       <div class="logo">
         <router-link to="/"><img src="../assets/images/Venue.png" alt="Venue Manager"></router-link>
       </div>
@@ -22,8 +22,9 @@ import 'firebase/auth'
 import store from '../store'
 import router from '../router'
 import { mapGetters } from 'vuex'
-import Container from "../components/container";
-import Dropdown from "../components/dropdown.header";
+import Container from '../components/container'
+import Dropdown from '../components/dropdown.header'
+
 export default {
   name: "header.theme.vue",
   store,

@@ -30,7 +30,7 @@ import 'firebase/auth'
 import store from '../store'
 import router from '../router'
 export default {
-  name: "singup.membership",
+  name: 'singup.membership',
   store,
   router,
   data: function () {
@@ -50,7 +50,7 @@ export default {
         })
         .then(res => {
           if (res) {
-            console.log("Başarıyla üye olundu ve giriş yapıldı.")
+            console.log('Başarıyla üye olundu ve giriş yapıldı.')
             this.$store.dispatch('setUser', res.user)
             router.push('/complete-profile')
           }

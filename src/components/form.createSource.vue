@@ -94,7 +94,7 @@ import {mapGetters} from 'vuex'
 import {companiesCollection, sourcesCollection, activitiesCollection} from '../firebase/index'
 import calendar from '@/public_components/calendar'
 export default {
-  name: "form.createSource",
+  name: 'form.createSource',
   router,
   components: { calendar},
   data: function () {
@@ -121,7 +121,7 @@ export default {
           this.company = doc.data()
         }
       }).catch(function (error) {
-        console.log("Error getting document:", error)
+        console.log('Error getting document:', error)
       })
   },
   methods: {
@@ -190,9 +190,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import url("https://unpkg.com/primevue/resources/themes/saga-blue/theme.css");
-@import url("https://unpkg.com/primevue/resources/primevue.min.css");
-@import url("https://unpkg.com/primeicons/primeicons.css");
 
 #sourceform {
   width: 100%;

@@ -1,9 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap');
 
-.fc .fc-toolbar .fc-button, .fc .fc-toolbar .fc-button.fc-dayGridMonth-button.fc-button-active, .fc .fc-toolbar .fc-button.fc-timeGridWeek-button.fc-button-active, .fc .fc-toolbar .fc-button.fc-timeGridDay-button.fc-button-active, .fc .fc-view-container .fc-event {
-  background: #272E8A;
-  border-color: #272E8A;
+*, *:before, *:after {
+  margin: 0;
+  padding: 0;
 
+  box-sizing: border-box !important;
+  -ms-box-sizing: border-box !important;
+  -moz-box-sizing: border-box !important;
+  -webkit-box-sizing: border-box !important;
 }
 
 /* Bedirhan YILDIRIM reset.css */
@@ -12,7 +16,6 @@ body {
   height: 100%;
   margin: 0 auto;
   overflow: auto;
-  box-sizing: border-box;
   background-color: #ffffff;
   transition: all 0.5s ease 0s;
   font: 15px/19px 'Roboto', Arial;

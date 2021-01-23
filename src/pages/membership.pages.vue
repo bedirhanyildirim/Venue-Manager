@@ -1,6 +1,6 @@
 <template>
 <div id="membership">
-  <container display="flex" align-items="center" justify-content="space-between">
+  <container display="flex" align-items="center" justify-content="space-between" :min-height-active="true">
     <div class="wrapper">
       <div class="forms">
         <h1 class="welcome">Start to work with Venue</h1>
@@ -17,12 +17,12 @@
 </template>
 
 <script>
-import router from "@/router";
+import router from '@/router'
 import container from '../components/container'
 import signup from '../components/signup.membership'
 import login from '../components/login.membership'
 export default {
-  name: "Membership",
+  name: 'Membership',
   router,
   components: { login, container, signup },
   data: function () {
@@ -33,12 +33,7 @@ export default {
   watch: {
     $route() {
       this.currentPage = this.$route.params.id
-      this.resize()
     }
-  },
-  mounted() {
-    window.addEventListener('resize', this.resize)
-    this.resize()
   },
   methods: {
     openLogin: function () {
@@ -46,16 +41,6 @@ export default {
     },
     openSignup: function () {
       this.currentPage = 'signup'
-    },
-    resize: function () {
-      let h = document.documentElement.clientHeight;
-      let el = document.getElementsByClassName('wrapper')[0]
-      if (h > (el.offsetHeight + (document.getElementById('header').offsetHeight) + (document.getElementById('footer').offsetHeight))) {
-        let newHeight = h - (document.getElementById('header').offsetHeight) - (document.getElementById('footer').offsetHeight)
-        el.style.height = newHeight + 'px'
-      } else {
-        el.style.height = ''
-      }
     }
   }
 }
