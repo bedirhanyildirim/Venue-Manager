@@ -10,8 +10,8 @@
     <div class="row">
       <calendar :days-name-full="false" @selectedDate="onClickCalendar" :events="activities"></calendar>
     </div>
-    <div class="row">
-      {{ this.date.toString() }} - {{ this.selectedDayActivities.length }}
+    <div class="row" v-if="selectedDayActivities">
+      <daily-view :events="this.selectedDayActivities" :date="this.date" starting-hour="09" ending-hour="17"></daily-view>
     </div>
   </div>
 </div>
@@ -21,9 +21,10 @@
 import { mapGetters } from 'vuex'
 import { activitiesCollection } from '../firebase/index'
 import calendar from '@/public_components/calendar'
+import dailyView from '@/components/dailyActivities.sourceSchedule'
 export default {
   name: 'sourceSchedule.manageSource.vue',
-  components: { calendar },
+  components: { calendar, dailyView },
   data: function () {
     return {
       sourceId: '',
