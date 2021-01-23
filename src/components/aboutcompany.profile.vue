@@ -1,6 +1,6 @@
 <template>
 <div id="aboutcompany">
-  <div v-if="isThereCompany" class="company-info">
+  <div v-if="hasCompany" class="company-info">
     <div class="row">
       <h3>About company</h3>
       <!--router-link to="/">Edit company</router-link-->
@@ -34,7 +34,7 @@
     <!--Sources v-if="isThereCompany" :company="this.company"></Sources-->
     <!--Activities v-if="isThereCompany" :company="this.company"></Activities-->
   </div>
-  <div v-if="!isThereCompany" class="no-company">
+  <div v-else class="no-company">
     <h3>Create your <span style="color: #272E8A; font-weight: 500">company</span> profile,<br>Start to manage your <span style="color: #272E8A; font-weight: bold">business</span>!</h3>
     <router-link to="/create-company" class="create-company-button">Create company</router-link>
   </div>
@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import store from '../store'
 import { mapGetters } from 'vuex'
 import Sources from './sources.manageCompany'
 import { companiesCollection } from '../firebase/index'
@@ -49,6 +50,7 @@ import Activities from '../components/activities.profile'
 
 export default {
   name: 'aboutcompany.profile',
+  store,
   components: { Sources, Activities },
   data: function () {
     return {
@@ -58,7 +60,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getUserInfo'
+      'getUserInfo',
+      'hasCompany'
     ])
   },
   mounted() {
@@ -67,6 +70,7 @@ export default {
       .then(doc => {
         if (doc.exists) {
           this.company = doc.data()
+          this.$store.dispatch('setCompany', doc.data())
           this.isThereCompany = true
         } else {
           this.isThereCompany = false
