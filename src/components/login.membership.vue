@@ -1,7 +1,7 @@
 <template>
 <div id="login">
   <div class="row">
-    <div class="googleButton">
+    <div class="googleButton" @click="signupWithGoogle">
       Log in with Google
     </div>
   </div>
@@ -25,13 +25,13 @@
 </template>
 
 <script>
-import firebase from 'firebase/app'
 import 'firebase/auth'
-import { companiesCollection } from '../firebase/index'
 import store from '../store'
 import router from '../router'
+import firebase from 'firebase/app'
+import { companiesCollection } from '../firebase/index'
 export default {
-  name: "login.membership",
+  name: 'login.membership',
   store,
   router,
   data: function () {
@@ -48,18 +48,15 @@ export default {
       firebase.auth().signInWithEmailAndPassword(this.email, this.password)
         .catch(err => {
           console.log(err)
+          console.log(err.code)
         })
         .then(res => {
           if (res) {
-            console.log("Başarıyla giriş yapıldı.")
             this.$store.dispatch('setUser', res.user)
             companiesCollection.doc(res.user.uid).get()
               .then(doc => {
                 if (doc.exists) {
-                  console.log("Company found")
                   this.$store.dispatch('setCompany', doc.data())
-                } else {
-                  console.log("No company")
                 }
               })
             router.push('/complete-profile')
@@ -68,6 +65,19 @@ export default {
     },
     signup: function () {
       this.$emit('goToSignup')
+    },
+    signupWithGoogle: function () {
+      const provider = new firebase.auth.GoogleAuthProvider()
+      provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
+      firebase.auth().languageCode = 'en'
+      firebase.auth().signInWithPopup(provider)
+          .then((result) => {
+            this.$store.dispatch('setUser', result.user)
+            router.push('/complete-profile')
+          }).catch((error) => {
+        console.log(error.code)
+        console.log(error.message)
+      })
     }
   }
 }
@@ -238,20 +248,20 @@ export default {
   #login {
     .row {
       .googleButton {
-        width: 250px;
+        width: 100%;
         min-width: unset;
         max-width: unset;
       }
       .input-name {
       }
       input {
-        width: 250px;
+        width: 100%;
         min-width: unset;
         max-width: unset;
         box-sizing: border-box;
       }
       .button {
-        width: 250px;
+        width: 100%;
         min-width: unset;
         max-width: unset;
       }

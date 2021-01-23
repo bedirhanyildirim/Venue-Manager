@@ -1,8 +1,8 @@
 <template>
 <div id="signup">
   <div class="row">
-    <div class="googleButton">
-      Log in with Google
+    <div class="googleButton" @click="signupWithGoogle">
+      Sign up with Google
     </div>
   </div>
   <hr class="orDivider"/>
@@ -25,10 +25,11 @@
 </template>
 
 <script>
-import firebase from 'firebase/app'
 import 'firebase/auth'
 import store from '../store'
 import router from '../router'
+import firebase from 'firebase/app'
+
 export default {
   name: 'singup.membership',
   store,
@@ -47,10 +48,10 @@ export default {
       firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
         .catch(err => {
           console.log(err)
+          console.log(err.code)
         })
         .then(res => {
           if (res) {
-            console.log('Başarıyla üye olundu ve giriş yapıldı.')
             this.$store.dispatch('setUser', res.user)
             router.push('/complete-profile')
           }
@@ -58,6 +59,19 @@ export default {
     },
     login: function () {
       this.$emit('goToSignin')
+    },
+    signupWithGoogle: function () {
+      const provider = new firebase.auth.GoogleAuthProvider()
+      provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
+      firebase.auth().languageCode = 'en'
+      firebase.auth().signInWithPopup(provider)
+        .then((result) => {
+          this.$store.dispatch('setUser', result.user)
+          router.push('/complete-profile')
+        }).catch((error) => {
+          console.log(error.code)
+          console.log(error.message)
+        })
     }
   }
 }
@@ -114,7 +128,11 @@ export default {
       text-decoration: none;
       box-sizing: border-box;
       background-color: #4285f4;
+      transition: background-color 200ms ease;
       font-family: 'Haas Grot Text R Web', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+    .googleButton:hover {
+      background-color: #272E8A;
     }
     .input-name {
       color: #000000;
@@ -228,20 +246,20 @@ export default {
   #signup {
     .row {
       .googleButton {
-        width: 250px;
+        width: 100%;
         min-width: unset;
         max-width: unset;
       }
       .input-name {
       }
       input {
-        width: 250px;
+        width: 100%;
         min-width: unset;
         max-width: unset;
         box-sizing: border-box;
       }
       .button {
-        width: 250px;
+        width: 100%;
         min-width: unset;
         max-width: unset;
       }
