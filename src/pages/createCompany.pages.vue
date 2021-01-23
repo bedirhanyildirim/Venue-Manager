@@ -30,7 +30,7 @@ export default {
   },
   created() {
     if (this.getCompany) {
-      router.push('/')
+      router.push('/company')
     }
   }
 }
