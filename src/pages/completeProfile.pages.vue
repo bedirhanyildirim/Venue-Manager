@@ -1,7 +1,7 @@
 <template>
 <div id="completeProfile">
   <container display="flex">
-    <div class="wrapper">
+    <div class="wrapper" v-if="missingField && query">
       <div class="form">
         <h3 class="welcome">Welcome to Venue</h3>
         <h5 class="message">Complete your profile</h5>
@@ -18,21 +18,19 @@
 <script>
 import store from '../store'
 import router from '../router'
-import container from '../components/container'
-import completeProfileComponent from '../components/complete.completeProfile'
 import { mapGetters } from 'vuex'
+import container from '../components/container'
 import { usersCollection } from '../firebase/index'
+import completeProfileComponent from '../components/complete.completeProfile'
 export default {
-  name: "completeProfile.pages",
+  name: 'completeProfile.pages',
   components: { container, completeProfileComponent },
   store,
   router,
   data: function () {
     return {
-      name: '',
-      surname: '',
-      mobile: '',
-      email: ''
+      query: false,
+      missingField: false
     }
   },
   computed: {
@@ -45,32 +43,18 @@ export default {
     usersCollection.doc(this.getUser.uid).get()
       .then(doc => {
         if (doc.exists) {
-          console.log("Document data:", doc.data())
+          this.missingField = false
           this.$store.dispatch('setUserInfo', doc.data())
-          router.push("/")
+          router.push('/')
         } else {
           // doc.data() will be undefined in this case
-          console.log("No such document!")
+          this.missingField = true
         }
+        this.query = true
       }).catch(function(error) {
-        console.log("Error getting document:", error)
+        console.log('Error getting document:', error)
       })
-  },
-  mounted() {
-    window.addEventListener('resize', this.resize)
-    this.resize()
-  },
-  methods: {
-    resize: function () {
-      let h = document.documentElement.clientHeight;
-      let el = document.getElementsByClassName('wrapper')[0]
-      if (h > (el.offsetHeight + (document.getElementById('header').offsetHeight) + (document.getElementById('footer').offsetHeight))) {
-        let newHeight = h - (document.getElementById('header').offsetHeight) - (document.getElementById('footer').offsetHeight)
-        el.style.height = newHeight + 'px'
-      } else {
-        el.style.height = ''
-      }
-    }
+    this.query = true
   }
 }
 </script>
@@ -125,7 +109,9 @@ export default {
       justify-content: center;
     }
     .wrapper {
-      .forms {
+      .form {
+        width: 100%;
+        padding: 20px;
       }
       .illustration {
         display: none;

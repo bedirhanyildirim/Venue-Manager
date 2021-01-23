@@ -1,10 +1,6 @@
 <template>
 <div id="complete">
   <div class="row">
-    <label for="username" class="input-name">Username</label>
-    <input id="username" type="text" v-model="username" name="username" disabled/>
-  </div>
-  <div class="row">
     <label for="email" class="input-name">Email Address</label>
     <input id="email" type="text" v-model="email" name="email" disabled/>
   </div>
@@ -18,12 +14,13 @@
   </div>
   <div class="row">
     <label for="mobile" class="input-name">Phone Number</label>
-    <!--input id="mobile" type="tel" v-model="mobile" name="mobile"/-->
     <the-mask id="mobile" v-model="mobile" name="mobile" mask="0### ### ## ##" value="" type="tel" masked placeholder="05XX XXX XX XX"></the-mask>
   </div>
   <div class="row">
     <label for="province" class="input-name">Province</label>
-    <input id="province" type="text" v-model="province" name="province"/>
+    <select id="province" class="province" name="province" v-model="province" >
+      <option v-for="item in this.cityList" :value="item">{{ item }}</option>
+    </select>
   </div>
   <div class="row" style="justify-content: center; margin-bottom: 0;">
     <button class="button" @click="fill">Save</button>
@@ -35,21 +32,24 @@
 import store from '../store'
 import router from '../router'
 import { mapGetters } from 'vuex'
-import {TheMask} from 'vue-the-mask'
+import firebase from 'firebase/app'
+import { cityList } from '@/services'
+import { TheMask } from 'vue-the-mask'
 import { usersCollection } from '../firebase/index'
+
 export default {
-  name: "complete.completeProfile",
+  name: 'complete.completeProfile',
   store,
   router,
   components: { TheMask },
   data: function () {
     return {
       name: '',
-      surname: '',
       mobile: '',
+      surname: '',
       email: '',
-      username: '',
-      province: ''
+      province: '',
+      cityList: cityList
     }
   },
   computed: {
@@ -61,37 +61,36 @@ export default {
   },
   created () {
     this.email = this.getUser.email
-    this.username = this.email.split('@')[0]
   },
   methods: {
     fill: function () {
       const date = new Date()
       const today = date.getDate() + "-" + (date.getMonth()+1) + "-" + date.getFullYear()
-      usersCollection.doc(this.getUser.uid).set({
+
+      const newUser = {
         uid: this.getUser.uid,
         email: this.getUser.email,
-        username: this.username,
         name: this.name,
-        surname: this.surname,
         mobile: this.mobile,
+        surname: this.surname,
         date: today,
-        province: this.province
-      }).then(res => {
-        console.log("Başarılı: " + res)
-        this.$store.dispatch('setUserInfo', {
-          uid: this.getUser.uid,
-          email: this.getUser.email,
-          username: this.username,
-          name: this.name,
-          surname: this.surname,
-          mobile: this.mobile,
-          date: today,
-          province: this.province
-        })
-        router.push("/")
+        province: this.province,
+        profilePhoto: this.checkPhoto(firebase.auth().currentUser.photoURL)
+      }
+      usersCollection.doc(this.getUser.uid).set(newUser).then(res => {
+        this.$store.dispatch('setUserInfo', newUser)
+        router.push('/')
       }).catch(function (error) {
         console.log(error)
+        console.log(error.code)
       })
+    },
+    checkPhoto: function (url) {
+      if (url) {
+        let a = url.split('=')
+        return a[0]+'=s300-c'
+      }
+      return ''
     }
   }
 }
@@ -190,18 +189,59 @@ export default {
     .button {
       width: 100%;
     }
+    select {
+      cursor: pointer;
+      width: 100%;
+      height: 40px;
+      outline: none;
+      color: #000000;
+      font-size: 14px;
+      appearance: none;
+      font-weight: 400;
+      padding: 10px 16px;
+      border-radius: 8px;
+      display: inline-block;
+      box-sizing: border-box;
+      background-color: #f3f3f4;
+      transition: all 200ms ease;
+      border: 1px solid transparent;
+    }
+    select:hover {
+      background-color: #ffffff;
+      border-color: rgba(0,0,0,0.1);
+      box-shadow: 0 0 0 4px rgba(0,18,255,0.1);
+    }
+    select:focus {
+      background-color: #ffffff;
+      border-color: rgba(39,46,138,0.4);
+      box-shadow: 0 0 0 4px rgba(0,18,255,0.1);
+    }
   }
 }
 @media screen and (min-width: 425px) and (max-width: 768px) {
   #complete {
     .row {
       .googleButton {
+        width: 100%;
+        min-width: unset;
+        max-width: unset;
       }
       .input-name {
       }
       input {
+        width: 100%;
+        min-width: unset;
+        max-width: unset;
       }
       .button {
+        width: 100%;
+        min-width: unset;
+        max-width: unset;
+      }
+      select {
+        width: 100%;
+        min-width: unset;
+        max-width: unset;
       }
     }
   }
@@ -210,15 +250,17 @@ export default {
   #complete {
     .row {
       input {
-        width: 250px;
+        width: 100%;
         min-width: unset;
         max-width: unset;
-        box-sizing: border-box;
       }
       .button {
-        width: 250px;
+        width: 100%;
         min-width: unset;
         max-width: unset;
+      }
+      select {
+        width: 100%;
       }
     }
   }
