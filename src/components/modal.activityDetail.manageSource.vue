@@ -86,6 +86,7 @@
         <div class="row">
           <div class="button">
             <button @click="add" class="save">Save</button>
+            <button v-if="!(isMyActivity !== '')" @click="validate" class="validate">Approve</button>
             <button @click="cancel" class="cancel">Cancel</button>
           </div>
         </div>
@@ -226,7 +227,6 @@ export default {
             outline: none;
             color: #000000;
             font-size: 14px;
-            min-width: 400px;
             appearance: none;
             font-weight: 400;
             line-height: 24px;
@@ -254,7 +254,6 @@ export default {
             outline: none;
             color: #000000;
             font-size: 14px;
-            min-width: 400px;
             appearance: none;
             font-weight: 400;
             line-height: 24px;
@@ -283,7 +282,6 @@ export default {
             outline: none;
             color: #000000;
             font-size: 14px;
-            min-width: 400px;
             appearance: none;
             font-weight: 400;
             padding: 10px 16px;
@@ -317,7 +315,6 @@ export default {
               color: #000000;
               cursor: pointer;
               font-size: 14px;
-              min-width: 400px;
               appearance: none;
               font-weight: 400;
               padding: 10px 16px;
@@ -379,8 +376,6 @@ export default {
             display: block;
             cursor: pointer;
             font-size: 14px;
-            min-width: 100px;
-            max-width: 200px;
             box-shadow: none;
             appearance: none;
             line-height: 20px;
@@ -403,9 +398,15 @@ export default {
           }
           .cancel {
             background-color: #8a2727;
-
             &:hover {
               background-color: #c42e2e!important;
+            }
+          }
+          .validate {
+            margin-right: 12px;
+            background-color: #318a27;
+            &:hover {
+              background-color: #33c42e !important;
             }
           }
           .fc.fc-ltr.fc-unthemed {
@@ -415,6 +416,16 @@ export default {
           }
         }
       }
+    }
+  }
+}
+@media screen and (max-width: 425px) {
+  #modal {
+    .modal {
+      width: 100%;
+      margin: 0 20px;
+      min-width: unset;
+      max-width: unset;
     }
   }
 }
