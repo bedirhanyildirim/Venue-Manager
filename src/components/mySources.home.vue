@@ -2,10 +2,10 @@
   <div id="mySources">
     <h2 class="title">My Sources</h2>
     <p class="sub-title">Manage your sources of your company</p>
-    <div class="list">
+    <div class="list" v-if="sources.length > 0">
       <div class="el" v-for="el in sources" @click="goToSource(el.id)">
         <div class="image">
-          <img src=".././assets/images/source-img-16x9.jpg" alt="source" />
+          <img src="../assets/images/source-img-16x9.jpg" :alt="el.data.name" />
         </div>
         <div class="title">
           <h5>{{ el.data.name }}</h5>
@@ -15,13 +15,16 @@
         </div>
       </div>
     </div>
+    <div class="error" v-else>
+      <h3>You dont have any source</h3>
+    </div>
   </div>
 </template>
 <script>
 import store from '@/store'
 import router from '@/router'
 import { mapGetters } from 'vuex'
-import {sourcesCollection} from '@/firebase'
+import { sourcesCollection } from '@/firebase'
 
 export default {
   name: 'mySources.home.vue',
@@ -86,6 +89,7 @@ export default {
   .list {
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
     overflow: hidden;
     margin-top: 24px;
     flex-direction: row;
@@ -94,7 +98,9 @@ export default {
   }
   .list {
     .el {
+      margin-top: 12px;
       width: 180px;
+      cursor: pointer;
       overflow: hidden;
       margin-right: 24px;
     }

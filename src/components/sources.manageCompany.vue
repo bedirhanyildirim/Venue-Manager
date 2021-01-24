@@ -54,7 +54,6 @@ export default {
     sourcesCollection.where("company.name", "==", this.getCompany.name).get()
       .then(snapshot => {
         if (snapshot.empty) {
-          console.log('No matching documents.')
           return
         }
         snapshot.forEach(doc => {
@@ -62,7 +61,8 @@ export default {
         })
       })
       .catch(err => {
-        console.log('Error getting documents', err)
+        console.log(err)
+        console.log(err.code)
       })
   },
   methods: {
