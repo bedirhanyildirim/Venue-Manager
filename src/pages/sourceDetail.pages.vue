@@ -1,91 +1,13 @@
 <template>
 <div id="sourceDetail">
   <container display="flex" justify-content="left" flex-direction="column">
-    <p class="section"><span class="section-name">Kaynak Detay</span><span class="section-cizgi"></span></p>
-    <div class="images">
-      <img class="big" src="../assets/images/source-img-16x9.jpg"/>
-      <div class="small">
-        <img class="small" src="../assets/images/source-img-4x3.jpg" />
-        <img class="small" src="../assets/images/source-img-4x3.jpg" style="margin-top: 8px;" />
+    <h1 class="welcome">Source detail</h1>
+    <div class="content">
+      <div class="left">
+        <aboutCompany :company="this.source.company"></aboutCompany>
       </div>
-    </div>
-    <div class="sourceInfos">
-      <div class="aboutSource">
-        <div class="header">
-            <h2 class="title">{{ source.name }}</h2>
-          <div class="capacity">
-            <img src="../assets/icons/capacity.png" alt="">
-            <h4>{{ source.capacity }}</h4>
-          </div>
-        </div>
-          <div class="content">
-            <span class="descriptionTitle">Açıklama</span>
-            <span class="description">{{ source.description }}</span>
-            <div class="reservation">
-              <div class="row">
-                <label for="date" class="input-name">Tarih:</label>
-                <input type="date" id="date" name="date" :value="date" @input="setDate($event.target.valueAsDate)">
-              </div>
-              <div class="row">
-                <label for="startingHour" class="input-name">Çalışma Saatleri:</label>
-                <div class="rangehours">
-                  <select id="startingHour" class="hour" v-model="startingHour" name="startingHour">
-                    <option value="06">06:00</option>
-                    <option value="07">07:00</option>
-                    <option value="08">08:00</option>
-                    <option value="09">09:00</option>
-                    <option value="10">10:00</option>
-                    <option value="11">11:00</option>
-                    <option value="12">12:00</option>
-                    <option value="13">13:00</option>
-                    <option value="14">14:00</option>
-                    <option value="15">15:00</option>
-                    <option value="16">16:00</option>
-                    <option value="17">17:00</option>
-                    <option value="18">18:00</option>
-                    <option value="19">19:00</option>
-                    <option value="20">20:00</option>
-                    <option value="21">21:00</option>
-                    <option value="22">22:00</option>
-                  </select>
-                  <span></span>
-                  <select id="endingHour" class="hour" v-model="endingHour" name="startingHour">
-                    <option value="06">06:00</option>
-                    <option value="07">07:00</option>
-                    <option value="08">08:00</option>
-                    <option value="09">09:00</option>
-                    <option value="10">10:00</option>
-                    <option value="11">11:00</option>
-                    <option value="12">12:00</option>
-                    <option value="13">13:00</option>
-                    <option value="14">14:00</option>
-                    <option value="15">15:00</option>
-                    <option value="16">16:00</option>
-                    <option value="17">17:00</option>
-                    <option value="18">18:00</option>
-                    <option value="19">19:00</option>
-                    <option value="20">20:00</option>
-                    <option value="21">21:00</option>
-                    <option value="22">22:00</option>
-                  </select>
-                </div>
-              </div>
-                <div class="row" style="justify-content: flex-end; margin-bottom: 0;">
-                  <div class="button">
-                    <button v-if="loggedIn" @click="fill" id="rezyap">Rezervasyon Yap</button>
-                    <router-link v-if="!loggedIn" to="/membership">Giriş Yap</router-link>
-                  </div>
-                </div>
-            </div>
-          </div>
-      </div>
-      <div class="aboutOwner">
-        <span class="contactTitle">İletişim</span>
-        <span class="ownerNameSurname">{{ source.company.owner.name }} {{ source.company.owner.surname }}</span>
-        <span class="ownerPhone">{{ source.company.phone }}</span>
-        <span class="contactTitle" style="margin-top: 20px;">Adres</span>
-        <span class="address">{{ source.company.address }}</span>
-        <span v-if="amItheOwner" class="youAreOwner">Mekanın sahibi sensin.</span>
+      <div class="right">
+        <aboutSource :source="this.source" :am-ithe-owner="this.amItheOwner"></aboutSource>
       </div>
     </div>
   </container>
@@ -94,24 +16,25 @@
 
 <script>
 import router from '../router'
-import container from "../components/container"
-import { sourcesCollection, activitiesCollection } from '../firebase/index'
 import { mapGetters } from 'vuex'
+import container from '../components/container'
+import aboutSource from '../components/aboutSource.sourceDetail'
+import aboutCompany from '../components/aboutCompany.sourceDetail'
+import { sourcesCollection, activitiesCollection } from '../firebase/index'
 export default {
-  name: "sourceDetail.pages",
+  name: 'sourceDetail.pages',
   router,
-  components: { container },
+  components: { container, aboutCompany, aboutSource },
   data: function () {
     return {
       sourceId: '',
       source: {
         company: {
-          owner: {}
+          owner: {
+            uid: ''
+          }
         }
       },
-      date: '',
-      startingHour: '09',
-      endingHour: '17',
       amItheOwner: false
     }
   },
@@ -124,14 +47,13 @@ export default {
           this.source.id = this.sourceId
           if (this.source.company.owner.uid == this.getUserInfo.uid) {
             this.amItheOwner = true
-            document.getElementById("rezyap").disabled = true;
           }
         } else {
-          // doc.data() will be undefined in this case
-          console.log("No such document!")
+          router.push('/')
         }
       }).catch(function(error) {
-        console.log("Error getting document:", error)
+        console.log(error)
+        console.log(error.code)
       })
   },
   computed: {
@@ -139,15 +61,6 @@ export default {
       'getUserInfo',
       'loggedIn'
     ])
-  },
-  mounted() {
-    let today = new Date();
-    let dd = String(today.getDate()).padStart(2, '0')
-    let mm = String(today.getMonth() + 1).padStart(2, '0') //January is 0!
-    let yyyy = today.getFullYear()
-
-    today = yyyy + '-' + mm + '-' + dd
-    this.date = today
   },
   methods: {
     fill: function () {
@@ -166,15 +79,6 @@ export default {
       }).catch(function (error) {
         console.log(error)
       })
-    },
-    setDate: function (newDate) {
-      let today = newDate;
-      let dd = String(today.getDate()).padStart(2, '0')
-      let mm = String(today.getMonth() + 1).padStart(2, '0') //January is 0!
-      let yyyy = today.getFullYear()
-
-      today = yyyy + '-' + mm + '-' + dd
-      this.date = today
     }
   }
 }
@@ -183,30 +87,38 @@ export default {
 <style lang="scss" scoped>
 #sourceDetail {
   display: flex;
-  padding: 20px 0;
   align-items: center;
   justify-content: center;
-  background-color: #f7f7f7;
 }
 #sourceDetail {
-  .section {
+  .welcome {
+    width: 100%;
+    color: #000000;
+    font-size: 24px;
+    text-align: left;
+    font-weight: 700;
+    margin: 32px 0 24px;
+    font-family: Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+  }
+  .content {
     width: 100%;
     display: flex;
-    text-align: left;
-    align-items: center;
+    align-items: flex-start;
+    justify-content: space-between;
   }
-  .section {
-    .section-name {
-      color: #707070;
-      font-size: 14px;
-      white-space: nowrap;
+  .content {
+    .left {
+      margin-right: 40px;
     }
-    .section-cizgi {
+
+    .right {
       width: 100%;
-      margin-left: 25px;
-      border-bottom: 1px solid #dddddd;
     }
   }
+
+
+
+
   .images {
     width: 100%;
     display: flex;
@@ -450,6 +362,25 @@ export default {
         display: block;
         font-size: 14px;
         text-align: left;
+      }
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  #profile {
+    .container {
+      .content {
+        flex-direction: column;
+      }
+      .content {
+        .left {
+          margin: 0;
+          width: 100%;
+        }
+        .right {
+          width: 100%;
+          margin-top: 20px;
+        }
       }
     }
   }
