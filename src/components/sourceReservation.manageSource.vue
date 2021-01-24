@@ -15,7 +15,7 @@
     </div>
     <div v-else class="row">
       <ul class="activities-table">
-        <li class="activity-element" v-for="activity in activities">
+        <li class="activity-element" v-for="activity in activities" @click="showActivityDetailModal(activity)">
           <div class="activity-title">
             {{ activity.data.title }}
           </div>
@@ -27,22 +27,26 @@
     </div>
   </div>
   <modal-create-activity v-if="newEventModal" :source-object="this.sourceObject" @away="createEventToggle"></modal-create-activity>
+  <modal-activity-detail v-if="activityDetailModalOpen" :activity-object="this.selectedActivity" @away="showActivityDetailModal"></modal-activity-detail>
 </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import { activitiesCollection } from '@/firebase'
+import modalActivityDetail from './modal.activityDetail.manageSource'
 import modalCreateActivity from './modal.createActivity.sourceReservation'
 export default {
   name: 'sourceReservation.manageSource.vue',
-  components: { modalCreateActivity },
+  components: { modalCreateActivity, modalActivityDetail },
   data: function () {
     return {
       sourceId: '',
       activities: [],
       searched: false,
-      newEventModal: false
+      newEventModal: false,
+      activityDetailModalOpen: false,
+      selectedActivity: {}
     }
   },
   props: {
@@ -85,6 +89,15 @@ export default {
     createEventToggle: function () {
       this.newEventModal = !this.newEventModal
       if (this.newEventModal) {
+        document.body.style.overflow = 'hidden'
+      } else {
+        document.body.style.overflow = ''
+      }
+    },
+    showActivityDetailModal: function (activity) {
+      this.selectedActivity = activity
+      this.activityDetailModalOpen = !this.activityDetailModalOpen
+      if (this.activityDetailModalOpen) {
         document.body.style.overflow = 'hidden'
       } else {
         document.body.style.overflow = ''

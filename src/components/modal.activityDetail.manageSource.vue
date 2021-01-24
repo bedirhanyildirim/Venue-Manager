@@ -3,12 +3,12 @@
   <div class="modal" v-on-clickaway="away">
     <div class="container">
       <div class="header">
-        <h4>New activity</h4>
+        <h4>Activity Details</h4>
       </div>
       <div class="content">
         <div class="row">
-          <label class="input-name" for="title">Title</label>
-          <input id="title" v-model="title" name="title" type="text"/>
+          <label for="title" class="input-name">Title</label>
+          <input type="text" id="title" name="title" v-model="title"/>
         </div>
         <div class="row">
           <label class="input-name" for="description" style="margin-top: 10px;">Description</label>
@@ -67,11 +67,26 @@
             </div>
           </div>
         </div>
+        <div class="row">
+          <label class="input-name">Reservation Owner</label>
+          <div class="user">
+            <div class="name">
+              {{ resMaker.name }} {{ resMaker.surname }} <i>{{ isMyActivity }}</i>
+            </div>
+            <div class="email">
+              {{ resMaker.email }}
+            </div>
+            <div class="mobile">
+              {{ resMaker.mobile }}
+            </div>
+          </div>
+        </div>
       </div>
       <div class="footer">
         <div class="row">
           <div class="button">
-            <button @click="add">Save</button>
+            <button @click="add" class="save">Save</button>
+            <button @click="cancel" class="cancel">Cancel</button>
           </div>
         </div>
       </div>
@@ -79,28 +94,26 @@
   </div>
 </div>
 </template>
-
 <script>
-import router from '@/router'
-import { mapGetters } from 'vuex'
-import { activitiesCollection } from '@/firebase'
+import {mapGetters} from 'vuex'
 import { mixin as clickAway } from 'vue-clickaway'
 
 export default {
-  name: 'modal.createActivity.sourceReservation',
+  name: 'modal.activityDetail.manageSource.vue',
   props: {
-    sourceObject: {
+    activityObject: {
       type: Object,
       required: true
     }
   },
   data: function () {
     return {
-      title: '',
-      description: '',
-      date: new Date().toISOString().slice(0,10),
-      startingHour: '',
-      endingHour: ''
+      title: this.activityObject.data.title,
+      description: this.activityObject.data.description,
+      date: this.activityObject.data.date,
+      startingHour: this.activityObject.data.startingHour,
+      endingHour: this.activityObject.data.endingHour,
+      resMaker: this.activityObject.data.resMaker
     }
   },
   mixins: [ clickAway ],
@@ -108,32 +121,29 @@ export default {
     ...mapGetters([
       'getUserInfo',
       'getCompany'
-    ])
+    ]),
+    isMyActivity () {
+      if (this.resMaker.uid == this.getUserInfo.uid) {
+        return '(me)'
+      }
+      return ''
+    }
   },
   methods: {
     away: function () {
       this.$emit('away', false)
     },
-    add: function () {
-      activitiesCollection.add({
-        title: this.title,
-        description: this.description,
-        source: this.sourceObject,
-        resMaker: this.getUserInfo,
-        canceled: false,
-        date: this.date,
-        isValid: 'accepted',
-        startingHour: this.startingHour,
-        endingHour: this.endingHour
-      }).then(function (res) {
-        console.log(res)
-      }).catch(function (err) {
-        console.log(err)
-      })
-      this.away()
-    },
     dateChange: function (e) {
       this.date = e.target.value
+    },
+    add: function () {
+      console.log('add')
+    },
+    cancel: function () {
+      console.log('cancel')
+    },
+    validate: function () {
+      console.log('approved')
     }
   },
   beforeMount() {
@@ -141,7 +151,6 @@ export default {
   }
 }
 </script>
-
 <style lang="scss" scoped>
 #modal {
   top: 0;
@@ -330,6 +339,23 @@ export default {
               box-shadow: 0 0 0 4px rgba(0,18,255,0.1);
             }
           }
+          .user {
+            width: 100%;
+            display: flex;
+            margin-left: 16px;
+            align-items: baseline;
+            flex-direction: column;
+          }
+          .user {
+            .name {
+              margin-top: 4px;
+              font-weight: 500;
+            }
+            .email, .mobile {
+              font-size: 14px;
+              font-style: italic;
+            }
+          }
         }
         .row:last-child {
           margin-bottom: 0;
@@ -371,6 +397,16 @@ export default {
           button:hover:enabled {
             cursor: pointer;
             background-color: #2e39c4;
+          }
+          .save {
+            margin-right: 12px;
+          }
+          .cancel {
+            background-color: #8a2727;
+
+            &:hover {
+              background-color: #c42e2e!important;
+            }
           }
           .fc.fc-ltr.fc-unthemed {
             width: 100%;
