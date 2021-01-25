@@ -77,6 +77,7 @@ export default {
   }
   .company-logo {
     img {
+      display: block;
       object-fit: cover;
       width: 100% !important;
       height: 100% !important;

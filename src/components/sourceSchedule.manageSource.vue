@@ -51,7 +51,6 @@ export default {
         }
         snapshot.forEach(doc => {
           if (doc.data().isCanceled || doc.data().isValid == 'rejected') {
-            console.log(doc.data())
           } else {
             this.activities.push({
               id: doc.id,
@@ -96,7 +95,6 @@ export default {
           }
           snapshot.forEach(doc => {
             if (doc.data().isCanceled || doc.data().isValid == 'rejected') {
-              console.log(doc.data())
             } else {
               this.selectedDayActivities.push({
                 id: doc.id,

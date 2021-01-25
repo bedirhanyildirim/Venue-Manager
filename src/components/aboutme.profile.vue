@@ -72,6 +72,7 @@ export default {
   .profile-photo {
     img {
       width: 100%;
+      display: block;
       border-bottom: 1px solid #efefef;
     }
   }

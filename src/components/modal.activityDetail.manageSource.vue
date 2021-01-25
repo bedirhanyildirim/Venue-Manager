@@ -133,7 +133,6 @@ export default {
       return false
     },
     isValid() {
-      console.log(this.activityObject.data.isValid)
       return this.activityObject.data.isValid == 'accepted' ? true : false
     },
     isCanceled() {
