@@ -13,14 +13,24 @@
         <option v-for="item in Object.keys(this.provinces)" :value="item">{{ item }}</option>
       </select>
     </div>
-    <div class="col date">
+    <!--div class="col date">
       <input type="date" id="date" name="date" :value="date" @input="setDate($event.target.valueAsDate)">
-    </div>
+    </div-->
     <div class="col capacity">
       <input type="number" v-model="capacity" name="capacity" id="capacity" placeholder="Capacity" max="10000" @change="checkCapacity">
     </div>
     <div class="col button">
-      <button @click="find">Ara</button>
+      <router-link
+          :to="{ path: '/result',
+                query: {
+                  criterias: {
+                    date: this.date,
+                    city: this.city,
+                    capacity: this.capacity,
+                    province: this.province
+                  }
+                }}"
+      >Search</router-link>
     </div>
   </div>
 </div>
@@ -190,7 +200,7 @@ export default {
         border-color: rgba(39,46,138,0.4);
         box-shadow: 0 0 0 4px rgba(0,18,255,0.1);
       }
-      button {
+      a {
         width: 100%;
         height: 40px;
         border: none;
@@ -212,7 +222,7 @@ export default {
         background-color: #272E8A;
         transition: all 200ms ease;
       }
-      button:hover:enabled {
+      a:hover {
         cursor: pointer;
         background-color: #2e39c4;
       }

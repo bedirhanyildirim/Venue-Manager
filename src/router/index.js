@@ -12,6 +12,7 @@ import ReservationDetail from '../pages/reservationDetail.pages'
 import MyReservations from '../pages/myReservations.pages'
 import ManageCompany from '../pages/manageCompany.pages'
 import ManageSource from '../pages/manageSource.pages'
+import SearchResult from '../pages/searchResult.pages'
 
 Vue.use(VueRouter)
 
@@ -113,6 +114,14 @@ const routes = [
     meta: {
       title: 'Manage source',
       requiresAuth: true
+    }
+  },
+  {
+    path: '/result',
+    name: 'Result',
+    component: SearchResult,
+    meta: {
+      title: 'Search Results'
     }
   }
 ]
