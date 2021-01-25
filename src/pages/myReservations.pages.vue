@@ -1,90 +1,76 @@
 <template>
 <div id="myReservations">
-    <container display="flex" justify-content="left" flex-direction="column">
-        <p class="section"><span class="section-name">Reservasyonlarım</span><span class="section-cizgi"></span></p>
-        <div class="content">
-            <reservations :activities="activities"></reservations>
-        </div>
-    </container>
+  <container display="flex" justify-content="left" flex-direction="column">
+    <h1 class="welcome">My reservations</h1>
+    <div class="content">
+      <reservations :activities="activities"></reservations>
+    </div>
+  </container>
 </div>
 </template>
 
 <script>
-import container from '../components/container'
-import reservations from '../components/reservations.myResevations'
-import { activitiesCollection } from '../firebase/index'
 import { mapGetters } from 'vuex'
-export default {
-    name: "myReservations.pages",
-    components: { container, reservations },
-    data: function () {
-        return {
-            activities: []
-        }
-    },
-    computed: {
-        ...mapGetters([
-            'getUserInfo'
-        ])
-    },
-    mounted() {
-        activitiesCollection.where("resMaker.uid", "==", this.getUserInfo.uid).get()
-            .then(snapshot => {
-                if (snapshot.empty) {
-                    console.log('No matching documents.')
-                    return
-                }
+import container from '../components/container'
+import { activitiesCollection } from '../firebase/index'
+import reservations from '../components/reservations.myResevations'
 
-                snapshot.forEach(doc => {
-                    console.log(doc.data())
-                    if (doc.data().resMaker.uid != doc.data().source.company.owner.uid) {
-                        this.activities.push({id: doc.id, data: doc.data()})
-                    }
-                })
-            })
-            .catch(err => {
-                console.log('Error getting documents', err)
-            })
+export default {
+  name: 'myReservations.pages',
+  components: { container, reservations },
+  data: function () {
+    return {
+      activities: []
     }
+  },
+  computed: {
+    ...mapGetters([
+      'getUserInfo'
+    ])
+  },
+  mounted() {
+    activitiesCollection.where("resMaker.uid", "==", this.getUserInfo.uid).get()
+    .then(snapshot => {
+      if (snapshot.empty) {
+        return
+      }
+      snapshot.forEach(doc => {
+        //if (doc.data().resMaker.uid == doc.data().source.company.owner.uid) {
+        this.activities.push({id: doc.id, data: doc.data()})
+        //console.log(doc.data())
+        //}
+      })
+    })
+    .catch(err => {
+      console.log(err)
+      console.log(err.code)
+    })
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 #myReservations {
-    display: flex;
-    padding: 20px 0;
-    align-items: center;
-    justify-content: center;
-    background-color: #f7f7f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 #myReservations {
-    .section {
-        width: 100%;
-        display: flex;
-        text-align: left;
-        align-items: center;
-    }
-    .section {
-        .section-name {
-            color: #707070;
-            font-size: 14px;
-            white-space: nowrap;
-        }
-        .section-cizgi {
-            width: 100%;
-            margin-left: 25px;
-            border-bottom: 1px solid #dddddd;
-        }
-    }
-    .content {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: space-between;
-    }
-    .content {
-
-    }
+  .welcome {
+    width: 100%;
+    color: #000000;
+    font-size: 24px;
+    text-align: left;
+    font-weight: 700;
+    margin: 32px 0 24px;
+    font-family: Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+  }
+  .content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: normal;
+  }
 }
 </style>
