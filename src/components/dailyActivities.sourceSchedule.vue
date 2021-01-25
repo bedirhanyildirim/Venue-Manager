@@ -13,17 +13,20 @@
       <div class="hours" v-for="hour in workingHoursArray">
         {{ hour }}:00
       </div>
-      <div class="activity" v-for="ev in events" :style="{gridRow: `hour-${ev.data.startingHour} / hour-${ev.data.endingHour}`, gridColumn: 'track-1'}">
+      <div class="activity" v-for="ev in events" :style="{gridRow: `hour-${ev.data.startingHour} / hour-${ev.data.endingHour}`, gridColumn: 'track-1'}" @click="showActivityDetailModal(ev)">
         {{ ev.data.title }}
       </div>
     </div>
   </div>
+  <modal-activity-detail v-if="activityDetailModalOpen" :activity-object="this.selectedActivity" @away="showActivityDetailModal"></modal-activity-detail>
 </div>
 </template>
 
 <script>
+import modalActivityDetail from './modal.activityDetail.manageSource'
 export default {
   name: 'dailyActivities.sourceSchedule.vue',
+  components: { modalActivityDetail },
   props: {
     events: {
       type: Array,
@@ -47,10 +50,21 @@ export default {
       dateObject: new Date(),
       monthNames: ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
-      ]
+      ],
+      selectedActivity: {},
+      activityDetailModalOpen: false
     }
   },
-  mounted() {
+  methods: {
+    showActivityDetailModal: function (activity) {
+      this.selectedActivity = activity
+      this.activityDetailModalOpen = !this.activityDetailModalOpen
+      if (this.activityDetailModalOpen) {
+        document.body.style.overflow = 'hidden'
+      } else {
+        document.body.style.overflow = ''
+      }
+    }
   },
   computed: {
     currentDate: function () {
@@ -143,6 +157,7 @@ export default {
         padding: 4px;
         display: flex;
         color: #ffffff;
+        cursor: pointer;
         margin: 4px 16px;
         border-radius: 8px;
         align-items: center;
