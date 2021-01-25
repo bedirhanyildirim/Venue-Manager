@@ -13,10 +13,10 @@
         <router-link v-if="loggedIn" to="/profile"><span class="item">Profile</span></router-link>
         <router-link v-if="loggedIn" to="/my-reservations"><span class="item">My reservations</span></router-link>
         <a v-if="loggedIn" href="javascript:;" @click="logout"><span class="item">Log out</span></a>
-        <span class="divider"></span>
+        <!--span class="divider"></span>
         <router-link to="/membership/signup"><span class="item">Host your office</span></router-link>
         <router-link to="/membership/signup"><span class="item">Manage your company</span></router-link>
-        <router-link to="/"><span class="item">Help</span></router-link>
+        <router-link to="/"><span class="item">Help</span></router-link-->
       </div>
     </div>
   </div>

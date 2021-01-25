@@ -146,6 +146,11 @@ export default {
         }
       }
     }
+    .company-name {
+      h3 {
+        line-height: 24px;
+      }
+    }
   }
 }
 </style>

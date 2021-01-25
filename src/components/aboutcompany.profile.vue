@@ -137,6 +137,11 @@ export default {
         fill: #000000;
       }
     }
+    .company-name {
+      h3 {
+        line-height: 24px;
+      }
+    }
     .company {
       margin: 20px 0 0 0;
     }

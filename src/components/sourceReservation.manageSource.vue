@@ -66,7 +66,7 @@ export default {
           return
         }
         snapshot.forEach(doc => {
-          if (doc.data().isCanceled || doc.data().isValid == 'rejected') {
+          if (doc.data().canceled || doc.data().isValid == 'rejected') {
             console.log(doc.data())
           } else {
             this.activities.push({

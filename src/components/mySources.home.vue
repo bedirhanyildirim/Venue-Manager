@@ -44,7 +44,6 @@ export default {
       sourcesCollection.where("company.owner.uid", "==", this.getUserInfo.uid).get()
       .then(snapshot => {
         if (snapshot.empty) {
-          console.log('No matching documents.')
           this.noSource = true
           return
         }

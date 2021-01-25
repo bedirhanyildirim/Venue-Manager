@@ -53,10 +53,10 @@ export default {
   overflow: hidden;
   border-radius: 8px;
   align-items: center;
+  margin-bottom: 20px;
   box-sizing: border-box;
   flex-direction: column;
   justify-content: center;
-
   box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.18);
   -moz-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.18);
   -webkit-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.18);
@@ -134,6 +134,11 @@ export default {
           color: #000000;
           background-color: #efefef;
         }
+      }
+    }
+    .company-name {
+      h3 {
+        line-height: 24px;
       }
     }
   }

@@ -126,6 +126,7 @@ export default {
         startingHour: this.startingHour,
         endingHour: this.endingHour
       }).then(function (res) {
+        location.reload()
         console.log(res)
       }).catch(function (err) {
         console.log(err)
