@@ -8,6 +8,7 @@
       </div>
       <div class="right">
         <AboutCompany></AboutCompany>
+        <MyReservations :activities="activities" style="margin: 20px 0"></MyReservations>
       </div>
     </div>
   </container>
@@ -15,13 +16,43 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import container from '../components/container'
+import { activitiesCollection } from '@/firebase'
 import AboutMe from '../components/aboutme.profile'
 import AboutCompany from '../components/aboutcompany.profile'
+import MyReservations from '../components/reservations.myResevations'
 
 export default {
   name: 'profile.pages',
-  components: { container, AboutMe, AboutCompany }
+  components: { container, AboutMe, AboutCompany, MyReservations },
+  data: function () {
+    return {
+      activities: []
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'getUserInfo'
+    ])
+  },
+  created() {
+    activitiesCollection.where("resMaker.uid", "==", this.getUserInfo.uid).get()
+    .then(snapshot => {
+      if (snapshot.empty) {
+        return
+      }
+      snapshot.forEach(doc => {
+        if (doc.data().resMaker.uid != doc.data().source.company.owner.uid) {
+          this.activities.push({id: doc.id, data: doc.data()})
+        }
+      })
+    })
+    .catch(err => {
+      console.log(err)
+      console.log(err.code)
+    })
+  }
 }
 </script>
 
