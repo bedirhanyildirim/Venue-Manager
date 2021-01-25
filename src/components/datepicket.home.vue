@@ -1,175 +1,232 @@
 <template>
 <div id="datepicker">
-    <div class="date">
-        <label for="date">Tarih:</label>
-        <input type="date" id="date" name="date" :value="date" @input="setDate($event.target.valueAsDate)">
+  <div class="container">
+    <div class="col city">
+      <select id="city" class="city" name="city" v-model="city">
+        <option value="" disabled selected>City</option>
+        <option v-for="item in this.cityList" :value="item">{{ item }}</option>
+      </select>
     </div>
-    <div class="hours">
-        <label for="startingHour">Saat:</label>
-        <select id="startingHour" class="hour" v-model="startingHour" name="startingHour">
-            <option value="06">06:00</option>
-            <option value="07">07:00</option>
-            <option value="08">08:00</option>
-            <option value="09">09:00</option>
-            <option value="10">10:00</option>
-            <option value="11">11:00</option>
-            <option value="12">12:00</option>
-            <option value="13">13:00</option>
-            <option value="14">14:00</option>
-            <option value="15">15:00</option>
-            <option value="16">16:00</option>
-            <option value="17">17:00</option>
-            <option value="18">18:00</option>
-            <option value="19">19:00</option>
-            <option value="20">20:00</option>
-            <option value="21">21:00</option>
-            <option value="22">22:00</option>
-        </select>
-        <span></span>
-        <select id="endingHour" class="hour" v-model="endingHour" name="endingHour">
-            <option value="06">06:00</option>
-            <option value="07">07:00</option>
-            <option value="08">08:00</option>
-            <option value="09">09:00</option>
-            <option value="10">10:00</option>
-            <option value="11">11:00</option>
-            <option value="12">12:00</option>
-            <option value="13">13:00</option>
-            <option value="14">14:00</option>
-            <option value="15">15:00</option>
-            <option value="16">16:00</option>
-            <option value="17">17:00</option>
-            <option value="18">18:00</option>
-            <option value="19">19:00</option>
-            <option value="20">20:00</option>
-            <option value="21">21:00</option>
-            <option value="22">22:00</option>
-        </select>
+    <div class="col province">
+      <select id="province" class="province" name="province" v-model="province">
+        <option value="" selected>All</option>
+        <option v-for="item in Object.keys(this.provinces)" :value="item">{{ item }}</option>
+      </select>
     </div>
-    <div class="button">
-        <button @click="find">Ara</button>
+    <div class="col date">
+      <input type="date" id="date" name="date" :value="date" @input="setDate($event.target.valueAsDate)">
     </div>
+    <div class="col capacity">
+      <input type="number" v-model="capacity" name="capacity" id="capacity" placeholder="Capacity" max="10000" @change="checkCapacity">
+    </div>
+    <div class="col button">
+      <button @click="find">Ara</button>
+    </div>
+  </div>
 </div>
 </template>
-
 <script>
+import Cities from '@/services'
 export default {
-    name: "datepicket.home",
-    data: function () {
-        return {
-            date: '',
-            startingHour: '09',
-            endingHour: '17',
-            sources: []
+  name: 'datepicket.home',
+  data: function () {
+      return {
+        date: '',
+        city: '',
+        capacity: '',
+        province: '',
+        provinces: [],
+        cityList: Cities.cities,
+      }
+  },
+  computed: {
+    getProvinces () {
+      if ( this.city !== '' ) {
+        switch (this.city) {
+          case "Istanbul":
+            this.provinces = Cities.Istanbul
+            break
+          case "Ankara":
+            this.provinces = Cities.Ankara
+            break
+          case "Adana":
+            this.provinces = Cities.Adana
+            break
+          case "Bursa":
+            this.provinces = Cities.Bursa
+            break
+          case "Gaziantep":
+            this.provinces = Cities.Gaziantep
+            break
+          case "Izmir":
+            this.provinces = Cities.Izmir
+            break
+          case "Konya":
+            this.provinces = Cities.Konya
+            break
+          default:
+            this.provinces = ''
         }
-    },
-    mounted() {
-        let today = new Date();
-        let dd = String(today.getDate()).padStart(2, '0')
-        let mm = String(today.getMonth() + 1).padStart(2, '0') //January is 0!
-        let yyyy = today.getFullYear()
-
-        today = yyyy + '-' + mm + '-' + dd
-        this.date = today
-    },
-    methods: {
-        find: function () {
-            console.log('buldun')
-        },
-        setDate: function (newDate) {
-            let today = newDate
-            let dd = String(today.getDate()).padStart(2, '0')
-            let mm = String(today.getMonth() + 1).padStart(2, '0') //January is 0!
-            let yyyy = today.getFullYear()
-
-            today = yyyy + '-' + mm + '-' + dd
-            this.date = today
-        }
+      }
     }
+  },
+  mounted() {
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0')
+    let mm = String(today.getMonth() + 1).padStart(2, '0') //January is 0!
+    let yyyy = today.getFullYear()
+
+    today = yyyy + '-' + mm + '-' + dd
+    this.date = today
+
+    document.getElementById('city').addEventListener('change', (e) => {
+      this.neighborhood = ''
+      this.getProvinces
+    })
+  },
+  methods: {
+    find: function () {
+      console.log('buldun')
+    },
+    setDate: function (newDate) {
+      let today = newDate
+      let dd = String(today.getDate()).padStart(2, '0')
+      let mm = String(today.getMonth() + 1).padStart(2, '0') //January is 0!
+      let yyyy = today.getFullYear()
+
+      today = yyyy + '-' + mm + '-' + dd
+      this.date = today
+    },
+    checkCapacity: function (e) {
+      if (e.target.value > 10000) {
+        e.target.value = 10000
+      }
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 #datepicker {
-    width: calc(100% - 40px);
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    background-color: #ffffff;
-    border: 1px solid #dddddd;
-    justify-content: space-between;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  overflow: hidden;
+  border-radius: 8px;
+  align-items: center;
+  flex-direction: row;
+  background-color: #ffffff;
+  justify-content: center;
+
+  box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.18);
+  -moz-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.18);
+  -webkit-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.18);
 }
 #datepicker {
-    .date {
-
+  .container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .container {
+    .col {
+      width: 100%;
+      padding: 0 12px;
     }
-    .date {
-        label {
-            color: #707070;
-            font-size: 16px;
-            margin-right: 20px;
-            font-weight: normal;
-        }
-        input {
-            font-family: "Segoe UI";
-            font-size: 14px;
-            max-width: 380px;
-            padding: 10px 6px;
-            border-radius: 5px;
-            display: inline-block;
-            border: 1px solid #e5e5e5;
-        }
+    .col {
+      input {
+        width: 100%;
+        height: 40px;
+        outline: none;
+        color: #000000;
+        font-size: 14px;
+        appearance: none;
+        font-weight: 400;
+        line-height: 24px;
+        padding: 10px 16px;
+        border-radius: 8px;
+        display: inline-block;
+        box-sizing: border-box;
+        background-color: #f3f3f4;
+        transition: all 200ms ease;
+        border: 1px solid transparent;
+      }
+      input:hover {
+        background-color: #ffffff;
+        border-color: rgba(0,0,0,0.1);
+        box-shadow: 0 0 0 4px rgba(0,18,255,0.1);
+      }
+      input:focus {
+        background-color: #ffffff;
+        border-color: rgba(39,46,138,0.4);
+        box-shadow: 0 0 0 4px rgba(0,18,255,0.1);
+      }
+      select {
+        cursor: pointer;
+        width: 100%;
+        height: 40px;
+        outline: none;
+        color: #000000;
+        font-size: 14px;
+        appearance: none;
+        font-weight: 400;
+        padding: 10px 16px;
+        border-radius: 8px;
+        display: inline-block;
+        box-sizing: border-box;
+        background-color: #f3f3f4;
+        transition: all 200ms ease;
+        border: 1px solid transparent;
+      }
+      select:hover {
+        background-color: #ffffff;
+        border-color: rgba(0,0,0,0.1);
+        box-shadow: 0 0 0 4px rgba(0,18,255,0.1);
+      }
+      select:focus {
+        background-color: #ffffff;
+        border-color: rgba(39,46,138,0.4);
+        box-shadow: 0 0 0 4px rgba(0,18,255,0.1);
+      }
+      button {
+        width: 100%;
+        height: 40px;
+        border: none;
+        outline: none;
+        color: #ffffff;
+        display: block;
+        cursor: pointer;
+        font-size: 14px;
+        box-shadow: none;
+        appearance: none;
+        line-height: 20px;
+        position: relative;
+        padding: 10px 16px;
+        text-align: center;
+        border-radius: 8px;
+        font-weight: normal;
+        text-decoration: none;
+        box-sizing: border-box;
+        background-color: #272E8A;
+        transition: all 200ms ease;
+      }
+      button:hover:enabled {
+        cursor: pointer;
+        background-color: #2e39c4;
+      }
     }
-    .hours {
-        width: 340px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+  }
+}
+@media screen and (max-width: 425px) {
+  #datepicker {
+    .container {
+      flex-direction: column;
+      .col {
+        margin: 8px 0;
+      }
     }
-    .hours {
-        label {
-            color: #707070;
-            font-size: 16px;
-            margin-right: 20px;
-            font-weight: normal;
-        }
-        .hour {
-            width: 120px;
-            cursor: pointer;
-            font-size: 14px;
-            max-width: 170px;
-            padding: 10px 6px;
-            border-radius: 5px;
-            display: inline-block;
-            border: 1px solid #e5e5e5;
-        }
-        span {
-            width: 10px;
-            border-bottom: 2px solid #707070;
-        }
-    }
-    .button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .button {
-        button {
-            width: 120px;
-            border: none;
-            color: #ffffff;
-            display: block;
-            font-size: 14px;
-            box-shadow: none;
-            padding: 10px 40px;
-            border-radius: 5px;
-            font-weight: normal;
-            background-color: #272E8A;
-        }
-        button:hover:enabled {
-            cursor: pointer;
-        }
-    }
+  }
 }
 </style>

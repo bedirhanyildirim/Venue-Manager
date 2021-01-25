@@ -2,8 +2,8 @@
 <div id="home">
   <container display="flex" justify-content="left" flex-direction="column">
     <div class="content">
-      <!--DatePicker></--DatePicker-->
-      <mySources></mySources>
+      <DatePicker></DatePicker>
+      <mySources style="margin-top: 40px"></mySources>
       <Sources></Sources>
     </div>
   </container>
