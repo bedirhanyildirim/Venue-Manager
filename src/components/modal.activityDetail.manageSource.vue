@@ -71,7 +71,7 @@
           <label class="input-name">Reservation Owner</label>
           <div class="user">
             <div class="name">
-              {{ resMaker.name }} {{ resMaker.surname }} <i>{{ isMyActivity }}</i>
+              {{ resMaker.name }} {{ resMaker.surname }} <i v-if="isMyActivity">(me)</i>
             </div>
             <div class="email">
               {{ resMaker.email }}
@@ -85,9 +85,10 @@
       <div class="footer">
         <div class="row">
           <div class="button">
-            <button @click="add" class="save">Save</button>
-            <button v-if="!(isMyActivity !== '')" @click="validate" class="validate">Approve</button>
-            <button @click="cancel" class="cancel">Cancel</button>
+            <button v-if="isMyActivity" @click="add" class="save">Save</button>
+            <button v-if="!isMyActivity && !isValid" @click="accept" class="validate">Accept</button>
+            <button v-if="!isMyActivity && !isValid" @click="reject" class="reject">Reject</button>
+            <button v-if="isValid" @click="cancel" class="cancel">Cancel</button>
           </div>
         </div>
       </div>
@@ -98,6 +99,8 @@
 <script>
 import {mapGetters} from 'vuex'
 import { mixin as clickAway } from 'vue-clickaway'
+import {activitiesCollection} from "@/firebase";
+import router from "@/router";
 
 export default {
   name: 'modal.activityDetail.manageSource.vue',
@@ -125,10 +128,19 @@ export default {
     ]),
     isMyActivity () {
       if (this.resMaker.uid == this.getUserInfo.uid) {
-        return '(me)'
+        return true
       }
-      return ''
+      return false
+    },
+    isValid() {
+      console.log(this.activityObject.data.isValid)
+      return this.activityObject.data.isValid == 'accepted' ? true : false
+    },
+    isCanceled() {
+      return this.activityObject.isCanceled
     }
+  },
+  created() {
   },
   methods: {
     away: function () {
@@ -138,13 +150,31 @@ export default {
       this.date = e.target.value
     },
     add: function () {
-      console.log('add')
+      let upAct = {
+        title: this.title,
+        description: this.description,
+        date: this.date,
+        endingHour: this.endingHour,
+        startingHour: this.startingHour
+      }
+      activitiesCollection.doc(this.activityObject.id).update(upAct)
+      .catch(err => {console.log(err)})
+      .then(res => {location.reload()})
     },
     cancel: function () {
-      console.log('cancel')
+      activitiesCollection.doc(this.activityObject.id).update({ canceled: true })
+      .catch(err => {console.log(err)})
+      .then(res => {location.reload()})
     },
-    validate: function () {
-      console.log('approved')
+    accept: function () {
+      activitiesCollection.doc(this.activityObject.id).update({ isValid: 'accepted' })
+      .catch(err => {console.log(err)})
+      .then(res => {location.reload()})
+    },
+    reject: function () {
+      activitiesCollection.doc(this.activityObject.id).update({ isValid: 'rejected' })
+      .catch(err => {console.log(err)})
+      .then(res => {location.reload()})
     }
   },
   beforeMount() {
@@ -400,6 +430,13 @@ export default {
             background-color: #8a2727;
             &:hover {
               background-color: #c42e2e!important;
+            }
+          }
+          .reject {
+            margin-right: 12px;
+            background-color: #8a5227;
+            &:hover {
+              background-color: #c49a2e !important;
             }
           }
           .validate {
