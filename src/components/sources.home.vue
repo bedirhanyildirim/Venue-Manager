@@ -45,7 +45,11 @@ export default {
           return
         }
         snapshot.forEach(doc => {
-          if (doc.data().company.owner.uid != this.getUserInfo.uid) {
+          if (this.loggedIn) {
+            if (doc.data().company.owner.uid != this.getUserInfo.uid) {
+              this.sources.push({id: doc.id, data: doc.data()})
+            }
+          } else {
             this.sources.push({id: doc.id, data: doc.data()})
           }
         })
@@ -57,6 +61,7 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'loggedIn',
       'getUserInfo'
     ]),
   },

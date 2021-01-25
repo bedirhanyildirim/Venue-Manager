@@ -15,8 +15,11 @@
         </div>
       </div>
     </div>
-    <div class="error" v-else>
+    <div class="error" v-if="loggedIn && sources.length == 0">
       <h3>You dont have any source</h3>
+    </div>
+    <div class="error" v-if="!loggedIn">
+      <router-link to="/membership/signup">Click here to sing up!</router-link>
     </div>
   </div>
 </template>
@@ -37,24 +40,27 @@ export default {
     }
   },
   created() {
-    sourcesCollection.where("company.owner.uid", "==", this.getUserInfo.uid).get()
-    .then(snapshot => {
-      if (snapshot.empty) {
-        console.log('No matching documents.')
-        this.noSource = true
-        return
-      }
-      snapshot.forEach(doc => {
-        this.sources.push({id: doc.id, data: doc.data()})
+    if (this.loggedIn) {
+      sourcesCollection.where("company.owner.uid", "==", this.getUserInfo.uid).get()
+      .then(snapshot => {
+        if (snapshot.empty) {
+          console.log('No matching documents.')
+          this.noSource = true
+          return
+        }
+        snapshot.forEach(doc => {
+          this.sources.push({id: doc.id, data: doc.data()})
+        })
       })
-    })
-    .catch(err => {
-      console.log(err)
-      console.log(err.code)
-    })
+      .catch(err => {
+        console.log(err)
+        console.log(err.code)
+      })
+    }
   },
   computed: {
     ...mapGetters([
+      'loggedIn',
       'getUserInfo'
     ])
   },
@@ -91,7 +97,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     overflow: hidden;
-    margin-top: 24px;
+    margin-top: 12px;
     flex-direction: row;
     align-items: baseline;
     justify-content: flex-start;
@@ -173,6 +179,22 @@ export default {
     }
     .el:last-child {
       margin-right: 0;
+    }
+  }
+  .error {
+    width: 100%;
+    display: flex;
+    margin-top: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    a {
+      color: #272E8A;
+      font-size: 16px;
+      text-align: left;
+      line-height: 16px;
+      font-weight: bold;
     }
   }
 }
